@@ -2,7 +2,7 @@
 # Django
 # Pet Health Care System
 
-    |- Quản lý thông tin thú cưng
+|- Quản lý thông tin thú cưng
         |-
         |-
         |-
