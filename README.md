@@ -6,7 +6,7 @@
 
 - **Quản lý thông tin thú cưng**  
   - CRUD Thú cưng
-  - Quản lí thông tin chủ sở hữu
+  - Quản lí thông tin khách hàng
   - Lưu trữ lịch sử khám chữa bệnh của thú cưng
 
 - **Đặt lịch khám bệnh và dịch vụ**  
