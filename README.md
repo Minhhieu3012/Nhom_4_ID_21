@@ -6,8 +6,14 @@
 
 - **Quản lý thông tin thú cưng**  
   - CRUD Thú cưng
-  - Quản lí thông tin khách hàng
+  - Theo dõi thú cưng có yêu cầu đặc biệt (dị ứng thức ăn, cần chăm sóc đặc biệt, v.v.)
+  - Đánh dấu trạng thái (đang nhập viện, đang điều trị ngoại trú, đã xuất viện)
   - Lưu trữ lịch sử khám chữa bệnh của thú cưng
+
+- **Quản lý thông tin khách hàng**  
+  - CRUD Khách hàng
+  - Lịch sử giao dịch và lịch hẹn
+  - Xác thực thông tin khách hàng
 
 - **Đặt lịch khám bệnh và dịch vụ**  
   - CRUD Lịch khám
@@ -27,7 +33,7 @@
 - **Đánh giá và phản hồi dịch vụ**  
   - Để khách hàng đánh giá dịch vụ    
 
-- **Tính năng quản lý cho nhân viên và bác sĩ thú y**  
+- **Quản lý cho nhân viên và bác sĩ thú y**  
   - Phân quyền và quản lý tài khoản nhân viên.
   - Theo dõi lịch làm việc của bác sĩ và nhân viên.  
 
