@@ -4,16 +4,12 @@
 
 ### Chức năng chính:
 
-- **Quản lý thông tin thú cưng**  
+- **Quản lý thông tin thú cưng và khách hàng**  
   - CRUD Thú cưng
-  - Theo dõi thú cưng có yêu cầu đặc biệt (dị ứng thức ăn, cần chăm sóc đặc biệt, v.v.)
-  - Đánh dấu trạng thái (đang nhập viện, đang điều trị ngoại trú, đã xuất viện)
-  - Lưu trữ lịch sử khám chữa bệnh của thú cưng
-
-- **Quản lý thông tin khách hàng**  
   - CRUD Khách hàng
   - Lịch sử giao dịch và lịch hẹn
-  - Xác thực thông tin khách hàng
+  - Đánh dấu trạng thái của thú cưng (đang nhập viện, đang điều trị ngoại trú, đã xuất viện)
+  - Lưu trữ lịch sử khám chữa bệnh của thú cưng
 
 - **Đặt lịch khám bệnh và dịch vụ**  
   - CRUD Lịch khám
