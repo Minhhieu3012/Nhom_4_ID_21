@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Pet_Cus_Info_Mng',
+    'app_admin',
 ]
 
 MIDDLEWARE = [
