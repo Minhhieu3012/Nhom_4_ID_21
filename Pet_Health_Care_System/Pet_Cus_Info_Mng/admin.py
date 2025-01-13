@@ -4,7 +4,7 @@ from .models import Customer, Pet
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'phone_number', 'address', 'gender')  # Hien thi cac truong
-    search_fields = ('name', 'phone_number')  # Tim kiem theo ten, sdt
+    search_fields = ('name', 'phone_number','address')  # Tim kiem theo ten, sdt, dia chi
 
 @admin.register(Pet)
 class PetAdmin(admin.ModelAdmin):
