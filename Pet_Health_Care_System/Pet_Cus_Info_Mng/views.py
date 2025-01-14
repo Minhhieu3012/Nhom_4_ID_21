@@ -4,17 +4,24 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse
 from .models import Pet, Customer, MedicalRecord, Appointment
 
+
 # Create your views here.
+# View cho Customer
+def customer_list(request):
+    customers = Customer.objects.all() # lay toan bo ds khach hang
+    return render(request, 'Pet_Cus_Info_Mng/customers.html', {'customers': customers})
+
+class CustomerCreateView(CreateView):
+    model = Customer
+    template_name = 'customer_form.html'
+    fields = ['name', 'phone_number', 'address', 'gender']
+    success_url = reverse_lazy('customer_list')
+
 
 # View cho Pet
 def pet_list(request):
     pets = Pet.objects.all() # lay toan bo ds thu cung
     return render(request, 'Pet_Cus_Info_Mng/pets.html',{'pets':pets}) # Render ra template
-
-# View cho Customer
-def customer_list(request):
-    customers = Customer.objects.all() # lay toan bo ds khach hang
-    return render(request, 'Pet_Cus_Info_Mng/customers.html', {'customers': customers})
 
 # ListView cho Pet
 class PetListView(ListView):
@@ -47,6 +54,7 @@ class PetDeleteView(DeleteView):
     model = Pet
     template_name = 'pet_confirm.html' #trang xac nhan xoa
     success_url = reverse_lazy('pet_list')
+
 
 class MedicalRecordListView(ListView):
     model = MedicalRecord
