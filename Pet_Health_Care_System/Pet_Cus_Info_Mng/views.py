@@ -13,7 +13,7 @@ def customer_list(request):
 
 class CustomerCreateView(CreateView):
     model = Customer
-    template_name = 'customer_form.html'
+    template_name = 'Pet_Cus_Info_Mng/customer_form.html'
     fields = ['name', 'phone_number', 'address', 'gender']
     success_url = reverse_lazy('customer_list')
 
@@ -26,39 +26,39 @@ def pet_list(request):
 # ListView cho Pet
 class PetListView(ListView):
     model = Pet
-    template_name = 'pets.html' # Ten file template
+    template_name = 'Pet_Cus_Info_Mng/pets.html' # Ten file template
     context_object_name = 'pets'
 
 # DetailView cho Pet
 class PetDetailView(DetailView):
     model = Pet
-    template_name = 'pet_detail.html' 
+    template_name = 'Pet_Cus_Info_Mng/pet_detail.html' 
     context_object_name = 'pet'
 
 # CreateView cho Pet
 class PetCreateView(CreateView):
     model = Pet
-    template_name = 'pet_form.html' # form hien thi de them pet
+    template_name = 'Pet_Cus_Info_Mng/pet_form.html' # form hien thi de them pet
     fields = ['name','species','gender','date_of_birth','age','health_status','owner']
     success_url = reverse_lazy('pet_list') # chuyen huong sau khi them thanh cong
 
 # UpdateView cho Pet
 class PetUpdateView(UpdateView):
     model = Pet
-    template_name = 'pet_form.html' # Su dung chung form voi createview
+    template_name = 'Pet_Cus_Info_Mng/pet_form.html' # Su dung chung form voi createview
     fields = ['name','species','gender','date_of_birth','age','health_status','owner']
     success_url = reverse_lazy('pet_list')
 
 # DeleteView cho Pet
 class PetDeleteView(DeleteView):
     model = Pet
-    template_name = 'pet_confirm.html' #trang xac nhan xoa
+    template_name = 'Pet_Cus_Info_Mng/pet_confirm.html' #trang xac nhan xoa
     success_url = reverse_lazy('pet_list')
 
 
 class MedicalRecordListView(ListView):
     model = MedicalRecord
-    template_name = 'medical_records.html'  # ten file template de hien thi lich su
+    template_name = 'Pet_Cus_Info_Mng/medical_records.html'  # ten file template de hien thi lich su
     context_object_name = 'medical_records'  # ten bien trong template
 
     def get_queryset(self):
@@ -69,7 +69,7 @@ class MedicalRecordListView(ListView):
 
 class AppointmentListView(ListView):
     model = Appointment
-    template_name = 'appointments.html'  # Tên file template hiển thị lịch hẹn
+    template_name = 'Pet_Cus_Info_Mng/appointments.html'  # Tên file template hiển thị lịch hẹn
     context_object_name = 'appointments'  # Tên biến trong template
 
     def get_queryset(self):
