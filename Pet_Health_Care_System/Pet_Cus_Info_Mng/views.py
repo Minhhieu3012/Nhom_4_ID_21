@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView,DetailView
 from django.urls import reverse_lazy
 from django.http import HttpResponse
-from .models import Pet, Customer
+from .models import Pet, Customer, MedicalRecord, Appointment
 
 # Create your views here.
 
@@ -47,3 +47,24 @@ class PetDeleteView(DeleteView):
     model = Pet
     template_name = 'pet_confirm.html' #trang xac nhan xoa
     success_url = reverse_lazy('pet_list')
+
+class MedicalRecordListView(ListView):
+    model = MedicalRecord
+    template_name = 'medical_records.html'  # ten file template de hien thi lich su
+    context_object_name = 'medical_records'  # ten bien trong template
+
+    def get_queryset(self):
+        # Neu muon chi hien thi lich su cua 1 thu cung, su dung filter
+        pet_id = self.kwargs.get('pet_id')  # Lấy ID thú cưng từ URL
+        return MedicalRecord.objects.filter(pet_id=pet_id).order_by('-date')  # Lịch sử theo thứ tự mới nhất
+    
+
+class AppointmentListView(ListView):
+    model = Appointment
+    template_name = 'appointments.html'  # Tên file template hiển thị lịch hẹn
+    context_object_name = 'appointments'  # Tên biến trong template
+
+    def get_queryset(self):
+        # Hiển thị lịch hẹn theo khách hàng
+        customer_id = self.kwargs.get('customer_id')  # Lấy ID khách hàng từ URL
+        return Appointment.objects.filter(customer_id=customer_id).order_by('-date', '-time')  # Lịch hẹn mới nhất

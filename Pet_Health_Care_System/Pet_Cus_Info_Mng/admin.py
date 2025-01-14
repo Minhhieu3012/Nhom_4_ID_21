@@ -21,19 +21,18 @@ class PetAdmin(admin.ModelAdmin):
         return "Chưa xác định"
 
     # Cấu hình hiển thị trong Admin
-    list_display = ('id', 'name', 'species', 'gender', 'calculated_age', 'health_status', 'owner') 
+    list_display = ('id', 'name', 'species', 'gender', 'calculated_age', 'health_status', 'owner',) 
     search_fields = ('name', 'species')  # Tìm kiếm theo tên, loài
-    list_filter = ('species', 'gender', 'health_status')  # Bộ lọc
+    list_filter = ('species', 'gender', 'health_status',)  # Bộ lọc
 
 
-# Đăng ký MedicalRecord
 @admin.register(MedicalRecord)
 class MedicalRecordAdmin(admin.ModelAdmin):
     list_display = ('id', 'pet', 'date', 'doctor', 'remarks') 
     search_fields = ('pet__name', 'doctor')  # Tìm kiếm theo tên thú cưng hoặc tên bác sĩ
     list_filter = ('date',)  # Bộ lọc theo ngày
 
-# Đăng ký Appointment
+
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('id', 'customer', 'pet', 'date', 'time', 'status')

@@ -24,7 +24,9 @@ class Pet(models.Model):
     date_of_birth = models.DateField()  # ngay sinh
     age = models.IntegerField()  # tuoi (tinh tu dong or nhap thu cong)
     health_status = models.CharField(max_length=50, choices=[
-        ("Healthy", "Khỏe mạnh"), ("Sick", "Đang bệnh"), ("Recovering", "Đang hồi phục"),
+        ('hospitalized', 'Đang nhập viện'),
+        ('outpatient', 'Đang điều trị ngoại trú'),
+        ('discharged', 'Đã xuất viện')
     ])  # tinh trang suc khoe
     owner = models.ForeignKey(Customer, on_delete=models.CASCADE)  # Chu so huu
 
@@ -41,11 +43,11 @@ class Pet(models.Model):
 
 
 class MedicalRecord(models.Model):
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='medical_records')
     date = models.DateField()
     treatment_details = models.TextField()
     doctor = models.CharField(max_length=255)
-    remarks = models.TextField()
+    remarks = models.TextField(blank=True)
 
 
 class Appointment(models.Model):

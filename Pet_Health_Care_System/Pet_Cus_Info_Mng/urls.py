@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import(
-    PetListView,PetDetailView,PetCreateView,PetUpdateView,PetDeleteView
+    PetListView, PetDetailView, PetCreateView, PetUpdateView, PetDeleteView, MedicalRecordListView, AppointmentListView
 )
 urlpatterns = [
     path('Pet_Cus_Info_Mng/pets/', views.pet_list, name='pet_list'), #url cho pet
@@ -12,4 +12,8 @@ urlpatterns = [
     path('pets/add/', PetCreateView.as_view(), name='pet_add'),  # Thêm Pet
     path('pets/<int:pk>/edit/', PetUpdateView.as_view(), name='pet_edit'),  # Sửa Pet
     path('pets/<int:pk>/delete/', PetDeleteView.as_view(), name='pet_delete'),  # Xóa Pet
+    path('medical-records/<int:pet_id>/', MedicalRecordListView.as_view(), name='medical_records'),
+    path('appointments/<int:customer_id>/', AppointmentListView.as_view(), name='appointments'),
 ]
+
+
