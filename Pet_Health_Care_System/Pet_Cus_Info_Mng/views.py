@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.shortcuts import render
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView,DetailView
 from django.urls import reverse_lazy
@@ -11,12 +12,20 @@ def customer_list(request):
     customers = Customer.objects.all() # lay toan bo ds khach hang
     return render(request, 'Pet_Cus_Info_Mng/customers.html', {'customers': customers})
 
+class CustomerListView(ListView):
+    model = Customer
+    template_name = 'Pet_Cus_Info_Mng/customers.html' # Ten file template
+    context_object_name = 'customers'
+    
 class CustomerCreateView(CreateView):
     model = Customer
     template_name = 'Pet_Cus_Info_Mng/customer_form.html'
-    fields = ['name', 'phone_number', 'address', 'gender']
+    fields = ['lastName', 'firstName', 'email', 'phoneNumber', 'address', 'age', 'gender']
     success_url = reverse_lazy('customer_list')
 
+    def form_valid(self, form):
+        messages.success(self.request, "Khách hàng đã được thêm thành công!")
+        return super().form_valid(form)
 
 # View cho Pet
 def pet_list(request):

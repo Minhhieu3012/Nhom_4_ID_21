@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from .views import (
-    CustomerCreateView, PetListView, PetDetailView, PetCreateView, PetUpdateView,
+    CustomerCreateView, CustomerListView, PetListView, PetDetailView, PetCreateView, PetUpdateView,
     PetDeleteView, MedicalRecordListView, AppointmentListView
 )
 

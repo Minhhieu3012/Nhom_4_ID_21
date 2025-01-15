@@ -5,8 +5,8 @@ from datetime import date
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'phone_number', 'address', 'gender')  # Hiển thị các trường
-    search_fields = ('name', 'phone_number', 'address')  # Tìm kiếm theo tên, sđt, địa chỉ
+    list_display = ('lastName', 'firstName', 'email', 'phoneNumber', 'address', 'age', 'gender')  # Hiển thị các trường
+    search_fields = ('email', 'phoneNumber', 'address')  # Tìm kiếm theo email,sdt,dia chi
 
 @admin.register(Pet)
 class PetAdmin(admin.ModelAdmin):

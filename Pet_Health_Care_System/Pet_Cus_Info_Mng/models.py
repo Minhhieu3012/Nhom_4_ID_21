@@ -2,17 +2,19 @@ from django.db import models
 from datetime import date
 # Create your models here.
 class Customer(models.Model):
-    id = models.AutoField(primary_key=True)  # ID tu dong tang
-    name = models.CharField(max_length=255)  # Ten khach hang
-    phone_number = models.CharField(max_length=20) 
-    address = models.TextField()  # Địa chỉ
-    gender = models.CharField(max_length=10, choices=[
-        ("Male", "Nam"), ("Female", "Nữ"),
-    ])  # gioi tinh
-
+    lastName = models.CharField(max_length=100, blank=False)
+    firstName = models.CharField(max_length=100, blank=False)
+    email = models.EmailField(max_length=255, blank=False)
+    phoneNumber = models.CharField(max_length=15, blank=False)
+    address = models.TextField(blank=False)
+    age = models.PositiveIntegerField(blank=False)
+    gender = models.CharField(
+        max_length=10,
+        choices=[("Male", "Nam"), ("Female", "Nữ"), ("Other", "Khác")],
+        blank=False
+    )
     def __str__(self):
-        return self.name
-
+        return f"{self.lastName} {self.firstName}"
 
 class Pet(models.Model):
     id = models.AutoField(primary_key=True)  # ID
@@ -22,7 +24,7 @@ class Pet(models.Model):
         ("Male", "Đực"), ("Female", "Cái"),
     ])  # gioi tinh
     date_of_birth = models.DateField()  # ngay sinh
-    age = models.IntegerField()  # tuoi (tinh tu dong or nhap thu cong)
+    age = models.IntegerField(null=True, blank=True)
     health_status = models.CharField(max_length=50, choices=[
         ('hospitalized', 'Đang nhập viện'),
         ('outpatient', 'Đang điều trị ngoại trú'),
