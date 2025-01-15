@@ -1,5 +1,4 @@
 from django import forms
-from .models import Customer
 
 class CustomerForm(forms.Form):
     lastName = forms.CharField(label="lastName", max_length=100)
