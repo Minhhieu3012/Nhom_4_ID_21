@@ -8,8 +8,8 @@ from .views import (
 urlpatterns = [
     # Quản lý thú cưng
     path('pets/', PetListView.as_view(), name='pet_list'),  # Danh sách thú cưng
-    path('pets/<int:pk>/', PetDetailView.as_view(), name='pet_detail'),  # Chi tiết thú cưng
     path('pets/add/', PetCreateView.as_view(), name='pet_add'),  # Thêm thú cưng
+    path('pets/<int:pk>/', PetDetailView.as_view(), name='pet_detail'),  # Chi tiết thú cưng
     path('pets/<int:pk>/edit/', PetUpdateView.as_view(), name='pet_edit'),  # Sửa thú cưng
     path('pets/<int:pk>/delete/', PetDeleteView.as_view(), name='pet_delete'),  # Xóa thú cưng
 
