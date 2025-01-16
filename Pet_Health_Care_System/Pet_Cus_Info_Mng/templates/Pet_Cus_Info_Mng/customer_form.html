@@ -8,7 +8,7 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet sitting</a>
+        <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="fa fa-bars"></span> Menu
       </button>
@@ -23,7 +23,9 @@
 
 {%block contactformsection%}
 {% load static %}
+<!-- Start Img-->
 <div class="card-body">
+    <a class="navbar-brand">THÊM THÔNG TIN KHÁCH HÀNG</a>
     <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
       <img
         src="{% static 'app_admin/images/avata_cus_form.png' %}" alt="user-avatar"
@@ -31,7 +33,7 @@
         class="d-block w-px-100 h-px-100 rounded"
         style="width: 100px; height: 100px"
         id="uploadedAvatar"/>
-      <div class="button-wrapper">
+      <div class="button-wrapper" style="padding: 15px";>
         <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
           <span class="d-none d-sm-block">Cập nhật ảnh mới</span>
           <i class="bx bx-upload d-block d-sm-none"></i>
@@ -51,6 +53,9 @@
       </div>
     </div>
 </div>
+<!-- End Img -->
+
+<!-- Strat Information-->
 <div class="card-body pt-4">
     <!-- Hiển thị thông báo -->
     {% if messages %}
@@ -174,37 +179,6 @@
             {% endif %}
         </div>
         <div class="col-md-6" style="padding: 20px";>
-            <label class="form-label" for="country">Country</label>
-            <select id="country" class="select2 form-select">
-            <option value="">Select</option>
-            <option value="Australia">Australia</option>
-            <option value="Bangladesh">Bangladesh</option>
-            <option value="Belarus">Belarus</option>
-            <option value="Brazil">Brazil</option>
-            <option value="Canada">Canada</option>
-            <option value="China">China</option>
-            <option value="France">France</option>
-            <option value="Germany">Germany</option>
-            <option value="India">India</option>
-            <option value="Indonesia">Indonesia</option>
-            <option value="Israel">Israel</option>
-            <option value="Italy">Italy</option>
-            <option value="Japan">Japan</option>
-            <option value="Korea">Korea, Republic of</option>
-            <option value="Mexico">Mexico</option>
-            <option value="Philippines">Philippines</option>
-            <option value="Russia">Russian Federation</option>
-            <option value="South Africa">South Africa</option>
-            <option value="Thailand">Thailand</option>
-            <option value="Turkey">Turkey</option>
-            <option value="Ukraine">Ukraine</option>
-            <option value="United Arab Emirates">United Arab Emirates</option>
-            <option value="United Kingdom">United Kingdom</option>
-            <option value="United States">United States</option>
-            <option value="United States">VietNam</option>
-          </select>
-        </div>
-        <div class="col-md-6" style="padding: 20px";>
             <label for="gender" class="form-label">Giới tính</label>
             <select id="gender" class="select2 form-select">
             <option value="">Chọn giới tính</option>
@@ -221,45 +195,16 @@
             {% endif %}
           </select>
         </div>
-        <div class="mt-6">
+        <div class="mt-6" style="padding: 0 15px 0 15px";>
         <form method="POST">
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-            <button type="reset" class="btn btn-outline-secondary">Hủy</button>
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px";>Lưu thay đổi</button>
+            <button type="reset" class="btn btn-outline-secondary" style="margin-top: 20px";>Hủy</button>
         </form>
         </div>
     </form>
 </div>
-
-<div class="card">
-    <h5 class="card-header">Xóa tài khoản</h5>
-    <div class="card-body">
-    <div class="mb-6 col-12 mb-0">
-        <div class="alert alert-warning">
-        <h5 class="alert-heading mb-1">Bạn có chắc chắn muốn xóa tài khoản của mình không?</h5>
-        <p class="mb-0">Một khi bạn xóa tài khoản của mình, bạn sẽ không thể quay lại. Xin hãy chắc chắn.</p>
-        </div>
-    </div>
-    <form id="formAccountDeactivation">
-        <div class="form-check my-8 ms-2">
-        <input
-            class="form-check-input"
-            type="checkbox"
-            name="accountActivation"
-            id="accountActivation" />
-        <label class="form-check-label" for="accountActivation"
-            >Tôi xác nhận việc hủy kích hoạt tài khoản của tôi</label
-        >
-        </div>
-        <button type="submit" class="btn btn-danger deactivate-account" disabled>
-        Hủy kích hoạt tài khoản
-        </button>
-    </form>
-    </div>
-</div>
-</div>
-</div>
-</div>
+<!-- End Information-->
 {% endblock %}
 
 {%block footer%}
