@@ -2,23 +2,32 @@ from django.db import models
 from django.utils.timezone import now
 
 # Create your models here.
+GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+]
 class Pet(models.Model):
     name = models.CharField(max_length=255)
     species = models.CharField(max_length=20)
     breed = models.CharField(max_length=255)
-    gender = models.BooleanField()
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES,
+    )
     birth_day = models.DateField()
     owner = models.ForeignKey('Owner', on_delete=models.CASCADE)  # Liên kết với chủ thú cưng
     def __str__(self):
         return f"{self.name} ({self.species})"
-
 class Owner(models.Model):
     full_name = models.CharField(max_length=255)
     phone_num = models.CharField(max_length=12)
     email = models.CharField (max_length=50)
     address = models.CharField(max_length=200)
-    gender = models.BooleanField()
-
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES,
+    )
     def __str__(self):
         return self.full_name
 
@@ -50,7 +59,10 @@ class Staff(models.Model):
     phone_number = models.CharField(max_length=15, null=True, blank=True)  
     email = models.EmailField(null=True, blank=True)
     hire_date = models.DateField(null=True, blank=True)
-    
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER_CHOICES,
+    )
     def __str__(self):
         return f"{self.full_name} - {self.role}"
     
