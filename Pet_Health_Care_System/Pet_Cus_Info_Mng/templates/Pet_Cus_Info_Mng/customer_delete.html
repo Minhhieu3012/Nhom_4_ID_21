@@ -24,7 +24,7 @@
 {% block contactformsection %}
 <div class="container mt-4">
     <h2>Xóa Khách Hàng</h2>
-    <p>Bạn có chắc chắn muốn xóa khách hàng: <strong>{{ object.first_name }} {{ object.last_name }}</strong>?</p>
+    <p>Bạn có chắc chắn muốn xóa khách hàng: <strong>{{ object.firstName }} {{ object.lastName }}</strong>?</p>
     <form method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Xóa</button>
