@@ -15,18 +15,21 @@ def customer_list(request):
 
 class CustomerCreateView(CreateView):
     model = Customer
-    template_name = 'Pet_Cus_Info_Mng/customer_form.html'
-    fields = ['lastName', 'firstName', 'email', 'phoneNumber', 'address', 'age', 'gender']
-    success_url = reverse_lazy('customer_list')
+    template_name = 'Pet_Cus_Info_Mng/customer_form.html'  # Tên file template form
+    fields = ['lastName', 'firstName', 'email', 'phoneNumber', 'address', 'age', 'gender']  # Các trường được lưu
+    success_url = reverse_lazy('customer_list')  # Sau khi tạo thành công, chuyển về danh sách khách hàng
     def form_valid(self, form):
+        # Thông báo thành công
         messages.success(self.request, "Khách hàng đã được thêm thành công!")
         return super().form_valid(form)
 
 class CustomerUpdateView(UpdateView):
     model = Customer
-    template_name = 'Pet_Cus_Info_Mng/customer_edit.html'
     fields = ['lastName', 'firstName', 'email', 'phoneNumber', 'address', 'age', 'gender']
-    success_url = reverse_lazy('customer_edit')
+    template_name = 'Pet_Cus_Info_Mng/customer_edit.html'
+    success_url = reverse_lazy('customer_list')  # Chuyển hướng về danh sách khách hàng
+    def get_success_url(self):
+        return reverse_lazy('customer_edit', kwargs={'pk': self.object.pk})
 
 class CustomerDeleteView(DeleteView):
     model = Customer

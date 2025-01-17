@@ -3,10 +3,127 @@
 {%block header%}
     {% include 'includes/header.html' %}
 {% endblock %}
-
+<!--......................................................................................................-->
 {%block navbar%}
-    {% include 'includes/nav-bar.html' %}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="padding-right: 400px";>
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="fa fa-bars"></span> Menu
+      </button>
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active"><a href="{% url 'app_admin' %}" class="nav-link">Home</a></li>
+        </ul>
+      </div>
+    </div>
+</nav>
 {% endblock %}
+<!--......................................................................................................-->
+
+{% block contactformsection %}
+<h2 style="padding: 20px";>Chỉnh sửa thông tin khách hàng</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-xxl">
+            <div class="card mb-6" style="padding: 20px";>
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Thông tin khách hàng</h5>
+                    <small class="text-muted float-end">Điền thông tin cần sửa</small>
+                </div>
+                <div class="card-body">
+                    <!-- Họ và tên -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="id_lastName">Họ</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                {{ form.lastName }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="id_firstName">Tên</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                {{ form.firstName }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="id_email">Email</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+                                {{ form.email }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Số điện thoại -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="id_phoneNumber">Số điện thoại</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-phone"></i></span>
+                                {{ form.phoneNumber }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Địa chỉ -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="id_address">Địa chỉ</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-map"></i></span>
+                                {{ form.address }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tuổi -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="id_age">Tuổi</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-calendar"></i></span>
+                                {{ form.age }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Giới tính -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="id_gender">Giới tính</label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-male"></i></span>
+                                {{ form.gender }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nút lưu -->
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                            <a href="{% url 'customer_list' %}" class="btn btn-secondary">Hủy</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+<!--......................................................................................................-->
 
 {%block footer%}
     {% include 'includes/footer.html' %}

@@ -6,7 +6,7 @@
 <!--......................................................................................................-->
 {%block navbar%}
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="padding-right: 400px";>
     <div class="container">
         <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +49,6 @@
           <i class="bx bx-reset d-block d-sm-none"></i>
           <span class="d-none d-sm-block">Khôi phục lại</span>
         </button>
-
         <div>Được phép JPG, GIF hoặc PNG. Kích thước tối đa 800K</div>
       </div>
     </div>
@@ -74,18 +73,21 @@
     {% endif %}
 
     <!-- Form -->
-    <form id="formAccountSettings" method="POST">
+    <form method="post">
+      {% csrf_token %}
       <div class="row g-6">
+
+        <!--HỌ-->
         <div class="col-md-6">
-            <label for="lastName" class="form-label">Họ</label>
-            <input
-                class="form-control"
-                type="text"
-                id="lastName"
-                name="lastName"
-                autofocus
-                placeholder="Nhập họ" />
-            <!--Error-->
+            <label for="id_lastName" class="form-label">Họ</label>
+            <input 
+                type="text" 
+                id="id_lastName" 
+                name="{{ form.lastName.html_name }}" 
+                value="{{ form.lastName.value }}" 
+                class="form-control" 
+                placeholder="Nhập họ">
+            <!-- Hiển thị lỗi nếu có -->
             {% if form.lastName.errors %}
                 <div class="text-danger">
                     {% for error in form.lastName.errors %}
@@ -94,15 +96,17 @@
                 </div>
             {% endif %}
         </div>
+
+        <!--TÊN-->               
         <div class="col-md-6">
-            <label for="firstName" class="form-label">Tên</label>
+            <label for="id_firstName" class="form-label">Tên</label>
             <input 
-            class="form-control" 
             type="text" 
-            id="firstName"
-            name="firstName"
-            autofocus
-            placeholder="Nhập tên" />
+            id="id_firstName"
+            name="{{ form.firstName.html_name }}" 
+            value="{{form.firstName.value}}"
+            class="form-control" 
+            placeholder="Nhập tên">
             <!--Error-->
             {% if form.firstName.errors %}
                 <div class="text-danger">
@@ -112,14 +116,17 @@
                 </div>
             {% endif %}
         </div>
+
+        <!--EMAIL-->
         <div class="col-md-6">
             <label for="email" class="form-label">E-mail</label>
             <input
-            class="form-control"
             type="text"
-            id="email"
-            name="email"
-            placeholder="abc123@gmail.com" />
+            id="id_email"
+            name="{{ form.email.html_name }}"
+            value="{{form.email.value}}"
+            class="form-control"
+            placeholder="abc123@gmail.com">
             <!--Error-->
             {% if form.email.errors %}
                 <div class="text-danger">
@@ -129,6 +136,8 @@
                 </div>
             {% endif %}
         </div>
+        
+        <!--TUỔI-->
         <div class="col-md-6">
             <label for="age" class="form-label">Tuổi</label>
             <input
@@ -199,7 +208,7 @@
         <div class="mt-6" style="padding: 0 15px 0 15px";>
         <form method="POST">
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary" style="margin-top: 20px";>Lưu thay đổi</button>
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px";>Tạo khách hàng</button>
             <button type="reset" class="btn btn-outline-secondary" style="margin-top: 20px";>Hủy</button>
         </form>
         </div>
