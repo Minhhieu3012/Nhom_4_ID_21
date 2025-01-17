@@ -1,6 +1,6 @@
 from pyexpat.errors import messages
 from django.shortcuts import render
-from django.views.generic import ListView,DeleteView,CreateView,UpdateView,DetailView
+from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from .models import Pet, Customer, MedicalRecord, Appointment
@@ -12,11 +12,7 @@ def customer_list(request):
     customers = Customer.objects.all() # lay toan bo ds khach hang
     return render(request, 'Pet_Cus_Info_Mng/customers.html', {'customers': customers})
 
-class CustomerListView(ListView):
-    model = Customer
-    template_name = 'Pet_Cus_Info_Mng/customers.html' # Ten file template
-    context_object_name = 'customers'
-    
+
 class CustomerCreateView(CreateView):
     model = Customer
     template_name = 'Pet_Cus_Info_Mng/customer_form.html'
@@ -26,22 +22,16 @@ class CustomerCreateView(CreateView):
         messages.success(self.request, "Khách hàng đã được thêm thành công!")
         return super().form_valid(form)
 
-class CustomerDetailView(DetailView):
-    model = Customer
-    template_name = 'Pet_Cus_Info_Mng/customer_detail.html' 
-    context_object_name = 'customers'
-
-
 class CustomerUpdateView(UpdateView):
     model = Customer
-    template_name = 'Pet_Cus_Info_Mng/customer_form.html' # Su dung chung form voi createview
+    template_name = 'Pet_Cus_Info_Mng/customer_edit.html'
     fields = ['lastName', 'firstName', 'email', 'phoneNumber', 'address', 'age', 'gender']
-    success_url = reverse_lazy('customer_list')
+    success_url = reverse_lazy('customer_edit')
 
 class CustomerDeleteView(DeleteView):
     model = Customer
-    template_name = 'Pet_Cus_Info_Mng/customer_confirm.html' #trang xac nhan xoa
-    success_url = reverse_lazy('customer_list')
+    template_name = 'Pet_Cus_Info_Mng/customer_delete.html' #trang xac nhan xoa
+    success_url = reverse_lazy('customer_delete')
 # -------------------------------------------------------------------------------------------
 
 # View cho Pet
@@ -49,11 +39,6 @@ def pet_list(request):
     pets = Pet.objects.all() # lay toan bo ds thu cung
     return render(request, 'Pet_Cus_Info_Mng/pets.html',{'pets':pets}) # Render ra template
 
-# ListView cho Pet
-class PetListView(ListView):
-    model = Pet
-    template_name = 'Pet_Cus_Info_Mng/pets.html' # Ten file template
-    context_object_name = 'pets'
 
 # CreateView cho Pet
 class PetCreateView(CreateView):
@@ -65,24 +50,18 @@ class PetCreateView(CreateView):
         messages.success(self.request, "Thú cưng đã được thêm thành công!")
         return super().form_valid(form)
 
-# DetailView cho Pet
-class PetDetailView(DetailView):
-    model = Pet
-    template_name = 'Pet_Cus_Info_Mng/pet_detail.html' 
-    context_object_name = 'pet'
-
 
 # UpdateView cho Pet
 class PetUpdateView(UpdateView):
     model = Pet
-    template_name = 'Pet_Cus_Info_Mng/pet_form.html' # Su dung chung form voi createview
+    template_name = 'Pet_Cus_Info_Mng/pet_edit.html' # Su dung chung form voi createview
     fields = ['name','species','gender','date_of_birth','age','health_status','owner']
     success_url = reverse_lazy('pet_list')
 
 # DeleteView cho Pet
 class PetDeleteView(DeleteView):
     model = Pet
-    template_name = 'Pet_Cus_Info_Mng/pet_confirm.html' #trang xac nhan xoa
+    template_name = 'Pet_Cus_Info_Mng/pet_delete.html' #trang xac nhan xoa
     success_url = reverse_lazy('pet_list')
 
 # -------------------------------------------------------------------------------------------
