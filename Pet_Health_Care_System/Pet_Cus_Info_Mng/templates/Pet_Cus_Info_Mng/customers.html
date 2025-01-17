@@ -6,10 +6,78 @@
 {% endblock %}
 
 {%block navbar%}
-    {% include 'includes/nav-bar.html' %}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" style="background-color: #fff !important "; id="ftco-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="fa fa-bars"></span> Menu
+      </button>
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active"><a href="{% url 'app_admin' %}" class="nav-link">Home</a></li>
+        </ul>
+      </div>
+    </div>
+</nav>
 {% endblock %}
 
-
+{%block contactformsection%}
+{% load static %}
+<!-- Boxicons CSS -->
+<link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<div class="card">
+    <h5 class="card-header">DANH SÁCH KHÁCH HÀNG</h5>
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Họ</th>
+            <th>Tên</th>
+            <th>Tuổi</th>
+            <th>Giới tính</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Địa chỉ</th>
+            <th class="rounded-end-bottom">Chỉnh sửa</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+            {% for item in customers %}
+                <tr class="table-default">
+                    <td><i></i> <span>{{item.firstName}}</span></td>
+                    <td>{{item.lastName}}</td>
+                    <td><i class="list-unstyled m-0 avatar-group d-flex align-items-center"></i><span>{{item.age}}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{item.gender}}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{item.phoneNumber}}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{item.email}}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{item.address}}</span></td>
+                    <td class="rounded-end-bottom">
+                        <div class="dropdown">
+                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ item.id }}"
+                              ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                            >
+                            <a class="dropdown-item" href="javascript:void(0);"
+                              ><i class="bx bx-trash me-1"></i> Delete</a
+                            >
+                          </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</div>
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
 
 {%block footer%}
     {% include 'includes/footer.html' %}

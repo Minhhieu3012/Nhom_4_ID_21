@@ -22,10 +22,27 @@ class CustomerCreateView(CreateView):
     template_name = 'Pet_Cus_Info_Mng/customer_form.html'
     fields = ['lastName', 'firstName', 'email', 'phoneNumber', 'address', 'age', 'gender']
     success_url = reverse_lazy('customer_list')
-
     def form_valid(self, form):
         messages.success(self.request, "Khách hàng đã được thêm thành công!")
         return super().form_valid(form)
+
+class CustomerDetailView(DetailView):
+    model = Customer
+    template_name = 'Pet_Cus_Info_Mng/customer_detail.html' 
+    context_object_name = 'customers'
+
+
+class CustomerUpdateView(UpdateView):
+    model = Customer
+    template_name = 'Pet_Cus_Info_Mng/customer_form.html' # Su dung chung form voi createview
+    fields = ['lastName', 'firstName', 'email', 'phoneNumber', 'address', 'age', 'gender']
+    success_url = reverse_lazy('customer_list')
+
+class CustomerDeleteView(DeleteView):
+    model = Customer
+    template_name = 'Pet_Cus_Info_Mng/customer_confirm.html' #trang xac nhan xoa
+    success_url = reverse_lazy('customer_list')
+# -------------------------------------------------------------------------------------------
 
 # View cho Pet
 def pet_list(request):
@@ -38,18 +55,22 @@ class PetListView(ListView):
     template_name = 'Pet_Cus_Info_Mng/pets.html' # Ten file template
     context_object_name = 'pets'
 
-# DetailView cho Pet
-class PetDetailView(DetailView):
-    model = Pet
-    template_name = 'Pet_Cus_Info_Mng/pet_detail.html' 
-    context_object_name = 'pet'
-
 # CreateView cho Pet
 class PetCreateView(CreateView):
     model = Pet
     template_name = 'Pet_Cus_Info_Mng/pet_form.html' # form hien thi de them pet
     fields = ['name','species','gender','date_of_birth','age','health_status','owner']
     success_url = reverse_lazy('pet_list') # chuyen huong sau khi them thanh cong
+    def form_valid(self, form):
+        messages.success(self.request, "Thú cưng đã được thêm thành công!")
+        return super().form_valid(form)
+
+# DetailView cho Pet
+class PetDetailView(DetailView):
+    model = Pet
+    template_name = 'Pet_Cus_Info_Mng/pet_detail.html' 
+    context_object_name = 'pet'
+
 
 # UpdateView cho Pet
 class PetUpdateView(UpdateView):
@@ -64,6 +85,7 @@ class PetDeleteView(DeleteView):
     template_name = 'Pet_Cus_Info_Mng/pet_confirm.html' #trang xac nhan xoa
     success_url = reverse_lazy('pet_list')
 
+# -------------------------------------------------------------------------------------------
 
 class MedicalRecordListView(ListView):
     model = MedicalRecord
@@ -75,6 +97,7 @@ class MedicalRecordListView(ListView):
         pet_id = self.kwargs.get('pet_id')  # Lấy ID thú cưng từ URL
         return MedicalRecord.objects.filter(pet_id=pet_id).order_by('-date')  # Lịch sử theo thứ tự mới nhất
     
+# -------------------------------------------------------------------------------------------
 
 class AppointmentListView(ListView):
     model = Appointment
