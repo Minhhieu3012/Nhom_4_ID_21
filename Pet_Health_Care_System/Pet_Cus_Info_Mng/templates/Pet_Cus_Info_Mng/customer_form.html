@@ -14,7 +14,7 @@
       </button>
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active"><a href="{% url 'app_admin' %}" class="nav-link">Home</a></li>
+            <li type="submit" class="nav-item active"><a href="{% url 'app_admin' %}" class="nav-link">Về trang chủ</a></li>
         </ul>
       </div>
     </div>
@@ -30,11 +30,10 @@
     <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
       <img
         src="{% static 'app_admin/images/avata_cus_form.png' %}" alt="user-avatar"
-        alt="user-avatar"
         class="d-block w-px-100 h-px-100 rounded"
         style="width: 100px; height: 100px"
         id="uploadedAvatar"/>
-      <div class="button-wrapper" style="padding: 15px";>
+      <div class="button-wrapper" style="padding: 15px;">
         <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
           <span class="d-none d-sm-block">Cập nhật ảnh mới</span>
           <i class="bx bx-upload d-block d-sm-none"></i>
@@ -55,38 +54,27 @@
 </div>
 <!-- End Img -->
 
-<!-- Strat Information-->
+<!-- Start Information-->
 <div class="card-body pt-4">
     <!-- Hiển thị thông báo -->
     {% if messages %}
-        <div class="alert alert-success">
-            <ul>
-                {% for message in messages %}
-                    {% if message.tags == "success" %}
-                        <div class="alert alert-success">{{ message }}</div>
-                    {% elif message.tags == "error" %}
-                        <div class="alert alert-danger">{{ message }}</div>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-
+    <div class="alert alert-success">
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
     <!-- Form -->
     <form method="post">
       {% csrf_token %}
       <div class="row g-6">
 
-        <!--HỌ-->
+        <!-- HỌ -->
         <div class="col-md-6">
             <label for="id_lastName" class="form-label">Họ</label>
-            <input 
-                type="text" 
-                id="id_lastName" 
-                name="{{ form.lastName.html_name }}" 
-                value="{{ form.lastName.value }}" 
-                class="form-control" 
-                placeholder="Nhập họ">
+            <input type="text" id="id_lastName" name="lastName" class="form-control" placeholder="Nhập họ">
             <!-- Hiển thị lỗi nếu có -->
             {% if form.lastName.errors %}
                 <div class="text-danger">
@@ -97,17 +85,11 @@
             {% endif %}
         </div>
 
-        <!--TÊN-->               
+        <!-- TÊN -->               
         <div class="col-md-6">
             <label for="id_firstName" class="form-label">Tên</label>
-            <input 
-            type="text" 
-            id="id_firstName"
-            name="{{ form.firstName.html_name }}" 
-            value="{{form.firstName.value}}"
-            class="form-control" 
-            placeholder="Nhập tên">
-            <!--Error-->
+            <input type="text" id="id_firstName" name="firstName" class="form-control" placeholder="Nhập tên">
+            <!-- Error -->
             {% if form.firstName.errors %}
                 <div class="text-danger">
                     {% for error in form.firstName.errors %}
@@ -117,17 +99,11 @@
             {% endif %}
         </div>
 
-        <!--EMAIL-->
+        <!-- EMAIL -->
         <div class="col-md-6">
-            <label for="email" class="form-label">E-mail</label>
-            <input
-            type="text"
-            id="id_email"
-            name="{{ form.email.html_name }}"
-            value="{{form.email.value}}"
-            class="form-control"
-            placeholder="abc123@gmail.com">
-            <!--Error-->
+            <label for="id_email" class="form-label">E-mail</label>
+            <input type="email" id="id_email" name="email" class="form-control" placeholder="abc123@gmail.com">
+            <!-- Error -->
             {% if form.email.errors %}
                 <div class="text-danger">
                     {% for error in form.email.errors %}
@@ -136,50 +112,40 @@
                 </div>
             {% endif %}
         </div>
-        
-        <!--TUỔI-->
+
+        <!-- TUỔI -->
         <div class="col-md-6">
-            <label for="age" class="form-label">Tuổi</label>
-            <input
-                type="number"
-                class="form-control"
-                id="age"
-                name="age"
-                min="0"
-                placeholder="Nhập tuổi" />
-                <!--Error-->
-                {% if form.age.errors %}
-                    <div class="text-danger">
-                        {% for error in form.age.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+            <label for="id_age" class="form-label">Tuổi</label>
+            <input type="number" id="id_age" name="age" class="form-control" placeholder="Nhập tuổi" min="0">
+            <!-- Error -->
+            {% if form.age.errors %}
+                <div class="text-danger">
+                    {% for error in form.age.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>        
+
+        <!-- SỐ ĐIỆN THOẠI -->
         <div class="col-md-6">
-            <label class="form-label" for="phoneNumber">Số điện thoại</label>
-            <div class="input-group input-group-merge">
-            <span class="input-group-text">VN (+84)</span>
-            <input
-                type="text"
-                id="phoneNumber"
-                name="phoneNumber"
-                class="form-control"
-                placeholder="0123-456-789" />
-                <!--Error-->
-                {% if form.phoneNumber.errors %}
-                    <div class="text-danger">
-                        {% for error in form.phoneNumber.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-          </div>
+            <label class="form-label" for="id_phoneNumber">Số điện thoại</label>
+            <input type="text" id="id_phoneNumber" name="phoneNumber" class="form-control" placeholder="0123-456-789">
+            <!-- Error -->
+            {% if form.phoneNumber.errors %}
+                <div class="text-danger">
+                    {% for error in form.phoneNumber.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
+
+        <!-- ĐỊA CHỈ -->
         <div class="col-md-6">
-            <label for="address" class="form-label">Địa chỉ</label>
-            <input type="text" class="form-control" id="address" name="address" placeholder="Địa chỉ" />
-            <!--Error-->
+            <label for="id_address" class="form-label">Địa chỉ</label>
+            <input type="text" id="id_address" name="address" class="form-control" placeholder="Địa chỉ">
+            <!-- Error -->
             {% if form.address.errors %}
                 <div class="text-danger">
                     {% for error in form.address.errors %}
@@ -188,14 +154,17 @@
                 </div>
             {% endif %}
         </div>
-        <div class="col-md-6" style="padding: 20px";>
-            <label for="gender" class="form-label">Giới tính</label>
-            <select id="gender" class="select2 form-select">
-            <option value="">Chọn giới tính</option>
-            <option value="en">Nam</option>
-            <option value="fr">Nữ</option>
-            <option value="fr">LGBT</option>
-            <!--Error-->
+
+        <!-- GIỚI TÍNH -->
+        <div class="col-md-6" style="padding: 20px;">
+            <label for="id_gender" class="form-label">Giới tính</label>
+            <select id="id_gender" name="gender" class="form-control">
+                <option value="">Chọn giới tính</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+                <option value="LGBT">LGBT</option>
+            </select>
+            <!-- Error -->
             {% if form.gender.errors %}
                 <div class="text-danger">
                     {% for error in form.gender.errors %}
@@ -203,18 +172,17 @@
                     {% endfor %}
                 </div>
             {% endif %}
-          </select>
         </div>
-        <div class="mt-6" style="padding: 0 15px 0 15px";>
-        <form method="POST">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary" style="margin-top: 20px";>Tạo khách hàng</button>
-            <button type="reset" class="btn btn-outline-secondary" style="margin-top: 20px";>Hủy</button>
-        </form>
-        </div>
+      </div>
+
+      <!-- Nút gửi -->
+      <div class="mt-6" style="padding: 0 15px 0 15px;">
+        <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Tạo khách hàng</button>
+        <a href="{% url 'customer_list' %}" class="btn btn-outline-secondary" style="margin-top: 20px;">Hủy</a>
+      </div>
     </form>
 </div>
-<!-- End Information-->
+<!-- End Information -->
 {% endblock %}
 <!--......................................................................................................-->
 

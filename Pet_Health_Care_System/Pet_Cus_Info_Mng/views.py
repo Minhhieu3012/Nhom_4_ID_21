@@ -1,9 +1,11 @@
 from pyexpat.errors import messages
+from django.contrib import messages
 from django.shortcuts import render
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from .models import Pet, Customer, MedicalRecord, Appointment
+
 
 
 # Create your views here.
@@ -19,10 +21,13 @@ class CustomerCreateView(CreateView):
     fields = ['lastName', 'firstName', 'email', 'phoneNumber', 'address', 'age', 'gender']  # Các trường được lưu
     success_url = reverse_lazy('customer_list')  # Sau khi tạo thành công, chuyển về danh sách khách hàng
     def form_valid(self, form):
-        # Thông báo thành công
-        messages.success(self.request, "Khách hàng đã được thêm thành công!")
-        return super().form_valid(form)
-
+        # Lưu khách hàng
+        form.save()
+        # Thêm thông báo
+        messages.success(self.request, "Khách hàng đã được tạo thành công!")
+        # Render lại chính trang thêm khách hàng
+        return self.render_to_response(self.get_context_data(form=form))
+    
 class CustomerUpdateView(UpdateView):
     model = Customer
     fields = ['lastName', 'firstName', 'email', 'phoneNumber', 'address', 'age', 'gender']
@@ -34,7 +39,7 @@ class CustomerUpdateView(UpdateView):
 class CustomerDeleteView(DeleteView):
     model = Customer
     template_name = 'Pet_Cus_Info_Mng/customer_delete.html' #trang xac nhan xoa
-    success_url = reverse_lazy('customer_delete')
+    success_url = reverse_lazy('customer_list')
 # -------------------------------------------------------------------------------------------
 
 # View cho Pet

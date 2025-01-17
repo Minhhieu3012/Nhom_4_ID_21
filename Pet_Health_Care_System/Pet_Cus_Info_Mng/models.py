@@ -10,7 +10,7 @@ class Customer(models.Model):
     age = models.PositiveIntegerField(blank=False)
     gender = models.CharField(
         max_length=10,
-        choices=[("Male", "Nam"), ("Female", "Nữ"), ("Other", "LGBT")],
+        choices=[("Nam", "Nam"), ("Nữ", "Nữ"), ("LGBT", "LGBT")],
         blank=False
     )
     def __str__(self):
