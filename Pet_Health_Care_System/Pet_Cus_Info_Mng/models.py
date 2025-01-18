@@ -18,12 +18,12 @@ class Customer(models.Model):
 
 class Pet(models.Model):
     id = models.AutoField(primary_key=True)  # ID
-    name = models.CharField(max_length=100)  # ten thu cung
-    species = models.CharField(max_length=50)  # giong loai (dog, cat, ...)
+    name = models.CharField(max_length=100, blank=False)  # ten thu cung
+    species = models.CharField(max_length=50, blank=False)  # giong loai (dog, cat, ...)
     gender = models.CharField(max_length=10, choices=[
         ("Đực", "Đực"), ("Cái", "Cái"),
-    ])  # gioi tinh
-    dateOfBirth = models.DateField()  # ngay sinh
+    ], blank=False)  # gioi tinh
+    dateOfBirth = models.DateField(blank=False)  # ngay sinh
     def calculatedAge(self):
         if self.dateOfBirth:
             today = date.today()
@@ -44,12 +44,11 @@ class Pet(models.Model):
         ('Bị chấn thương','Bị chấn thương'),
         ('Dinh dưỡng kém','Dinh dưỡng kém'),
         ('Giai đoạn cuối','Giai đoạn cuối'),
-    ])  # tinh trang suc khoe
-    owner = models.ForeignKey(Customer, on_delete=models.CASCADE)  # Chu so huu
-
+    ], blank=False)  # tinh trang suc khoe
+    owner = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=False)  # Chu so huu
     def __str__(self):
         return f"{self.name} ({self.species})"
-     # Tinh tuoi dua tren ngay sinh
+    # Tinh tuoi dua tren ngay sinh
     def calculate_age(self):
         if self.dateOfBirth:
             today = date.today()

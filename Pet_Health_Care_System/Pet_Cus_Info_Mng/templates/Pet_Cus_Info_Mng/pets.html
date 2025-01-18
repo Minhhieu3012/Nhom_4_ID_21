@@ -39,10 +39,12 @@
       <table class="table">
         <thead>
           <tr>
+            <th>ID</th>
             <th>Tên thú cưng</th>
             <th>Tuổi</th>
             <th>Giống loài</th>
             <th>Ngày sinh</th>
+            <th>Giới tính</th>
             <th>Tình trạng sức khỏe</th>
             <th>Chủ sở hữu</th>
             <th class="rounded-end-bottom">Chỉnh sửa</th>
@@ -51,11 +53,13 @@
         <tbody class="table-border-bottom-0">
             {% for item in pets %}
                 <tr class="table-default">
+                    <td><i></i> <span>{{item.id}}</span></td>
                     <td><i></i> <span>{{item.name}}</span></td>
                     <td><i class="list-unstyled m-0 avatar-group d-flex align-items-center"></i><span>{{item.age}}</span></td>
                     <td><i class="badge bg-label-primary me-1"></i><span>{{item.species}}</span></td>
-                    <td><i class="badge bg-label-primary me-1"></i><span>{{item.date_of_birth}}</span></td>
-                    <td><i class="badge bg-label-primary me-1"></i><span>{{item.health_status}}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{item.dateOfBirth}}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{item.gender}}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{item.healthStatus}}</span></td>
                     <td><i class="badge bg-label-primary me-1"></i><span>{{item.owner}}</span></td>
                     <td class="rounded-end-bottom">
                         <div class="dropdown">

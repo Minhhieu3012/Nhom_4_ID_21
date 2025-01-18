@@ -90,13 +90,6 @@
             {% endif %}
         </div>
 
-        <!-- Tuổi thú cưng -->
-        <div class="col-md-6">
-            <label for="id_age" class="form-label">Tuổi</label>
-            <input type="text" id="id_age" name="age" class="form-control" placeholder="Tuổi thú cưng" readonly>
-        </div>
-
-
         <!-- ngày sinh  -->               
         <div class="col-md-6">
             <label for="id_dateOfBirth" class="form-label">Ngày sinh thú cưng</label>
@@ -109,7 +102,27 @@
                     {% endfor %}
                 </div>
             {% endif %}
-        </div>     
+        </div>   
+
+        <!--Giống loài -->
+        <div class="col-md-6">
+            <label for="id_species" class="form-label">Giống loài</label>
+            <input type="text" id="id_species" name="species" class="form-control" placeholder="Nhập giống loài">
+            <!-- Hiển thị lỗi nếu có -->
+            {% if form.species.errors %}
+                <div class="text-danger">
+                    {% for error in form.species.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Tuổi thú cưng -->
+        <div class="col-md-6">
+            <label for="id_age" class="form-label">Tuổi</label>
+            <input type="text" id="id_age" name="age" class="form-control" placeholder="Tuổi thú cưng" readonly>
+        </div>  
 
         <!-- TÌNH TRẠNG SỨC KHỎE THÚ CƯNG -->
         <div class="col-md-6" style="padding: 20px;">
@@ -155,18 +168,18 @@
         </div>
              
 
-        <!-- Giống loài -->
+        <!-- Giới tính -->
         <div class="col-md-6" style="padding: 20px;">
-            <label for="id_species" class="form-label">Giống loài</label>
-            <select id="id_species" name="species" class="form-control">
+            <label for="id_gender" class="form-label">Giới tính </label>
+            <select id="id_gender" name="gender" class="form-control">
                 <option value="">Chọn</option>
                 <option value="Đực">Đực</option>
                 <option value="Cái">Cái</option>
             </select>
             <!-- Error -->
-            {% if form.species.errors %}
+            {% if form.gender.errors %}
                 <div class="text-danger">
-                    {% for error in form.species.errors %}
+                    {% for error in form.gender.errors %}
                         <p>{{ error }}</p>
                     {% endfor %}
                 </div>
