@@ -7,7 +7,6 @@
 - **Quản lý thông tin thú cưng và khách hàng**  
   - CRUD Thú cưng
   - CRUD Khách hàng
-  - Lịch sử giao dịch và lịch hẹn
   - Đánh dấu trạng thái của thú cưng (đang nhập viện, đang điều trị ngoại trú, đã xuất viện)
   - Lưu trữ lịch sử khám chữa bệnh của thú cưng
   - Lịch sử giao dịch và lịch hẹn
