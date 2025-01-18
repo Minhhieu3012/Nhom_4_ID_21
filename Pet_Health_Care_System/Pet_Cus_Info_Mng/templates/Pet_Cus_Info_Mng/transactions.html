@@ -1,0 +1,20 @@
+<h2>Lịch sử giao dịch của {{ transactions.0.customer.firstName }} {{ transactions.0.customer.lastName }}</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ngày</th>
+            <th>Số tiền</th>
+            <th>Mô tả</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.date }}</td>
+            <td>{{ transaction.amount }}</td>
+            <td>{{ transaction.description }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
