@@ -30,9 +30,15 @@ class PetForm(forms.Form):
     healthStatus = forms.ChoiceField(
         label="Tình trạng sức khỏe",
         choices=[
-            ("Đang nhập viện", "Đang nhập viện"),
-            ("Đang điều trị ngoại trú", "Đang điều trị ngoại trú"),
-            ("Đã xuất viện", "Đã xuất viện"),
+            ('Đang nhập viện', 'Đang nhập viện'),
+            ('Đang điều trị ngoại trú', 'Đang điều trị ngoại trú'),
+            ('Đã xuất viện', 'Đã xuất viện'),
+            ('Sức khỏe tốt','Sức khỏe tốt'),
+            ('Cần tiêm phòng','Cần tiêm phòng'),
+            ('Béo phì','Béo phì'),
+            ('Bị chấn thương','Bị chấn thương'),
+            ('Dinh dưỡng kém','Dinh dưỡng kém'),
+            ('Giai đoạn cuối','Giai đoạn cuối'),
         ], 
     )
     owner = forms.ChoiceField(
