@@ -5,8 +5,29 @@
 {% endblock %}
 
 {%block navbar%}
-    {% include 'includes/nav-bar.html' %}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+  </div>
+</nav>
 {% endblock %}
+
+{% block contactformsection %}
+<div class="container mt-4">
+    <h2>Xóa Thú Cưng</h2>
+    <p>Bạn có chắc chắn muốn xóa thú cưng <strong>{{ object.name }} có chủ sở hữu là: {{ object.owner }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a href="{% url 'pet_list' %}" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+{% endblock %}
+
 
 {%block footer%}
     {% include 'includes/footer.html' %}

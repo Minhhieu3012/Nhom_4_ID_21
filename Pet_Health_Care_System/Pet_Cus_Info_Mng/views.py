@@ -1,12 +1,12 @@
 from pyexpat.errors import messages
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from .models import Pet, Customer, MedicalRecord, Appointment
-
+from .forms import PetForm
 
 # Create your views here.
 # View cho Customer
@@ -65,6 +65,7 @@ class PetUpdateView(UpdateView):
     def get_success_url(self):
         messages.success(self.request, "Thông tin thú cưng đã được cập nhật thành công!")
         return reverse_lazy('pet_edit', kwargs={'pk': self.object.pk})
+    
 class PetDeleteView(DeleteView):
     model = Pet
     template_name = 'Pet_Cus_Info_Mng/pet_delete.html' #trang xac nhan xoa

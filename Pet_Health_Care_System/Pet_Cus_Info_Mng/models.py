@@ -23,7 +23,7 @@ class Pet(models.Model):
     gender = models.CharField(max_length=10, choices=[
         ("Đực", "Đực"), ("Cái", "Cái"),
     ], blank=False)  # gioi tinh
-    dateOfBirth = models.DateField(blank=False)  # ngay sinh
+    dateOfBirth = models.DateField(null=True, blank=False)  # ngay sinh
     def calculatedAge(self):
         if self.dateOfBirth:
             today = date.today()
