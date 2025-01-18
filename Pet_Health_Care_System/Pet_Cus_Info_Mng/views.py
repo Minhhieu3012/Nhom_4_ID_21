@@ -6,7 +6,6 @@ from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpResponse
 from .models import Pet, Customer, MedicalRecord, Appointment
-from .forms import PetForm
 
 # Create your views here.
 # View cho Customer
