@@ -9,5 +9,33 @@ class CustomerForm(forms.Form):
     age = forms.IntegerField(label="age")
     gender = forms.ChoiceField(
         label="gender",
-        choices=[("Male", "Nam"), ("Female", "Nữ"), ("Other", "Khác")]
+        choices=[("Nam", "Nam"), ("Nữ", "Nữ"), ("LGBT", "LGBT")]
+    )
+
+class PetForm(forms.Form):
+    name = forms.CharField(label="Tên thú cưng", max_length=100)  
+    species = forms.CharField(label="Giống loài", max_length=50)  
+    gender = forms.ChoiceField(
+        label="Giới tính",
+        choices=[("Đực", "Đực"), ("Cái", "Cái")],  # Lựa chọn giới tính
+    )
+    dateOfBirth = forms.DateField(
+        label="Ngày sinh",
+        widget=forms.DateInput(attrs={"type": "date"}), 
+    )
+    age = forms.IntegerField(
+        label="Tuổi",
+        required=False,
+    )
+    healthStatus = forms.ChoiceField(
+        label="Tình trạng sức khỏe",
+        choices=[
+            ("Đang nhập viện", "Đang nhập viện"),
+            ("Đang điều trị ngoại trú", "Đang điều trị ngoại trú"),
+            ("Đã xuất viện", "Đã xuất viện"),
+        ], 
+    )
+    owner = forms.ChoiceField(
+        label="Chủ sở hữu",
+        choices=[]
     )

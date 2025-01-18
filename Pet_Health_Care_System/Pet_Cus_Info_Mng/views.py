@@ -1,5 +1,6 @@
 from pyexpat.errors import messages
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
@@ -34,6 +35,7 @@ class CustomerUpdateView(UpdateView):
     template_name = 'Pet_Cus_Info_Mng/customer_edit.html'
     success_url = reverse_lazy('customer_list')  # Chuyển hướng về danh sách khách hàng
     def get_success_url(self):
+        messages.success(self.request, "Thông tin khách hàng đã được cập nhật thành công!")
         return reverse_lazy('customer_edit', kwargs={'pk': self.object.pk})
 
 class CustomerDeleteView(DeleteView):
@@ -45,26 +47,43 @@ class CustomerDeleteView(DeleteView):
 # View cho Pet
 def pet_list(request):
     pets = Pet.objects.all() # lay toan bo ds thu cung
+    paginator = Paginator(pets, 10)  # Hiển thị 10 thú cưng mỗi trang
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request, 'Pet_Cus_Info_Mng/pets.html',{'pets':pets}) # Render ra template
+
 
 
 # CreateView cho Pet
 class PetCreateView(CreateView):
     model = Pet
-    template_name = 'Pet_Cus_Info_Mng/pet_form.html' # form hien thi de them pet
-    fields = ['name','species','gender','date_of_birth','age','health_status','owner']
-    success_url = reverse_lazy('pet_list') # chuyen huong sau khi them thanh cong
+    template_name = 'Pet_Cus_Info_Mng/pet_form.html'
+    fields = ['name', 'species', 'gender', 'dateOfBirth', 'age', 'healthStatus', 'owner']
+    success_url = reverse_lazy('pet_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['customers'] = Customer.objects.all()  # Truyền danh sách khách hàng vào context
+        return context
+    
     def form_valid(self, form):
-        messages.success(self.request, "Thú cưng đã được thêm thành công!")
-        return super().form_valid(form)
+        form.save()
+        # Thêm thông báo
+        messages.success(self.request, "Thú cưng đã được tạo thành công!")
+        # Render lại chính trang thêm thú cưng
+        return self.render_to_response(self.get_context_data(form=form))
 
-
+    
 # UpdateView cho Pet
 class PetUpdateView(UpdateView):
     model = Pet
-    template_name = 'Pet_Cus_Info_Mng/pet_edit.html' # Su dung chung form voi createview
-    fields = ['name','species','gender','date_of_birth','age','health_status','owner']
+    template_name = 'Pet_Cus_Info_Mng/pet_edit.html'  # Sử dụng chung form với CreateView
+    fields = ['name', 'species', 'gender', 'dateOfBirth', 'age', 'healthStatus', 'owner']
     success_url = reverse_lazy('pet_list')
+    def get_success_url(self):
+        messages.success(self.request, "Thông tin thú cưng đã được cập nhật thành công!")
+        return reverse_lazy('pet_edit', kwargs={'pk': self.object.pk})
+
 
 # DeleteView cho Pet
 class PetDeleteView(DeleteView):

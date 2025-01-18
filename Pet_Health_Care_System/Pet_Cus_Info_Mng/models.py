@@ -21,14 +21,29 @@ class Pet(models.Model):
     name = models.CharField(max_length=100)  # ten thu cung
     species = models.CharField(max_length=50)  # giong loai (dog, cat, ...)
     gender = models.CharField(max_length=10, choices=[
-        ("Male", "Đực"), ("Female", "Cái"),
+        ("Đực", "Đực"), ("Cái", "Cái"),
     ])  # gioi tinh
-    date_of_birth = models.DateField()  # ngay sinh
+    dateOfBirth = models.DateField()  # ngay sinh
+    def calculatedAge(self):
+        if self.dateOfBirth:
+            today = date.today()
+            age = today.year - self.dateOfBirth.year - (
+                (today.month, today.day) < (self.dateOfBirth.month, self.dateOfBirth.day)
+            )
+            return age
+        return None  # Trả về None nếu không có ngày sinh
+    calculatedAge.short_description = "Age (calculated)"  # Đặt tên cột trong Admin
     age = models.IntegerField(null=True, blank=True)
-    health_status = models.CharField(max_length=50, choices=[
-        ('hospitalized', 'Đang nhập viện'),
-        ('outpatient', 'Đang điều trị ngoại trú'),
-        ('discharged', 'Đã xuất viện')
+    healthStatus = models.CharField(max_length=50, choices=[
+        ('Đang nhập viện', 'Đang nhập viện'),
+        ('Đang điều trị ngoại trú', 'Đang điều trị ngoại trú'),
+        ('Đã xuất viện', 'Đã xuất viện'),
+        ('Sức khỏe tốt','Sức khỏe tốt'),
+        ('Cần tiêm phòng','Cần tiêm phòng'),
+        ('Béo phì','Béo phì'),
+        ('Bị chấn thương','Bị chấn thương'),
+        ('Dinh dưỡng kém','Dinh dưỡng kém'),
+        ('Giai đoạn cuối','Giai đoạn cuối'),
     ])  # tinh trang suc khoe
     owner = models.ForeignKey(Customer, on_delete=models.CASCADE)  # Chu so huu
 
@@ -36,10 +51,10 @@ class Pet(models.Model):
         return f"{self.name} ({self.species})"
      # Tinh tuoi dua tren ngay sinh
     def calculate_age(self):
-        if self.date_of_birth:
+        if self.dateOfBirth:
             today = date.today()
-            return today.year - self.date_of_birth.year - (
-                (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day)
+            return today.year - self.dateOfBirth.year - (
+                (today.month, today.day) < (self.dateOfBirth.month, self.dateOfBirth.day)
             )
         return None
 
