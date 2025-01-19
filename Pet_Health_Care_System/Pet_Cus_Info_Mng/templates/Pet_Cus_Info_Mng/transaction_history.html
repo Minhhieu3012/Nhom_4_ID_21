@@ -27,6 +27,42 @@
 </nav>
 {% endblock %}
 
+{%block contactformsection%}
+<h1>Lịch Sử Giao Dịch</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Khách Hàng</th>
+            <th>Thú Cưng</th>
+            <th>Dịch Vụ</th>
+            <th>Số Tiền</th>
+            <th>Trạng Thái</th>
+            <th>Thời Gian</th>
+            <th>Ghi Chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.id }}</td>
+            <td>{{ transaction.customer.name }}</td>
+            <td>{{ transaction.pet.name }}</td>
+            <td>{{ transaction.service }}</td>
+            <td>{{ transaction.amount }}</td>
+            <td>{{ transaction.get_status_display }}</td>
+            <td>{{ transaction.created_at }}</td>
+            <td>{{ transaction.remarks }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="8">Không có giao dịch nào.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
 {%block footer%}
     {% include 'includes/footer.html' %}
 {% endblock %}

@@ -1,11 +1,12 @@
 from pyexpat.errors import messages
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpResponse
-from .models import Pet, Customer, MedicalRecord, Appointment
+from .forms import TransactionForm
+from .models import Pet, Customer, MedicalRecord, Appointment, Transaction
 
 # Create your views here.
 # View cho Customer
@@ -90,3 +91,29 @@ class AppointmentListView(ListView):
         # Hiển thị lịch hẹn theo khách hàng
         customer_id = self.kwargs.get('customer_id')  # Lấy ID khách hàng từ URL
         return Appointment.objects.filter(customer_id=customer_id).order_by('-date', '-time')  # Lịch hẹn mới nhất
+
+
+class TransactionCreateView(CreateView):
+    model = Transaction  # Model liên kết
+    template_name = 'Pet_Cus_Info_Mng/transactions.html'  # Tên file template
+    fields = ['customer', 'pet', 'service', 'amount', 'status', 'remarks']  # Các trường trong form
+    success_url = reverse_lazy('transactions')  # URL sau khi thành công
+
+    def form_valid(self, form):
+        # Lưu dữ liệu form vào database
+        transaction = form.save()
+        # Thêm thông báo thành công
+        messages.success(self.request, f"Giao dịch #{transaction.firstName} đã được tạo thành công!")
+        return super().form_valid(form)
+
+
+class TransactionView(ListView):
+    model = Transaction
+    template_name = 'Pet_Cus_Info_Mng/transaction_history.html'  # Tên file template
+    context_object_name = 'transactions'  # Tên biến context để sử dụng trong template
+    ordering = ['-created_at']  # Sắp xếp theo thời gian mới nhất
+
+    def get_queryset(self):
+        # Lọc danh sách giao dịch nếu cần
+        queryset = super().get_queryset()
+        return queryset

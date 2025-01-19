@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import date
+from django.utils.timezone import now
 # Create your models here.
 class Customer(models.Model):
     lastName = models.CharField(max_length=100, blank=False)
@@ -59,16 +60,37 @@ class Pet(models.Model):
 
 
 class MedicalRecord(models.Model):
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='medical_records')
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='medical_records', blank=False)
     date = models.DateField()
-    treatment_details = models.TextField()
+    treatmentDetails = models.TextField()
     doctor = models.CharField(max_length=255)
     remarks = models.TextField(blank=True)
 
 
 class Appointment(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=False)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, blank=False)
     date = models.DateField()
     time = models.TimeField()
     status = models.CharField(max_length=50, choices=[('pending', 'Đang chờ xử lý'), ('completed', 'Đã hoàn thành xong')])
+
+
+class Transaction(models.Model):
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, related_name='transactions')
+    pet = models.ForeignKey('Pet', on_delete=models.CASCADE, related_name='transactions')
+    service = models.CharField(max_length=255)  # Dịch vụ đã sử dụng
+    amount = models.DecimalField(max_digits=10, decimal_places=2)  # Số tiền giao dịch
+    status = models.CharField(
+        max_length=50,
+        choices=[
+            ('pending', 'Đang chờ xử lý'),
+            ('completed', 'Đã hoàn thành'),
+            ('failed', 'Thất bại'),
+        ],
+        default='pending',
+    )
+    created_at = models.DateTimeField(default=now)  # Thời gian giao dịch
+    remarks = models.TextField(blank=True, null=True)  # Ghi chú thêm
+
+    def __str__(self):
+        return f"Giao dịch {self.customer.lastName} {self.customer.firstName} - {self.amount} VNĐ"

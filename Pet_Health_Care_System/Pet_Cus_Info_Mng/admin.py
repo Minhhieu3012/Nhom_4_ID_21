@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Customer, Pet, MedicalRecord, Appointment
 from datetime import date
+from .models import Transaction
 
 
 @admin.register(Customer)
@@ -28,3 +29,19 @@ class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('id', 'customer', 'pet', 'date', 'time', 'status')
     search_fields = ('customerName', 'petName')  # Tìm kiếm theo tên khách hàng hoặc thú cưng
     list_filter = ('status', 'date')  # Bộ lọc theo trạng thái và ngày
+
+
+@admin.register(Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'customer', 'pet', 'service', 'amount', 'status', 'created_at')
+    list_filter = ('status', 'created_at')
+    search_fields = ('customer__name', 'pet__name', 'service')
+    ordering = ('-created_at',)
+    readonly_fields = ('created_at',)
+
+    # Tùy chỉnh để hiển thị thông tin trong trường hợp có quan hệ nhiều tới nhiều
+    def customer(self, obj):
+        return obj.customer.firstName
+
+    def pet(self, obj):
+        return obj.pet.name
