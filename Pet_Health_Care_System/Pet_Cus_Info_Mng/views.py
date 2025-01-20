@@ -93,24 +93,12 @@ class AppointmentListView(ListView):
         return Appointment.objects.filter(customer_id=customer_id).order_by('-date', '-time')  # Lịch hẹn mới nhất
 
 
-class TransactionCreateView(CreateView):
-    model = Transaction  # Model liên kết
-    template_name = 'Pet_Cus_Info_Mng/transactions.html'  # Tên file template
-    fields = ['customer', 'pet', 'service', 'amount', 'status', 'remarks']  # Các trường trong form
-    success_url = reverse_lazy('transactions')  # URL sau khi thành công
 
-    def form_valid(self, form):
-        # Lưu dữ liệu form vào database
-        transaction = form.save()
-        # Thêm thông báo thành công
-        messages.success(self.request, f"Giao dịch #{transaction.firstName} đã được tạo thành công!")
-        return super().form_valid(form)
-
-
-class TransactionView(ListView):
+class TransactionListView(ListView):
     model = Transaction
     template_name = 'Pet_Cus_Info_Mng/transaction_history.html'  # Tên file template
     context_object_name = 'transactions'  # Tên biến context để sử dụng trong template
+    success_url = reverse_lazy('transactions')  # URL sau khi thành công
     ordering = ['-created_at']  # Sắp xếp theo thời gian mới nhất
 
     def get_queryset(self):

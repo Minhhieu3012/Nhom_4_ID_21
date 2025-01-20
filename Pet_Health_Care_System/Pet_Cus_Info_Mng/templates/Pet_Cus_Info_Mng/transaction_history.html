@@ -28,10 +28,17 @@
 {% endblock %}
 
 {%block contactformsection%}
-<h1>Lịch Sử Giao Dịch</h1>
-<table>
-    <thead>
-        <tr>
+{% load static %}
+<!-- Boxicons CSS -->
+<link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<div class="card">
+    <h5 class="card-header">LỊCH SỬ GIAO DỊCH</h5>
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
             <th>ID</th>
             <th>Khách Hàng</th>
             <th>Thú Cưng</th>
@@ -40,27 +47,39 @@
             <th>Trạng Thái</th>
             <th>Thời Gian</th>
             <th>Ghi Chú</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for transaction in transactions %}
-        <tr>
-            <td>{{ transaction.id }}</td>
-            <td>{{ transaction.customer.name }}</td>
-            <td>{{ transaction.pet.name }}</td>
-            <td>{{ transaction.service }}</td>
-            <td>{{ transaction.amount }}</td>
-            <td>{{ transaction.get_status_display }}</td>
-            <td>{{ transaction.created_at }}</td>
-            <td>{{ transaction.remarks }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="8">Không có giao dịch nào.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            <th class="rounded-end-bottom">Chỉnh sửa</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+              {% for transaction in transactions %}
+                <tr class="table-default">
+                    <td><i></i> <span>{{item.firstName}}</span></td>
+                    <td>{{item.lastName}}</td>
+                    <td><i class="list-unstyled m-0 avatar-group d-flex align-items-center"></i><span>{{ transaction.id }}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{ transaction.customer.name }}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{ transaction.pet.name }}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{ transaction.service }}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{ transaction.amount }}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{ transaction.get_status_display }}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{ transaction.created_at }}</span></td>
+                    <td><i class="badge bg-label-primary me-1"></i><span>{{ transaction.remarks }}</span></td>
+                    <td class="rounded-end-bottom">  
+                    </td>
+                    {% empty %}
+                    <tr>
+                      <td colspan="8">Không có giao dịch nào.</td>
+                    </tr>
+              {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  
 {% endblock %}
 
 {%block footer%}

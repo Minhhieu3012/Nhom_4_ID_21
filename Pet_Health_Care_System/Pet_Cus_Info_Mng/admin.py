@@ -1,7 +1,6 @@
 from django.contrib import admin
-from .models import Customer, Pet, MedicalRecord, Appointment
+from .models import Customer, Pet, MedicalRecord, Appointment, Transaction
 from datetime import date
-from .models import Transaction
 
 
 @admin.register(Customer)

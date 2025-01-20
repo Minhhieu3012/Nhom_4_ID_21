@@ -3,7 +3,7 @@ from . import views
 from .views import (
     CustomerCreateView,CustomerUpdateView, CustomerDeleteView,
     PetCreateView, PetUpdateView, PetDeleteView,
-    MedicalRecordListView, AppointmentListView, TransactionView, TransactionCreateView
+    MedicalRecordListView, AppointmentListView, TransactionListView
 )
 
 urlpatterns = [
@@ -20,14 +20,11 @@ urlpatterns = [
     path('customers/<int:pk>/delete/', CustomerDeleteView.as_view(), name='customer_delete'),  # Xóa khách hàng
 
     # Quản lý lịch sử khám chữa bệnh
-    path('medical-records/<int:pet_id>/', MedicalRecordListView.as_view(), name='medical_records'),  # Lịch sử khám chữa bệnh
+    path('medical-records/<int:pet_id>/', MedicalRecordListView.as_view(), name='medicalRecords_history'),  # Lịch sử khám chữa bệnh
 
     # Quản lý lịch hẹn
-    path('appointments/<int:customer_id>/', AppointmentListView.as_view(), name='appointments'),  # Lịch hẹn
-
-    #Tạo giao dịch
-    path('transactions/', TransactionCreateView.as_view(), name='transactions'),
+    path('appointments-history/<int:customer_id>/', AppointmentListView.as_view(), name='appointments_history'),  # Lịch hẹn
 
     #Xem lịch sử giao dịch
-    path('transaction-history/', TransactionView.as_view(), name='transaction_history'),
+    path('transaction-history/', TransactionListView.as_view(), name='transaction_history'),
 ]
