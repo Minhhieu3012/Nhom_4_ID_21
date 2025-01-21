@@ -74,7 +74,7 @@ class PetDeleteView(DeleteView):
 # -------------------------------------------------------------------------------------------
 class MedicalRecordListView(ListView):
     model = MedicalRecord
-    template_name = 'Pet_Cus_Info_Mng/medical_records.html'  # ten file template de hien thi lich su
+    template_name = 'Pet_Cus_Info_Mng/medicalRecords_history.html'  # ten file template de hien thi lich su
     context_object_name = 'medical_records'  # ten bien trong template
 
     def get_queryset(self):
@@ -85,7 +85,7 @@ class MedicalRecordListView(ListView):
 # -------------------------------------------------------------------------------------------
 class AppointmentListView(ListView):
     model = Appointment
-    template_name = 'Pet_Cus_Info_Mng/appointments.html'  # Tên file template hiển thị lịch hẹn
+    template_name = 'Pet_Cus_Info_Mng/appointments_history.html'  # Tên file template hiển thị lịch hẹn
     context_object_name = 'appointments'  # Tên biến trong template
     def get_queryset(self):
         # Hiển thị lịch hẹn theo khách hàng
