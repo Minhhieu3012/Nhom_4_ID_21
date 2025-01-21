@@ -1,7 +1,5 @@
 from django.contrib import admin
 from .models import Customer, Pet, MedicalRecord, Appointment, Transaction
-from datetime import date
-
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -37,10 +35,3 @@ class TransactionAdmin(admin.ModelAdmin):
     search_fields = ('customer__name', 'pet__name', 'service')
     ordering = ('-created_at',)
     readonly_fields = ('created_at',)
-
-    # Tùy chỉnh để hiển thị thông tin trong trường hợp có quan hệ nhiều tới nhiều
-    def customer(self, obj):
-        return obj.customer.firstName
-
-    def pet(self, obj):
-        return obj.pet.name

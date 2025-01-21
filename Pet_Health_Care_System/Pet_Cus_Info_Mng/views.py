@@ -93,53 +93,55 @@ class AppointmentListView(ListView):
     def get_queryset(self):
         return Appointment.objects.all().order_by('-date', '-time')
     
+
 # chức năng lọc lịch hẹn
-def filter_appointments(request):
-    appointments = Appointment.objects.all()
-    if 'date' in request.GET:
-        appointments = appointments.filter(date=request.GET['date'])
-    if 'status' in request.GET:
-        appointments = appointments.filter(status=request.GET['status'])
-    return render(request, 'Pet_Cus_Info_Mng/appointments-list.html', {'appointments': appointments})
+class AppointmentFilterView(ListView):
+    model = Appointment
+    template_name = 'Pet_Cus_Info_Mng/appointments-list.html'
+    context_object_name = 'appointments'
+
+    def get_queryset(self):
+        queryset = Appointment.objects.all()
+        # Lọc theo ngày
+        date = self.request.GET.get('date')
+        if date:
+            queryset = queryset.filter(date=date)
+        # Lọc theo trạng thái
+        status = self.request.GET.get('status')
+        if status:
+            queryset = queryset.filter(status=status)
+        return queryset
     
 
-def send_appointment_notification(appointment):
-    send_mail(
-        'Lịch hẹn mới',
-        f'Bạn đã đặt lịch hẹn thành công vào {appointment.date} lúc {appointment.time}.',
-        'noreply@example.com',
-        [appointment.customer.email],
-    )
-def create_appointment(request):
-    if request.method == 'POST':
-        form = AppointmentsForm(request.POST)
-        if form.is_valid():
-            # Lấy dữ liệu từ form
-            customer_id = form.cleaned_data['customer']
-            pet_id = form.cleaned_data['pet']
-            date = form.cleaned_data['date']
-            time = form.cleaned_data['time']
-            status = form.cleaned_data['status']
+class AppointmentCreateView(CreateView):
+    model = Appointment
+    form_class = AppointmentsForm
+    template_name = 'Pet_Cus_Info_Mng/appointments-create.html'
+    success_url = reverse_lazy('appointments_list')
 
-            # Tìm đối tượng Customer và Pet
-            customer = get_object_or_404(Customer, id=customer_id)
-            pet = get_object_or_404(Pet, id=pet_id)
+    def form_valid(self, form):
+        # Lấy dữ liệu từ form
+        customer_email = form.cleaned_data['customer_email']  # Thay đổi để lấy email
+        pet_id = form.cleaned_data['pet']
 
-            # Tạo và lưu lịch hẹn
-            appointment = Appointment(
-                customer=customer,
-                pet=pet,
-                date=date,
-                time=time,
-                status=status
-            )
-            appointment.save()
-            return redirect('appointments_list')
-    else:
-        form = AppointmentsForm()
+        # Tìm đối tượng Customer bằng email
+        customer = get_object_or_404(Customer, email=customer_email)  # Tìm bằng email
+        pet = get_object_or_404(Pet, id=pet_id)
 
-    return render(request, 'Pet_Cus_Info_Mng/appointments-create.html', {'form': form})
+        # Tạo đối tượng Appointment
+        appointment = form.save(commit=False)
+        appointment.customer = customer
+        appointment.pet = pet
+        appointment.save()
 
+        return super().form_valid(form)
+    # loại bỏ instance
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.pop('instance', None)  # Loại bỏ tham số instance nếu tồn tại
+        return kwargs
+
+# -------------------------------------------------------------------------------------------
 
 class TransactionListView(ListView):
     model = Transaction

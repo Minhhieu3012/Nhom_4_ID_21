@@ -84,9 +84,19 @@ class AppointmentsForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Sử dụng id làm giá trị và họ tên làm nhãn
-        self.fields['customer'].choices = [(customer.id, f"{customer.lastName} {customer.firstName}") for customer in Customer.objects.all()]
-        self.fields['pet'].choices = [(pet.id, pet.name) for pet in Pet.objects.all()]
+        # Đơn giản hóa danh sách khách hàng và thú cưng
+        customers = Customer.objects.all()  # Lấy tất cả khách hàng
+        pets = Pet.objects.all()  # Lấy tất cả thú cưng
+
+        # Tạo danh sách lựa chọn cho customer và pet
+        self.fields['customer'].choices = [('', '--Chọn khách hàng--')] + [
+            (customer.email, f"{customer.lastName} {customer.firstName}") for customer in customers
+        ]
+        self.fields['pet'].choices = [('', '--Chọn thú cưng--')] + [
+            (pet.id, pet.name) for pet in pets
+        ]
+
+
 
 class TransactionForm(forms.Form):
     customer = forms.ChoiceField(
