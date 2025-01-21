@@ -1,0 +1,72 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+    <li class="nav-item"><a href="{% url 'customer_list' %}" class="nav-link">Khách Hàng</a></li>
+    <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">Thú cưng</a></li>
+    <li class="nav-item"><a href="customers.html" class="nav-link">Dịch vụ</a></li>
+    <li class="nav-item"><a href="services.html" class="nav-link">Đặt lịch hẹn</a></li>
+    <li class="nav-item"><a href="gallery.html" class="nav-link">Bảng giá</a></li>
+    <li class="nav-item"><a href="pricing.html" class="nav-link">Đánh giá</a></li>
+    <li class="nav-item"><a href="contact.html" class="nav-link">Liên hệ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+
+{%block contactformsection%}
+<div class="container mt-5">
+    <h2>Appointments List</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Số thứ tự</th>
+                <th>Ngày</th>
+                <th>Giờ</th>
+                <th>Khách hàng</th>
+                <th>Thú cưng</th>
+                <th>Trạng thái</th>
+                <th>Chỉnh sửa</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ appointment.date|date:"d M Y" }}</td>
+                <td>{{ appointment.time|time:"h:i a" }}</td>
+                <td>{{ appointment.customer }}</td>
+                <td>{{ appointment.pet }}</td>
+                <td>
+                    {% if appointment.status == 'pending' %}
+                        <span class="badge bg-warning">Pending</span>
+                    {% elif appointment.status == 'completed' %}
+                        <span class="badge bg-success">Completed</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>    
+</div>
+{% endblock %}
+
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}

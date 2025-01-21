@@ -1,12 +1,14 @@
 from pyexpat.errors import messages
 from django.contrib import messages
-from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpResponse
-from .forms import TransactionForm
+from .forms import AppointmentsForm
 from .models import Pet, Customer, MedicalRecord, Appointment, Transaction
+from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
+
 
 # Create your views here.
 # View cho Customer
@@ -60,7 +62,7 @@ class PetCreateView(CreateView):
 class PetUpdateView(UpdateView):
     model = Pet
     template_name = 'Pet_Cus_Info_Mng/pet_edit.html'  # Sử dụng chung form với CreateView
-    fields = ['name', 'species', 'gender', 'dateOfBirth', 'age', 'healthStatus', 'owner']
+    fields = ['name', 'species', 'gender', 'healthStatus', 'owner']
     success_url = reverse_lazy('pet_list')
     def get_success_url(self):
         messages.success(self.request, "Thông tin thú cưng đã được cập nhật thành công!")
@@ -85,13 +87,58 @@ class MedicalRecordListView(ListView):
 # -------------------------------------------------------------------------------------------
 class AppointmentListView(ListView):
     model = Appointment
-    template_name = 'Pet_Cus_Info_Mng/appointments_history.html'  # Tên file template hiển thị lịch hẹn
-    context_object_name = 'appointments'  # Tên biến trong template
-    def get_queryset(self):
-        # Hiển thị lịch hẹn theo khách hàng
-        customer_id = self.kwargs.get('customer_id')  # Lấy ID khách hàng từ URL
-        return Appointment.objects.filter(customer_id=customer_id).order_by('-date', '-time')  # Lịch hẹn mới nhất
+    template_name = 'Pet_Cus_Info_Mng/appointments-list.html'
+    context_object_name = 'appointments'
 
+    def get_queryset(self):
+        return Appointment.objects.all().order_by('-date', '-time')
+    
+# chức năng lọc lịch hẹn
+def filter_appointments(request):
+    appointments = Appointment.objects.all()
+    if 'date' in request.GET:
+        appointments = appointments.filter(date=request.GET['date'])
+    if 'status' in request.GET:
+        appointments = appointments.filter(status=request.GET['status'])
+    return render(request, 'Pet_Cus_Info_Mng/appointments-list.html', {'appointments': appointments})
+    
+
+def send_appointment_notification(appointment):
+    send_mail(
+        'Lịch hẹn mới',
+        f'Bạn đã đặt lịch hẹn thành công vào {appointment.date} lúc {appointment.time}.',
+        'noreply@example.com',
+        [appointment.customer.email],
+    )
+def create_appointment(request):
+    if request.method == 'POST':
+        form = AppointmentsForm(request.POST)
+        if form.is_valid():
+            # Lấy dữ liệu từ form
+            customer_id = form.cleaned_data['customer']
+            pet_id = form.cleaned_data['pet']
+            date = form.cleaned_data['date']
+            time = form.cleaned_data['time']
+            status = form.cleaned_data['status']
+
+            # Tìm đối tượng Customer và Pet
+            customer = get_object_or_404(Customer, id=customer_id)
+            pet = get_object_or_404(Pet, id=pet_id)
+
+            # Tạo và lưu lịch hẹn
+            appointment = Appointment(
+                customer=customer,
+                pet=pet,
+                date=date,
+                time=time,
+                status=status
+            )
+            appointment.save()
+            return redirect('appointments_list')
+    else:
+        form = AppointmentsForm()
+
+    return render(request, 'Pet_Cus_Info_Mng/appointments-create.html', {'form': form})
 
 
 class TransactionListView(ListView):

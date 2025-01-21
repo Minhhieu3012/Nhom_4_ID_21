@@ -68,11 +68,18 @@ class MedicalRecord(models.Model):
 
 
 class Appointment(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=False)
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, blank=False)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()
-    status = models.CharField(max_length=50, choices=[('pending', 'Đang chờ xử lý'), ('completed', 'Đã hoàn thành xong')])
+    status = models.CharField(
+        max_length=50,
+        choices=[('pending', 'Đang chờ xử lý'), ('completed', 'Đã hoàn thành')],
+    )
+
+    def __str__(self):
+        return f"Appointment: {self.customer} - {self.pet} on {self.date} at {self.time}"
+
 
 
 class Transaction(models.Model):

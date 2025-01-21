@@ -30,7 +30,7 @@
 
 {%block contactformsection%}
 <h2 style="padding: 20px";>CHỈNH SỬA THÔNG TIN THÚ CƯNG</h2>
-<form method="post">
+<form method="POST">
     {% csrf_token %}
     <div class="row">
         <div class="col-xxl">
@@ -58,7 +58,7 @@
                         <label class="col-sm-2 col-form-label" for="id_species"></label>
                         <div class="col-sm-10">
                             <div class="input-group input-group-merge">
-                                <span class="input-group-text"><i class="bx bx-phone"></i></span>
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
                                 {{ form.species }}
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                         <label class="col-sm-2 col-form-label" for="id_healthStatus"></label>
                         <div class="col-sm-10">
                             <div class="input-group input-group-merge">
-                                <span class="input-group-text"><i class="bx bx-calendar"></i></span>
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
                                 {{ form.healthStatus }}
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                         <label class="col-sm-2 col-form-label" for="id_gender"></label>
                         <div class="col-sm-10">
                             <div class="input-group input-group-merge">
-                                <span class="input-group-text"><i class="bx bx-male"></i></span>
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
                                 {{ form.gender }}
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                         <label class="col-sm-2 col-form-label" for="id_owner"></label>
                         <div class="col-sm-10">
                             <div class="input-group input-group-merge">
-                                <span class="input-group-text"><i class="bx bx-male"></i></span>
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
                                 {{ form.owner }}
                             </div>
                         </div>

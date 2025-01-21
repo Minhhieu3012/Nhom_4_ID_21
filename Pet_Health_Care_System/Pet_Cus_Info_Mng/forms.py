@@ -72,29 +72,21 @@ class MedicalRecordsForm(forms.Form):
 
 
 class AppointmentsForm(forms.Form):
-    customer = forms.ChoiceField(
-        label="Customer",
-        choices=[],
-        required=True
-    )
-    pet = forms.ChoiceField(
-        label="Pet",
-        choices=[],
-        required=True
-    )
+    customer = forms.ChoiceField(label="Customer", choices=[], required=True)
+    pet = forms.ChoiceField(label="Pet", choices=[], required=True)
     date = forms.DateField(label="Date", widget=forms.DateInput(attrs={'type': 'date'}))
     time = forms.TimeField(label="Time", widget=forms.TimeInput(attrs={'type': 'time'}))
     status = forms.ChoiceField(
         label="Status",
-        choices=[('pending', 'Đang chờ xử lý'), ('completed', 'Đã hoàn thành xong')],
+        choices=[('pending', 'Đang chờ xử lý'), ('completed', 'Đã hoàn thành')],
         required=True
     )
-    # Khởi tạo để thêm choices cho các trường customer và pet
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['customer'].choices = [(customer.firstName, customer.lastName) for customer in Customer.objects.all()]
+        # Sử dụng id làm giá trị và họ tên làm nhãn
+        self.fields['customer'].choices = [(customer.id, f"{customer.lastName} {customer.firstName}") for customer in Customer.objects.all()]
         self.fields['pet'].choices = [(pet.id, pet.name) for pet in Pet.objects.all()]
-
 
 class TransactionForm(forms.Form):
     customer = forms.ChoiceField(
