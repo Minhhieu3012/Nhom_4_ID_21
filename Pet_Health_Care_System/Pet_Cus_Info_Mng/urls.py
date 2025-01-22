@@ -24,7 +24,7 @@ urlpatterns = [
     path('medicalRecords-history/<int:pet_id>/', MedicalRecordListView.as_view(), name='medicalRecords_history'),  # Lịch sử khám chữa bệnh
 
     # Quản lý lịch hẹn
-    path('appointments-history/<int:customer_id>/', AppointmentListView.as_view(), name='appointments_history'),  # Lịch hẹn
+    path('appointments-history/<str:email>/', AppointmentListView.as_view(), name='appointments_history'),  # Lịch hẹn
     path('appointments-filter/', AppointmentFilterView.as_view(), name='appointments_filter'),
     path('appointments-create/', AppointmentCreateView.as_view(), name='appointments_create'),
     path('appointments-list/', AppointmentListView.as_view(), name='appointments_list'),

@@ -3,11 +3,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
-from django.http import HttpResponse
 from .forms import AppointmentsForm
 from .models import Pet, Customer, MedicalRecord, Appointment, Transaction
-from django.core.mail import send_mail
-from django.core.exceptions import ValidationError
 
 
 # Create your views here.
@@ -85,32 +82,38 @@ class MedicalRecordListView(ListView):
         return MedicalRecord.objects.filter(pet_id=pet_id).order_by('-date')  # Lịch sử theo thứ tự mới nhất
     
 # -------------------------------------------------------------------------------------------
-class AppointmentListView(ListView):
-    model = Appointment
-    template_name = 'Pet_Cus_Info_Mng/appointments-list.html'
-    context_object_name = 'appointments'
 
-    def get_queryset(self):
-        return Appointment.objects.all().order_by('-date', '-time')
+class AppointmentsHistoryView(ListView):
+    def get(self, request, email):
+        # Lọc lịch hẹn theo email
+        appointments = Appointment.objects.filter(customer__email=email)
+        return render(request, 'appointments-history.html', {'appointments': appointments})
     
+class AppointmentListView(ListView):
+    def get(self, request, *args, **kwargs):
+        email = kwargs.get('email')  # Lấy email từ URL
+        if email:
+            # Lọc lịch hẹn theo email
+            appointments = Appointment.objects.filter(customer__email=email)
+            template_name = 'Pet_Cus_Info_Mng/appointments-history.html'
+        else:
+            # Lấy tất cả lịch hẹn
+            appointments = Appointment.objects.all()
+            template_name = 'Pet_Cus_Info_Mng/appointments-list.html'
+        return render(request, template_name, {'appointments': appointments})
+
 
 # chức năng lọc lịch hẹn
 class AppointmentFilterView(ListView):
     model = Appointment
     template_name = 'Pet_Cus_Info_Mng/appointments-list.html'
     context_object_name = 'appointments'
+def appointment_filter_view(request):
+    date = request.GET.get('date')
+    status = request.GET.get('status')
+    appointments = Appointment.objects.filter(date=date, status=status)
+    return render(request, 'appointments_filter.html', {'appointments': appointments})
 
-    def get_queryset(self):
-        queryset = Appointment.objects.all()
-        # Lọc theo ngày
-        date = self.request.GET.get('date')
-        if date:
-            queryset = queryset.filter(date=date)
-        # Lọc theo trạng thái
-        status = self.request.GET.get('status')
-        if status:
-            queryset = queryset.filter(status=status)
-        return queryset
     
 
 class AppointmentCreateView(CreateView):
