@@ -98,7 +98,10 @@ class CustomerAppointmentsHistoryView(ListView):
         return render(request, 'appointments-history.html', {'appointments': appointments})
     
 class AppointmentListView(ListView):
-    def get(self, request, *args, **kwargs):
+    def appointments_list(request):
+        appointments = Appointment.objects.all() # lay toan bo ds thu cung
+        return render(request, 'Pet_Cus_Info_Mng/appointments-list.html',{'appointments':appointments}) # Render ra template
+    def get(self, request, **kwargs):
         email = kwargs.get('email')  # Lấy email từ URL
         if email:
             # Lọc lịch hẹn theo email

@@ -24,10 +24,10 @@ urlpatterns = [
     path('medicalRecords-history/<int:pet_id>/', MedicalRecordListView.as_view(), name='medicalRecords_history'),  # Lịch sử khám chữa bệnh
 
     # Quản lý lịch hẹn
+    path('appointments-list/', AppointmentListView.as_view(), name='appointments_list'),
     path('appointments-history/<str:email>/', AppointmentListView.as_view(), name='appointments_history'),  # Lịch hẹn
     path('appointments-filter/', AppointmentFilterView.as_view(), name='appointments_filter'),
     path('appointments-create/', AppointmentCreateView.as_view(), name='appointments_create'),
-    path('appointments-list/', AppointmentListView.as_view(), name='appointments_list'),
 
     #Xem lịch sử giao dịch
     path('transaction-history/', TransactionListView.as_view(), name='transaction_history'),
