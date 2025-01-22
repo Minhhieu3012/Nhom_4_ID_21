@@ -1,6 +1,9 @@
+import logging
 from pyexpat.errors import messages
+from venv import logger
 from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
+from django.shortcuts import render
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
 from .forms import AppointmentsForm
@@ -73,7 +76,7 @@ class PetDeleteView(DeleteView):
 # -------------------------------------------------------------------------------------------
 class MedicalRecordListView(ListView):
     model = MedicalRecord
-    template_name = 'Pet_Cus_Info_Mng/medicalRecords_history.html'  # ten file template de hien thi lich su
+    template_name = 'Pet_Cus_Info_Mng/medicalRecords-history.html'  # ten file template de hien thi lich su
     context_object_name = 'medical_records'  # ten bien trong template
 
     def get_queryset(self):
@@ -83,10 +86,15 @@ class MedicalRecordListView(ListView):
     
 # -------------------------------------------------------------------------------------------
 
-class AppointmentsHistoryView(ListView):
+class CustomerAppointmentsHistoryView(ListView):
     def get(self, request, email):
-        # Lọc lịch hẹn theo email
+        # Lọc lịch hẹn theo email và xử lý lỗi nếu không tìm thấy
         appointments = Appointment.objects.filter(customer__email=email)
+        if not appointments.exists():
+            return render(request, 'appointments-history.html', {
+                'appointments': None,
+                'error_message': 'Không có lịch hẹn nào được tìm thấy cho email này.'
+            })
         return render(request, 'appointments-history.html', {'appointments': appointments})
     
 class AppointmentListView(ListView):
@@ -100,21 +108,27 @@ class AppointmentListView(ListView):
             # Lấy tất cả lịch hẹn
             appointments = Appointment.objects.all()
             template_name = 'Pet_Cus_Info_Mng/appointments-list.html'
+
         return render(request, template_name, {'appointments': appointments})
 
 
 # chức năng lọc lịch hẹn
 class AppointmentFilterView(ListView):
     model = Appointment
-    template_name = 'Pet_Cus_Info_Mng/appointments-list.html'
+    template_name = 'Pet_Cus_Info_Mng/appointments-filter.html'
     context_object_name = 'appointments'
-def appointment_filter_view(request):
-    date = request.GET.get('date')
-    status = request.GET.get('status')
-    appointments = Appointment.objects.filter(date=date, status=status)
-    return render(request, 'appointments_filter.html', {'appointments': appointments})
 
-    
+    def get_queryset(self):
+        # Lọc dữ liệu dựa trên tham số GET
+        queryset = Appointment.objects.all()
+        date = self.request.GET.get('date')
+        status = self.request.GET.get('status')
+        if date:
+            queryset = queryset.filter(date=date)
+        if status:
+            queryset = queryset.filter(status=status)
+        return queryset
+
 
 class AppointmentCreateView(CreateView):
     model = Appointment
@@ -124,26 +138,45 @@ class AppointmentCreateView(CreateView):
 
     def form_valid(self, form):
         # Lấy dữ liệu từ form
-        customer_email = form.cleaned_data['customer_email']  # Thay đổi để lấy email
-        pet_id = form.cleaned_data['pet']
+        customer_email = form.cleaned_data.get('customer')  # Email của khách hàng
+        pet_id = form.cleaned_data.get('pet')  # ID của thú cưng
+        date = form.cleaned_data.get('date')
+        time = form.cleaned_data.get('time')
+        status = form.cleaned_data.get('status')
 
-        # Tìm đối tượng Customer bằng email
-        customer = get_object_or_404(Customer, email=customer_email)  # Tìm bằng email
-        pet = get_object_or_404(Pet, id=pet_id)
+        # Kiểm tra dữ liệu hợp lệ
+        customer = Customer.objects.filter(email=customer_email).first()
+        if not customer:
+            return HttpResponseBadRequest("Khách hàng không tồn tại.")  # Trả về lỗi nếu không tìm thấy khách hàng
 
-        # Tạo đối tượng Appointment
-        appointment = form.save(commit=False)
-        appointment.customer = customer
-        appointment.pet = pet
-        appointment.save()
+        pet = Pet.objects.filter(id=pet_id).first()
+        if not pet:
+            return HttpResponseBadRequest("Thú cưng không tồn tại.")  # Trả về lỗi nếu không tìm thấy thú cưng
 
-        return super().form_valid(form)
-    # loại bỏ instance
+        # Tạo và lưu đối tượng Appointment
+        Appointment.objects.create(
+            customer=customer,
+            pet=pet,
+            date=date,
+            time=time,
+            status=status
+        )
+
+        # Redirect đến success_url
+        return HttpResponseRedirect(self.success_url)
+
+    def get_context_data(self, **kwargs):
+        # Truyền danh sách khách hàng và thú cưng vào template
+        context = super().get_context_data(**kwargs)
+        context['customers'] = Customer.objects.all()  # Lấy danh sách khách hàng
+        context['pets'] = Pet.objects.all()  # Lấy danh sách thú cưng
+        return context
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs.pop('instance', None)  # Loại bỏ tham số instance nếu tồn tại
+        kwargs.pop('instance', None)  # Loại bỏ instance nếu tồn tại
         return kwargs
-
+    
 # -------------------------------------------------------------------------------------------
 
 class TransactionListView(ListView):
