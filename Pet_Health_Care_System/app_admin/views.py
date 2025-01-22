@@ -13,3 +13,5 @@ def Staff(request):
     return HttpResponse("Hello world!")
 def Invoice(request):
     return HttpResponse("Hello world!")
+def app_admin (request):
+    return render (request, 'app_admin/app_admin.html')
