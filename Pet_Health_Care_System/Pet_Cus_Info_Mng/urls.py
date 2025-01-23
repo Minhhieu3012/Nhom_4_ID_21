@@ -3,7 +3,7 @@ from . import views
 from .views import (
     CustomerCreateView,CustomerUpdateView, CustomerDeleteView,
     PetCreateView, PetUpdateView, PetDeleteView,
-    MedicalRecordListView, AppointmentListView, TransactionListView,
+    MedicalRecordListView, AppointmentListView,
     AppointmentFilterView, AppointmentCreateView
 )
 
@@ -29,6 +29,4 @@ urlpatterns = [
     path('appointments-filter/', AppointmentFilterView.as_view(), name='appointments_filter'),
     path('appointments-create/', AppointmentCreateView.as_view(), name='appointments_create'),
 
-    #Xem lịch sử giao dịch
-    path('transaction-history/', TransactionListView.as_view(), name='transaction_history'),
 ]

@@ -1,13 +1,11 @@
-import logging
 from pyexpat.errors import messages
-from venv import logger
 from django.contrib import messages
 from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
 from .forms import AppointmentsForm
-from .models import Pet, Customer, MedicalRecord, Appointment, Transaction
+from .models import Pet, Customer, MedicalRecord, Appointment
 
 
 # Create your views here.
@@ -86,7 +84,7 @@ class MedicalRecordListView(ListView):
     
 # -------------------------------------------------------------------------------------------
 
-class CustomerAppointmentsHistoryView(ListView):
+class AppointmentsHistoryView(ListView):
     def get(self, request, email):
         # Lọc lịch hẹn theo email và xử lý lỗi nếu không tìm thấy
         appointments = Appointment.objects.filter(customer__email=email)
@@ -191,14 +189,3 @@ class AppointmentCreateView(CreateView):
     
 # -------------------------------------------------------------------------------------------
 
-class TransactionListView(ListView):
-    model = Transaction
-    template_name = 'Pet_Cus_Info_Mng/transaction_history.html'  # Tên file template
-    context_object_name = 'transactions'  # Tên biến context để sử dụng trong template
-    success_url = reverse_lazy('transactions')  # URL sau khi thành công
-    ordering = ['-created_at']  # Sắp xếp theo thời gian mới nhất
-
-    def get_queryset(self):
-        # Lọc danh sách giao dịch nếu cần
-        queryset = super().get_queryset()
-        return queryset

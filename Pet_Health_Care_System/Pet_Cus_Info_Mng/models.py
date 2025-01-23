@@ -1,6 +1,5 @@
 from django.db import models
 from datetime import date
-from django.utils.timezone import now
 # Create your models here.
 class Customer(models.Model):
     lastName = models.CharField(max_length=100, blank=False)
@@ -80,24 +79,3 @@ class Appointment(models.Model):
     def __str__(self):
         return f"Appointment: {self.customer} - {self.pet} on {self.date} at {self.time}"
 
-
-
-class Transaction(models.Model):
-    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, related_name='transactions')
-    pet = models.ForeignKey('Pet', on_delete=models.CASCADE, related_name='transactions')
-    service = models.CharField(max_length=255)  # Dịch vụ đã sử dụng
-    amount = models.DecimalField(max_digits=10, decimal_places=2)  # Số tiền giao dịch
-    status = models.CharField(
-        max_length=50,
-        choices=[
-            ('pending', 'Chưa thanh toán'),
-            ('completed', 'Đã thanh toán'),
-            ('failed', 'Thất bại'),
-        ],
-        default='Đang chờ',
-    )
-    created_at = models.DateTimeField(default=now)  # Thời gian giao dịch
-    remarks = models.TextField(blank=True, null=True)  # Ghi chú thêm
-
-    def __str__(self):
-        return f"Giao dịch {self.customer.lastName} {self.customer.firstName} - {self.amount} VNĐ"

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, Pet, MedicalRecord, Appointment, Transaction
+from .models import Customer, Pet, MedicalRecord, Appointment
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -28,10 +28,3 @@ class AppointmentAdmin(admin.ModelAdmin):
     list_filter = ('status', 'date')  # Bộ lọc theo trạng thái và ngày
 
 
-@admin.register(Transaction)
-class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'customer', 'pet', 'service', 'amount', 'status', 'created_at')
-    list_filter = ('status', 'created_at')
-    search_fields = ('customer__name', 'pet__name', 'service')
-    ordering = ('-created_at',)
-    readonly_fields = ('created_at',)
