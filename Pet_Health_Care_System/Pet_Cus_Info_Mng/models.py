@@ -90,11 +90,11 @@ class Transaction(models.Model):
     status = models.CharField(
         max_length=50,
         choices=[
-            ('pending', 'Đang chờ xử lý'),
-            ('completed', 'Đã hoàn thành'),
+            ('pending', 'Chưa thanh toán'),
+            ('completed', 'Đã thanh toán'),
             ('failed', 'Thất bại'),
         ],
-        default='pending',
+        default='Đang chờ',
     )
     created_at = models.DateTimeField(default=now)  # Thời gian giao dịch
     remarks = models.TextField(blank=True, null=True)  # Ghi chú thêm

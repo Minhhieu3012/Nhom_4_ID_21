@@ -51,9 +51,9 @@
                 <td>{{ appointment.pet.name }}</td>
                 <td>
                     {% if appointment.status == "pending" %}
-                        <span class="badge bg-warning text-dark">Đang chờ xử lý</span>
+                        <span class="badge bg-warning text-dark">Chưa thanh toán</span>
                     {% elif appointment.status == "completed" %}
-                        <span class="badge bg-success" style="color: #333">Đã hoàn thành</span>
+                        <span class="badge bg-success" style="color: #333">Đã thanh toán</span>
                     {% else %}
                         <span class="badge bg-secondary">Không xác định</span>
                     {% endif %}

@@ -96,6 +96,15 @@ class CustomerAppointmentsHistoryView(ListView):
                 'error_message': 'Không có lịch hẹn nào được tìm thấy cho email này.'
             })
         return render(request, 'appointments-history.html', {'appointments': appointments})
+    def appointments_history(request, email):
+        # Lấy lịch sử đặt hẹn từ database dựa trên email
+        appointments = Appointment.objects.filter(customer__email=email)
+
+        context = {
+            'email': email,
+            'appointments': appointments,
+        }
+        return render(request, 'appointments_history.html', context)
     
 class AppointmentListView(ListView):
     def appointments_list(request):
