@@ -16,23 +16,16 @@ class Appointment(models.Model):
 
     def schedule(self):
         self.save()
-    # def __str__(self):
-        #return f"Appointment {self.id} for {self.pet.name} with {self.vet.name} on {self.datetime.strftime('%Y-%m-%d %H:%M')}"
 
-
+    def __str__(self):
+        return f"Appointment for {self.pet.name} ({self.service_type}) with {self.vet.name} on {self.datetime}"
 
 class Vet(models.Model):
     contact_info = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
 
-    def update_record(self):
-        # Logic to update records
-        pass
-
-    def view_appointments(self):
-        return self.appointments.all()
-    
-
+    def __str__(self):
+        return self.name
 
 class Pets(models.Model):
     age = models.IntegerField()
@@ -40,29 +33,16 @@ class Pets(models.Model):
     name = models.CharField(max_length=100)
     species = models.CharField(max_length=50)
 
-    def get_details(self):
-        return f"{self.name}, {self.species}, {self.age} years old"
-
-    def update_details(self, health_record):
-        self.health_record = health_record
-        self.save()
-
-
+    def __str__(self):
+        return f"{self.name} ({self.species})"
 
 class Customers(models.Model):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
 
-    def login(self):
-        # Logic for user login
-        pass
-
-    def update_profile(self, email, phone):
-        self.email = email
-        self.phone = phone
-        self.save()
-        
+    def __str__(self):
+        return self.email
 
 class Payment(models.Model):
     amount = models.FloatField()
@@ -75,10 +55,13 @@ class Payment(models.Model):
     ])
 
     def process_payment(self):
-        # Logic to process payment
-        pass
+        self.status = 'completed'
+        self.save()
 
     def refund_payment(self):
         self.status = 'refunded'
         self.save()
+
+    def __str__(self):
+        return f"Payment of {self.amount} by {self.customer.email} on {self.payment_date}"
 
