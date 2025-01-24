@@ -55,6 +55,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Pet_Health_Care_System.urls'
+AUTH_USER_MODEL = 'staff_management.CustomUser'
+
 
 TEMPLATES = [
     {
@@ -74,16 +76,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Pet_Health_Care_System.wsgi.application'
 
+AUTH_USER_MODEL = 'staff_management.User'
+
+
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'staff_management',
+        'USER': 'root',
+        'PASSWORD': '12345678@Cc',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
+
 #MSS SQL Server
 
 # Password validation
