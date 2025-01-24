@@ -17,15 +17,18 @@ class PetModelTest(TestCase):
     def test_create_pet(self):
         self.assertEqual(self.pet.name, "Buddy")
         self.assertEqual(self.pet.owner, self.customer)
+
     def test_calculate_age(self):
         # Kiểm tra tuổi được tính chính xác
         calculated_age = self.pet.calculate_age()  # Hàm tự tính toán tuổi
         self.assertIsNotNone(calculated_age)
+
     def test_update_pet(self):
         self.pet.name="Max"
         self.pet.save()
         update_pet=Pet.objects.get(id=self.pet.id)
         self.assertEqual(update_pet.name, "Max")
+        
     def test_delete_pet(self):
         pet_id=self.pet.id
         self.pet.delete()
