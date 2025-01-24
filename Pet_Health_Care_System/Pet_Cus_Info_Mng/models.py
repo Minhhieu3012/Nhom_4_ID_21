@@ -7,7 +7,7 @@ class Customer(models.Model):
     email = models.EmailField(unique=True)  
     phoneNumber = models.CharField(max_length=15, blank=False)
     address = models.TextField(blank=False)
-    age = models.PositiveIntegerField(blank=False)
+    age = models.PositiveIntegerField(null=False, blank=False)
     gender = models.CharField(
         max_length=10,
         choices=[("Nam", "Nam"), ("Nữ", "Nữ"), ("LGBT", "LGBT")],
