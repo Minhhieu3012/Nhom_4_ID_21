@@ -1,36 +1,76 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.urls import reverse
 from Pet_Cus_Info_Mng.models import Pet, Customer
-from datetime import date
 
-class PetModelTest(TestCase):
+class ViewsTestCase(TestCase):
     def setUp(self):
-        self.customer = Customer.objects.create(firstName="Alexandro",lastName="Garnacho", email="grn123@gmail.com", age=19)
-        # Tạo thú cưng
-        self.pet = Pet.objects.create(
-            name="Buddy",
-            dateOfBirth=date(2022, 2, 22),  # Sử dụng dateOfBirth
-            species="Bull Pháp",
-            gender="Đực",
-            healthStatus="Sức khỏe tốt",
-            owner=self.customer,
+        self.client = Client()
+        self.customer = Customer.objects.create(
+            firstName="Alexandro", 
+            lastName="Garnacho", 
+            email="grn123@gmail.com", 
+            phoneNumber="0327329948",
+            address="47/24/38 Bùi Đình Túy", 
+            age=19, 
+            gender="Nam"
         )
-    def test_create_pet(self):
-        self.assertEqual(self.pet.name, "Buddy")
-        self.assertEqual(self.pet.owner, self.customer)
+        self.pet = Pet.objects.create(
+            name="Buddy", 
+            species="Bull Pháp", 
+            gender="Đực", 
+            dateOfBirth="2022-02-22", 
+            healthStatus="Sức khỏe tốt", 
+            owner=self.customer
+        )
 
-    def test_calculate_age(self):
-        # Kiểm tra tuổi được tính chính xác
-        calculated_age = self.pet.calculate_age()  # Hàm tự tính toán tuổi
-        self.assertIsNotNone(calculated_age)
 
-    def test_update_pet(self):
-        self.pet.name="Max"
-        self.pet.save()
-        update_pet=Pet.objects.get(id=self.pet.id)
-        self.assertEqual(update_pet.name, "Max")
-        
-    def test_delete_pet(self):
-        pet_id=self.pet.id
-        self.pet.delete()
-        with self.assertRaises(Pet.DoesNotExist):
-            Pet.objects.get(id=pet_id)
+    def test_home_view(self):
+        response = self.client.get(reverse('app_admin'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'app_admin/app_admin.html')
+
+    def test_pets_view(self):
+        response = self.client.get(reverse('pet_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pets.html')
+        self.assertContains(response, self.pet.name)
+
+    def test_edit_pet_view(self):
+        response = self.client.get(reverse('pet_edit', args=[self.pet.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pet_edit.html')
+        self.assertContains(response, self.pet.name)
+
+    def test_delete_pet_view(self):
+        response = self.client.get(reverse('pet_delete', args=[self.pet.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pet_delete.html')
+        self.assertContains(response, self.pet.name)
+
+    def test_customers_view(self):
+        response = self.client.get(reverse('customer_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customers.html')
+        self.assertContains(response, self.customer.firstName)
+
+    def test_customer_edit_view(self):
+        response = self.client.get(reverse('customer_edit', args=[self.customer.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customer_edit.html')
+        self.assertContains(response, self.customer.firstName)
+
+    def test_customer_delete_view(self):
+        response = self.client.get(reverse('customer_delete', args=[self.customer.id]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customer_delete.html')
+        self.assertContains(response, self.customer.firstName)
+
+    def test_customer_new_view(self):
+        response = self.client.get(reverse('customer_add'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customer_form.html')
+
+    def test_pet_new_view(self):
+        response = self.client.get(reverse('pet_add'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pet_form.html')
