@@ -36,7 +36,7 @@
 <div class="card">
     <h5 class="card-header">DANH SÁCH KHÁCH HÀNG</h5>
     <div>
-      <table class="table">
+      <table id="customer_list" class="table">
         <thead>
           <tr>
             <th>Họ</th>
@@ -52,8 +52,8 @@
         <tbody class="table-border-bottom-0">
             {% for item in customers %}
                 <tr class="table-default">
-                    <td><i></i> <span>{{item.firstName}}</span></td>
-                    <td>{{item.lastName}}</td>
+                    <td><i></i> <span>{{item.lastName}}</span></td>
+                    <td>{{item.firstName}}</td>
                     <td><i class="list-unstyled m-0 avatar-group d-flex align-items-center"></i><span>{{item.age}}</span></td>
                     <td><i class="badge bg-label-primary me-1"></i><span>{{item.gender}}</span></td>
                     <td><i class="badge bg-label-primary me-1"></i><span>{{item.phoneNumber}}</span></td>
