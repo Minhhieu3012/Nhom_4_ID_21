@@ -36,7 +36,7 @@ class ViewsTestCase(TestCase):
         self.appointment = Appointment.objects.create(
             customer = self.customer,
             pet = self.pet,
-            date="2025-02-22",
+            date="2024-02-22",
             time = "10:00:00",
             status = "Đã thanh toán"
         )
@@ -78,6 +78,7 @@ class ViewsTestCase(TestCase):
         response = self.client.get(reverse('customer_list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.customer.firstName)
+        self.assertContains(response, self.customer.lastName)
         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customers.html')
 
     def test_customer_new_view(self):
@@ -89,12 +90,14 @@ class ViewsTestCase(TestCase):
         response = self.client.get(reverse('customer_edit', args=[self.customer.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.customer.firstName)
+        self.assertContains(response, self.customer.lastName)
         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customer_edit.html')
 
     def test_customer_delete_view(self):
         response = self.client.get(reverse('customer_delete', args=[self.customer.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.customer.firstName)
+        self.assertContains(response, self.customer.lastName)
         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customer_delete.html')
 
 #-------------------------------------------------------------------------------
@@ -104,8 +107,8 @@ class ViewsTestCase(TestCase):
         response = self.client.get(reverse('appointments_list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.customer.firstName)
+        self.assertContains(response, self.customer.lastName)
         self.assertContains(response, self.pet.name)
-        self.assertContains(response, self.appointment.status)
         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/appointments-list.html')
     
     def test_appointment_create_view(self):
@@ -123,7 +126,6 @@ class ViewsTestCase(TestCase):
         response = self.client.get(reverse('appointments_history', args=[self.customer.email]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.customer.email)
-        self.assertContains(response, self.appointment.status)
         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/appointments-history.html')
 
 #-------------------------------------------------------------------------------

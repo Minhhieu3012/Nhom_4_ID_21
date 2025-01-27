@@ -78,7 +78,7 @@ class AppointmentsForm(forms.Form):
     time = forms.TimeField(label="Time", widget=forms.TimeInput(attrs={'type': 'time'}))
     status = forms.ChoiceField(
         label="Status",
-        choices=[('Chưa thanh toán', 'Chưa thanh toán'), ('Đã thanh toán', 'Đã thanh toán')],
+        choices=[('pending', 'Chưa thanh toán'), ('completed', 'Đã thanh toán')],
         required=True
     )
 
