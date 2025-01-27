@@ -2,6 +2,8 @@ from django.template import loader
 from django.shortcuts import render
 from django.http import HttpResponse
 from app_admin.models import Room
+from django.core.exceptions import ObjectDoesNotExist
+
 
 def pet(request):
     return HttpResponse("Hello world!")
@@ -26,10 +28,29 @@ def rooms(request):
     }
     return HttpResponse(template.render(context, request))
 
+# def room_edit(request):
+#     room = Room.objects.get(id = 3)
+#     template = loader.get_template('app_admin/room-edit.html')
+#     context = {
+#         'room' : room, 
+#     }
+#     return HttpResponse(template.render(context, request))
+
+
 def room_edit(request):
-    room = Room.objects.get(id = 1)
+    try:
+        # Cố gắng lấy room từ database
+        room = Room.objects.get(id=3)
+    except ObjectDoesNotExist:
+        # Nếu room không tồn tại, cung cấp dữ liệu mặc định
+        room = {
+            'room_type': 'Standard',  # Giá trị mặc định
+            'capacity': 0,           # Số lượng mặc định
+            'status': 'Available',   # Trạng thái mặc định
+        }
+
     template = loader.get_template('app_admin/room-edit.html')
     context = {
-        'room' : room, 
+        'room': room, 
     }
     return HttpResponse(template.render(context, request))
