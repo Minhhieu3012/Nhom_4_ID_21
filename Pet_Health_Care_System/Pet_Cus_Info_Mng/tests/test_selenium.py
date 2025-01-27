@@ -8,9 +8,10 @@ import unittest
 import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys 
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 
-class Add_Customer_Pet_Test(unittest.TestCase):
+class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
     def setUp(self):
         # Sử dụng Service để khởi tạo WebDriver
         service = Service("D:/Tài Liệu Công Nghệ Phần Mềm/chromedriver-win64/chromedriver-win64/chromedriver.exe")
@@ -19,8 +20,56 @@ class Add_Customer_Pet_Test(unittest.TestCase):
         self.driver.quit()
 #-------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------
-    def test_unit_add_customer(self):
-        print("Bắt đầu test...")
+
+    def test_unitappointment(self):
+        print("Bắt đầu test chức năng đặt lịch hẹn...")
+        driver = self.driver
+        driver.get("http://127.0.0.1:8000/")  # URL trang chính
+        time.sleep(3)
+
+        driver.find_element(By.LINK_TEXT, "LỊCH HẸN").click()
+        time.sleep(2)
+
+        driver.find_element(By.LINK_TEXT, "THÊM LỊCH HẸN MỚI").click()
+        time.sleep(2)
+
+        # Điền thông tin lịch hẹn
+        # Chọn Khách hàng
+        select_customer = Select(driver.find_element(By.ID, "id_customer"))
+        # Ví dụ: chọn khách hàng theo thứ tự (index)
+        select_customer.select_by_index(1)
+
+        # Chọn Pet
+        select_pet = Select(driver.find_element(By.ID, "id_pet"))
+        select_pet.select_by_index(1)
+        driver.find_element(By.ID, "id_date").send_keys("2025-01-01")
+        driver.find_element(By.ID, "id_time").send_keys("10:30")
+        select_status = Select(driver.find_element(By.ID, "id_status"))
+        select_status.select_by_value("Chưa thanh toán")  
+
+        # Click nút "Lưu lịch hẹn"
+        driver.find_element(By.XPATH, "//button[text()='Lưu lịch hẹn']").click()
+
+        # Kiểm tra xem trang có chuyển và hiển thị danh sách lịch hẹn
+        try:
+            appointment_list_element = driver.find_element(By.ID, "appointments_list")
+            self.assertIn("Garnacho", appointment_list_element.text)
+            print("Lịch hẹn của khách hàng đã hiển thị trong danh sách...")
+        except:
+            print("Không tìm thấy dữ liệu lịch hẹn vừa tạo...")
+        time.sleep(4)
+
+        
+        # add_appointment
+        # filter_appointment
+        # delete_appointment
+
+
+#-------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------
+
+    def test_unit_customer(self):
+        print("Bắt đầu test chức năng khách hàng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/")  # URL trang chính
         time.sleep(3)
@@ -32,37 +81,22 @@ class Add_Customer_Pet_Test(unittest.TestCase):
         time.sleep(2)
 
         # Điền thông tin khách hàng
-        last_name = driver.find_element(By.ID, "id_lastName")
-        last_name.send_keys("Alexandro")
-
-        first_name = driver.find_element(By.ID, "id_firstName")
-        first_name.send_keys("Garnacho")
-
-        email = driver.find_element(By.ID, "id_email")
-        email.send_keys("gnc123@gmail.com")
-
-        age = driver.find_element(By.ID, "id_age")
-        age.send_keys("19")
-
-        phone = driver.find_element(By.ID, "id_phoneNumber")
-        phone.send_keys("0327329948")
-
-        address = driver.find_element(By.ID, "id_address")
-        address.send_keys("47/24/38 Bùi Đình Túy")
-
-        gender = driver.find_element(By.ID, "id_gender")
-        gender.send_keys("Nam")
-
+        driver.find_element(By.ID, "id_lastName").send_keys("Alexandro")
+        driver.find_element(By.ID, "id_firstName").send_keys("Garnacho")
+        driver.find_element(By.ID, "id_email").send_keys("gnc123@gmail.com")
+        driver.find_element(By.ID, "id_age").send_keys("19")
+        driver.find_element(By.ID, "id_phoneNumber").send_keys("0327329948")
+        driver.find_element(By.ID, "id_address").send_keys("47/24/38 Bùi Đình Túy")
+        driver.find_element(By.ID, "id_gender").send_keys("Nam")
         time.sleep(2)  
 
-        create_button = driver.find_element(By.XPATH, "//button[text()='Tạo khách hàng']")
-        create_button.click()
+        # lưu khách hàng
+        driver.find_element(By.XPATH, "//button[text()='Tạo khách hàng']").click()
         time.sleep(2)
 
         try:
             wait = WebDriverWait(driver, 10)
-            cancel_btn = wait.until(EC.element_to_be_clickable((By.ID, "cancel-link")))
-            cancel_btn.click()
+            wait.until(EC.element_to_be_clickable((By.ID, "cancel-link"))).click()
         except:
             # Nếu không tìm thấy nút "Hủy", có thể trang đã tự chuyển về danh sách.
             pass
@@ -76,13 +110,16 @@ class Add_Customer_Pet_Test(unittest.TestCase):
         except:
             print("Không tìm thấy dữ liệu khách hàng vừa tạo...")
 
-        print("Kết thúc test.")
-        time.sleep(5)
-#-------------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------------
+        time.sleep(4)
 
-    def test_unit_add_pet(self):
-        print("Bắt đầu test...")
+        # edit_customer
+        # appointment_history_customer
+        # delete_customer
+
+#-------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------
+    def test_unit_pet(self):
+        print("Bắt đầu test chức năng thú cưng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/")  # URL trang chính
         time.sleep(3)
@@ -93,7 +130,7 @@ class Add_Customer_Pet_Test(unittest.TestCase):
         driver.find_element(By.LINK_TEXT, "THÊM THÚ CƯNG MỚI").click()
         time.sleep(2)
 
-        # --- Nhập thông tin thú cưng ---
+        # --- Điền thông tin thú cưng ---
         driver.find_element(By.ID, "id_name").send_keys("Buddy")
 
         # Nhập ngày sinh qua JavaScript
@@ -134,19 +171,12 @@ class Add_Customer_Pet_Test(unittest.TestCase):
         except:
             print("Không tìm thấy dữ liệu thú cưng vừa tạo...")
 
-        print("Kết thúc test.")
         time.sleep(5)
+    
+        # edit_pet
+        # medicalRecord_history_pet
+        # delete_pet
 
-# class Edit_Customer_Pet_Test(unittest.TestCase):
-# class Appointment_History_Customer_Test(unittest.TestCase):
-# class MedicalRecord_History_Pet_Test
-# class Add_Appointment_Test(unittest.TestCase):
-# class Filter_Appointment_Test(unittest.TestCase):
-# class Delete_Appointment_Test(unittest.TestCase):
-# class Delete_Customer_Pet_Test(unittest.TestCase):
-#-------------------------------------
-# Tổng cộng có 11 thao tác: 2/11
-#-------------------------------------
 if __name__ == "__main__":
     unittest.main()
 

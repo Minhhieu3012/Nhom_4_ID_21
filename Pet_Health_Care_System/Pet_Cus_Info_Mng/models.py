@@ -73,7 +73,7 @@ class Appointment(models.Model):
     time = models.TimeField()
     status = models.CharField(
         max_length=50,
-        choices=[('pending', 'Chưa thanh toán'), ('completed', 'Đã thanh toán')],
+        choices=[('Chưa thanh toán', 'Chưa thanh toán'), ('Đã thanh toán', 'Đã thanh toán')],
     )
 
     def __str__(self):
