@@ -4,13 +4,40 @@
     {% include '../includes/header.html' %}
 {%endblock%}
 
-{%block content%}
-{%endblock%}
-
 {%block head-menu%}
     {% include '../includes/head-menu.html' %}
 {% endblock %}
 
+{%block content%}
+<div class="container mt-5">
+    <h2 class="text-center">Room List</h2>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Room Type</th>
+                <th>Capacity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in room %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ room.room_type }}</td>
+                    <td>{{ room.capacity }}</td>
+                    <td>{{ room.status }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No rooms available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{%endblock%}
 
 {%block footer%}
     {% include '../includes/footer.html' %}

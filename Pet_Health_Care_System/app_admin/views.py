@@ -40,7 +40,7 @@ def rooms(request):
 def room_edit(request):
     try:
         # Cố gắng lấy room từ database
-        room = Room.objects.get(id=3)
+        room = Room.objects.get(id=1)
     except ObjectDoesNotExist:
         # Nếu room không tồn tại, cung cấp dữ liệu mặc định
         room = {
