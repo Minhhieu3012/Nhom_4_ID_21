@@ -49,9 +49,9 @@
                 <td>{{ appointment.time|time:"H:i" }}</td>
                 <td>{{ appointment.pet.name }}</td>
                 <td>
-                    {% if appointment.status == "Chưa thanh toán" %}
+                    {% if appointment.status == "pending" %}
                         <span class="badge bg-warning text-dark">Chưa thanh toán</span>
-                    {% elif appointment.status == "Đã thanh toán" %}
+                    {% elif appointment.status == "completed" %}
                         <span class="badge bg-success" style="color: #333">Đã thanh toán</span>
                     {% else %}
                         <span class="badge bg-secondary">Không xác định</span>

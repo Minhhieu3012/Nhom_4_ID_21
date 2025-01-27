@@ -1,11 +1,11 @@
 #---------------------------
 #Selenium Testing
 #---------------------------
+import unittest
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-import unittest
-import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys 
 from selenium.webdriver.support.ui import Select
@@ -21,57 +21,10 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #-------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------
 
-    def test_unitappointment(self):
-        print("Bắt đầu test chức năng đặt lịch hẹn...")
-        driver = self.driver
-        driver.get("http://127.0.0.1:8000/")  # URL trang chính
-        time.sleep(3)
-
-        driver.find_element(By.LINK_TEXT, "LỊCH HẸN").click()
-        time.sleep(2)
-
-        driver.find_element(By.LINK_TEXT, "THÊM LỊCH HẸN MỚI").click()
-        time.sleep(2)
-
-        # Điền thông tin lịch hẹn
-        # Chọn Khách hàng
-        select_customer = Select(driver.find_element(By.ID, "id_customer"))
-        # Ví dụ: chọn khách hàng theo thứ tự (index)
-        select_customer.select_by_index(1)
-
-        # Chọn Pet
-        select_pet = Select(driver.find_element(By.ID, "id_pet"))
-        select_pet.select_by_index(1)
-        driver.find_element(By.ID, "id_date").send_keys("2025-01-01")
-        driver.find_element(By.ID, "id_time").send_keys("10:30")
-        select_status = Select(driver.find_element(By.ID, "id_status"))
-        select_status.select_by_value("Chưa thanh toán")  
-
-        # Click nút "Lưu lịch hẹn"
-        driver.find_element(By.XPATH, "//button[text()='Lưu lịch hẹn']").click()
-
-        # Kiểm tra xem trang có chuyển và hiển thị danh sách lịch hẹn
-        try:
-            appointment_list_element = driver.find_element(By.ID, "appointments_list")
-            self.assertIn("Garnacho", appointment_list_element.text)
-            print("Lịch hẹn của khách hàng đã hiển thị trong danh sách...")
-        except:
-            print("Không tìm thấy dữ liệu lịch hẹn vừa tạo...")
-        time.sleep(4)
-
-        
-        # add_appointment
-        # filter_appointment
-        # delete_appointment
-
-
-#-------------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------------
-
     def test_unit_customer(self):
         print("Bắt đầu test chức năng khách hàng...")
         driver = self.driver
-        driver.get("http://127.0.0.1:8000/")  # URL trang chính
+        driver.get("http://127.0.0.1:8000/") 
         time.sleep(3)
 
         driver.find_element(By.LINK_TEXT, "KHÁCH HÀNG").click()
@@ -118,10 +71,11 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
 #-------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------
+
     def test_unit_pet(self):
         print("Bắt đầu test chức năng thú cưng...")
         driver = self.driver
-        driver.get("http://127.0.0.1:8000/")  # URL trang chính
+        driver.get("http://127.0.0.1:8000/") 
         time.sleep(3)
 
         driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
@@ -130,7 +84,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         driver.find_element(By.LINK_TEXT, "THÊM THÚ CƯNG MỚI").click()
         time.sleep(2)
 
-        # --- Điền thông tin thú cưng ---
+        # Điền thông tin thú cưng
         driver.find_element(By.ID, "id_name").send_keys("Buddy")
 
         # Nhập ngày sinh qua JavaScript
@@ -176,6 +130,89 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         # edit_pet
         # medicalRecord_history_pet
         # delete_pet
+
+#-------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------
+    
+    def test_unit_add_appointment(self):
+        print("Bắt đầu test chức năng đặt lịch hẹn...")
+        driver = self.driver
+        driver.get("http://127.0.0.1:8000/")  
+        time.sleep(3)
+
+        driver.find_element(By.LINK_TEXT, "LỊCH HẸN").click()
+        time.sleep(2)
+
+        driver.find_element(By.LINK_TEXT, "THÊM LỊCH HẸN MỚI").click()
+        time.sleep(2)
+
+        # Điền thông tin lịch hẹn
+        driver.find_element(By.ID, "id_customer").send_keys("Garnacho Alexandro (gnc123@gmail.com)")
+        driver.find_element(By.ID, "id_pet").send_keys("Buddy")
+        driver.find_element(By.ID, "id_date").send_keys("2025-01-01")
+        driver.find_element(By.ID, "id_time").send_keys("12:30")
+        driver.find_element(By.ID, "id_status").select_by_value("Chưa thanh toán")  
+        time.sleep(3)
+
+        # Click nút "Lưu lịch hẹn"
+        driver.find_element(By.XPATH, "//button[text()='Lưu lịch hẹn']").click()
+
+        # Kiểm tra xem trang có chuyển và hiển thị danh sách lịch hẹn
+        try:
+            appointment_list_element = driver.find_element(By.ID, "appointments_list")
+            self.assertIn("Garnacho", appointment_list_element.text)
+            print("Lịch hẹn của khách hàng đã hiển thị trong danh sách...")
+        except:
+            print("Không tìm thấy dữ liệu lịch hẹn vừa tạo...")
+        time.sleep(4)
+
+    def test_unit_filter_appointment(self):
+        print("Bắt đầu test chức năng lọc lịch hẹn...")
+        driver = self.driver
+        driver.get("http://127.0.0.1:8000/")  # URL trang chính
+        time.sleep(3)
+
+        driver.find_element(By.LINK_TEXT, "LỊCH HẸN").click()
+        time.sleep(2)
+
+        driver.find_element(By.LINK_TEXT, "LỌC LỊCH HẸN").click()
+        time.sleep(2)
+
+        # Nhập date
+        driver.find_element(By.ID, "date").send_keys("2025-01-01")
+        select_filter_status = Select(driver.find_element(By.ID, "status"))
+        select_filter_status.select_by_value("pending")
+        driver.find_element(By.XPATH, "//button[text()='Lọc']").click()
+        time.sleep(2)
+
+        # Kiểm tra kết quả trong bảng
+        table_text = driver.find_element(By.TAG_NAME, "table").text
+        self.assertIn("2025-01-01", table_text)
+        print("Không tìm thấy ngày 2025-01-01 trong bảng kết quả.")
+        self.assertIn("Chưa thanh toán", table_text) 
+        print("Không tìm thấy trạng thái 'Chưa thanh toán' trong bảng kết quả.")
+        
+
+    # def test_unit_delete_appointment(self):
+        # print("Bắt đầu test chức năng đặt lịch hẹn...")
+        # driver = self.driver
+        # driver.get("http://127.0.0.1:8000/")  # URL trang chính
+        # time.sleep(3)
+
+        # driver.find_element(By.LINK_TEXT, "LỊCH HẸN").click()
+        # time.sleep(2)
+
+        # Giả sử có link text "XÓA" (hoặc "DELETE") bên cạnh lịch hẹn
+        # driver.find_element(By.LINK_TEXT, "XÓA").click()
+        # time.sleep(2)
+
+        # Nếu có alert xác nhận thì:
+        # driver.switch_to.alert.accept()
+        # time.sleep(2)
+
+        # Kiểm tra xem lịch hẹn đã bị xóa chưa. Ví dụ, kiểm tra ngày 2025-01-01 không còn trong trang:
+        # page_source = driver.page_source
+        # self.assertNotIn("2025-01-01", page_source, "Lịch hẹn vẫn hiển thị sau khi xóa.")
 
 if __name__ == "__main__":
     unittest.main()
