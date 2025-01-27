@@ -6,9 +6,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.keys import Keys 
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 
 class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
@@ -21,7 +19,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #-------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------
 
-    def test_unit_customer(self):
+    def test_unit_01_add_customer(self):
         print("Bắt đầu test chức năng khách hàng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -72,7 +70,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #-------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------
 
-    def test_unit_pet(self):
+    def test_unit_02_add_pet(self):
         print("Bắt đầu test chức năng thú cưng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -133,40 +131,40 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
 #-------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------
-    
-    def test_unit_add_appointment(self):
+
+    def test_unit_03_add_appointment(self):
         print("Bắt đầu test chức năng đặt lịch hẹn...")
         driver = self.driver
-        driver.get("http://127.0.0.1:8000/")  
-        time.sleep(3)
+        wait = WebDriverWait(driver, 10)
 
-        driver.find_element(By.LINK_TEXT, "LỊCH HẸN").click()
-        time.sleep(2)
+        driver.get("http://127.0.0.1:8000/")
+        # Nhấp "LỊCH HẸN"
+        wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "LỊCH HẸN"))).click()
+        # Nhấp "THÊM LỊCH HẸN MỚI"
+        wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "THÊM LỊCH HẸN MỚI"))).click()
 
-        driver.find_element(By.LINK_TEXT, "THÊM LỊCH HẸN MỚI").click()
-        time.sleep(2)
-
-        # Điền thông tin lịch hẹn
-        driver.find_element(By.ID, "id_customer").send_keys("Garnacho Alexandro (gnc123@gmail.com)")
+        # Điền thông tin
+        wait.until(EC.presence_of_element_located((By.ID, "id_customer"))).send_keys("Garnacho Alexandro (gnc123@gmail.com)")
         driver.find_element(By.ID, "id_pet").send_keys("Buddy")
-        driver.find_element(By.ID, "id_date").send_keys("2025-01-01")
+        date_js_add_appointment = "document.getElementById('id_date').value = '2025-01-01';"
+        driver.execute_script(date_js_add_appointment)
         driver.find_element(By.ID, "id_time").send_keys("12:30")
-        driver.find_element(By.ID, "id_status").select_by_value("Chưa thanh toán")  
-        time.sleep(3)
 
-        # Click nút "Lưu lịch hẹn"
-        driver.find_element(By.XPATH, "//button[text()='Lưu lịch hẹn']").click()
+        # Chọn dropdown
+        status_element = wait.until(EC.presence_of_element_located((By.ID, "id_status")))
+        select_status = Select(status_element)
+        select_status.select_by_visible_text("Chưa thanh toán")
 
-        # Kiểm tra xem trang có chuyển và hiển thị danh sách lịch hẹn
-        try:
-            appointment_list_element = driver.find_element(By.ID, "appointments_list")
-            self.assertIn("Garnacho", appointment_list_element.text)
-            print("Lịch hẹn của khách hàng đã hiển thị trong danh sách...")
-        except:
-            print("Không tìm thấy dữ liệu lịch hẹn vừa tạo...")
-        time.sleep(4)
+        # Lưu
+        btn_save = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[text()='Lưu lịch hẹn']")))
+        btn_save.click()
 
-    def test_unit_filter_appointment(self):
+        # Kiểm tra hiển thị danh sách
+        appointment_list_element = wait.until(EC.presence_of_element_located((By.ID, "appointments_list")))
+        self.assertIn("Garnacho", appointment_list_element.text)
+        print("Lịch hẹn của khách hàng đã hiển thị trong danh sách...")
+
+    def test_unit_04_filter_appointment(self):
         print("Bắt đầu test chức năng lọc lịch hẹn...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/")  # URL trang chính
@@ -179,7 +177,8 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         time.sleep(2)
 
         # Nhập date
-        driver.find_element(By.ID, "date").send_keys("2025-01-01")
+        date_js_filter_appointment = "document.getElementById('date').value = '2025-01-01';"
+        driver.execute_script(date_js_filter_appointment)
         select_filter_status = Select(driver.find_element(By.ID, "status"))
         select_filter_status.select_by_value("pending")
         driver.find_element(By.XPATH, "//button[text()='Lọc']").click()
