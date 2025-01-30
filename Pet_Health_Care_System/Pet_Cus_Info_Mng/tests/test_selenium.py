@@ -19,7 +19,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #-------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------
 
-    # def test_unit_add_customer(self):
+    # def test_unit_01_add_customer(self):
     #     print("Bắt đầu test chức năng khách hàng...")
     #     driver = self.driver
     #     driver.get("http://127.0.0.1:8000/") 
@@ -63,24 +63,41 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
     #     time.sleep(4)
 
-    def test_unit_edit_customer(self):
+    def test_edit_customer(self):
         print("Bắt đầu test chức năng chỉnh sửa khách hàng...")
         driver = self.driver
-        driver.get("http://127.0.0.1:8000/")  # URL trang chính
+        driver.get("http://127.0.0.1:8000/") 
         time.sleep(3)
 
         driver.find_element(By.LINK_TEXT, "KHÁCH HÀNG").click()
         time.sleep(2)
+        
+        # Sửa XPath để tìm theo từng cột riêng biệt
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.presence_of_element_located(
+            (By.XPATH, "//tr[td[1][normalize-space()='Alexandro'] and td[2][normalize-space()='Garnacho']]")
+        ))
 
-        dropdown_button = driver.find_element(By.XPATH, "//tr[td[text()='5']]//button[@data-bs-toggle='dropdown']")
-        dropdown_button.click()
-        time.sleep(2)
+        # Nhấn vào nút ba chấm để mở dropdown
+        driver.find_element(By.XPATH, ".//td[last()]//button").click()
 
-        edit_option = driver.find_element(By.XPATH, "//tr[td[text()='5']]//a[contains(text(), 'Chỉnh sửa')]")
-        edit_option.click()
-        time.sleep(2)
+        # Chờ menu hiển thị và chọn "Chỉnh sửa"
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'dropdown-menu')]//a[contains(text(), 'Chỉnh sửa')]"))).click()
 
         print("Đã vào trang chỉnh sửa khách hàng.")
+        time.sleep(2)
+
+        # Nhập thông tin mới vào form chỉnh sửa
+        phone_field = wait.until(EC.presence_of_element_located((By.ID, "id_phoneNumber")))
+        phone_field.clear()
+        phone_field.send_keys("0999999999")  # Số điện thoại mới
+
+        # lưu
+        driver.find_element(By.XPATH, "//button[text()='Lưu']").click()
+        time.sleep(4)
+
+        # nút hủy 
         # appointment_history_customer
         # delete_customer
 
