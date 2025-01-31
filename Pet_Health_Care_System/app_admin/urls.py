@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('', views.app_admin, name='app_admin'),
     path('rooms', views.rooms, name='rooms'),
-    path('room-edit/', views.room_edit, name='room-edit'),
+    path('room-edit/<int:id>/', views.room_edit, name='room-edit'),
+    path('room-delete/<int:id>/', views.room_delete, name='room-delete'),
 
 ] 
