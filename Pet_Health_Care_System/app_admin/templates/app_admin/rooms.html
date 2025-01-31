@@ -1,5 +1,6 @@
 {% extends "master-page.html" %}
 
+
 {%block header%}
     {% include '../includes/header.html' %}
 {%endblock%}
@@ -8,36 +9,48 @@
     {% include '../includes/head-menu.html' %}
 {% endblock %}
 
-{%block content%}
-<div class="container mt-5">
-    <h2 class="text-center">Room List</h2>
-    <table class="table table-bordered mt-3">
+{% block content %}
+<div class="card">
+    <h5 class="card-header">Contextual Classes</h5>
+    <div class="table-responsive text-nowrap">
+      <table class="table">
         <thead>
-            <tr>
-                <th>#</th>
-                <th>Room Type</th>
-                <th>Capacity</th>
-                <th>Status</th>
-            </tr>
+          <tr>
+            <th>Room Type</th>
+            <th>Capacity</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
         </thead>
-        <tbody>
-            {% for room in room %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ room.room_type }}</td>
-                    <td>{{ room.capacity }}</td>
-                    <td>{{ room.status }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="5" class="text-center">No rooms available.</td>
+        <tbody class="table-border-bottom-0">
+          
+            {% for item in room %}
+                <tr class="table-default">
+                    <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong>{{item.room_type}}</strong></td>
+                    <td>{{item.capacity}}</td>
+            
+                    <td><span class="badge bg-label-primary me-1">{{item.status}}</span></td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="room-edit/{{ item.id }}"
+                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                <a class="dropdown-item" href="javascript:void(0);"
+                                    ><i class="bx bx-trash me-1"></i> Delete</a>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
-    </table>
-</div>
+      </table>
+    </div>
+  </div>
+{% endblock %}
 
-{%endblock%}
 
 {%block footer%}
     {% include '../includes/footer.html' %}
