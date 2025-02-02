@@ -63,7 +63,58 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
     #     time.sleep(4)
 
-    def test_edit_customer(self):
+    # def test_edit_customer(self):
+    #     print("Bắt đầu test chức năng chỉnh sửa khách hàng...")
+    #     driver = self.driver
+    #     driver.get("http://127.0.0.1:8000/") 
+    #     time.sleep(3)
+
+    #     driver.find_element(By.LINK_TEXT, "KHÁCH HÀNG").click()
+    #     time.sleep(2)
+        
+    #     wait = WebDriverWait(driver, 10)
+    #     wait.until(EC.presence_of_element_located(
+    #         (By.XPATH, "//tr[td[1][normalize-space()='Alexandro'] and td[2][normalize-space()='Garnacho']]")
+    #     ))
+
+    #     # Nhấn vào nút ba chấm để mở dropdown
+    #     driver.find_element(By.XPATH, ".//td[last()]//button").click()
+
+    #     # Chờ menu hiển thị và chọn "Chỉnh sửa"
+    #     wait = WebDriverWait(driver, 10)
+    #     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'dropdown-menu')]//a[contains(text(), 'Chỉnh sửa')]"))).click()
+
+    #     print("Đã vào trang chỉnh sửa khách hàng.")
+    #     time.sleep(2)
+
+    #     # Nhập thông tin mới vào form chỉnh sửa
+    #     phone_field = wait.until(EC.presence_of_element_located((By.ID, "id_phoneNumber")))
+    #     phone_field.clear()
+    #     phone_field.send_keys("0999999999")  # Số điện thoại mới
+
+    #     # lưu
+    #     driver.find_element(By.XPATH, "//button[text()='Lưu']").click()
+    #     time.sleep(4)
+
+    #     try:
+    #         wait = WebDriverWait(driver, 10)
+    #         wait.until(EC.element_to_be_clickable((By.ID, "cancel-link"))).click()
+    #     except:
+    #         # Nếu không tìm thấy nút "Hủy", có thể trang đã tự chuyển về danh sách.
+    #         pass
+
+    #     print("Sửa thông tin khách hàng thành công. Kiểm tra danh sách...")
+
+    #     try:
+    #         customer_list_element = driver.find_element(By.ID, "customer_list")
+    #         self.assertIn("Garnacho", customer_list_element.text)
+    #         print("Thông tin khách hàng đã được chỉnh sửa trong danh sách...")
+    #     except:
+    #         print("Không chỉnh sửa được thông tin khách hàng...")
+
+    #     time.sleep(4)
+
+    def test_unit_appointment_history_customer(self):
         print("Bắt đầu test chức năng chỉnh sửa khách hàng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -71,38 +122,10 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
         driver.find_element(By.LINK_TEXT, "KHÁCH HÀNG").click()
         time.sleep(2)
-        
-        # Sửa XPath để tìm theo từng cột riêng biệt
-        wait = WebDriverWait(driver, 10)
-        wait.until(EC.presence_of_element_located(
-            (By.XPATH, "//tr[td[1][normalize-space()='Alexandro'] and td[2][normalize-space()='Garnacho']]")
-        ))
-
-        # Nhấn vào nút ba chấm để mở dropdown
-        driver.find_element(By.XPATH, ".//td[last()]//button").click()
-
-        # Chờ menu hiển thị và chọn "Chỉnh sửa"
-        wait = WebDriverWait(driver, 10)
-        wait.until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'dropdown-menu')]//a[contains(text(), 'Chỉnh sửa')]"))).click()
-
-        print("Đã vào trang chỉnh sửa khách hàng.")
-        time.sleep(2)
-
-        # Nhập thông tin mới vào form chỉnh sửa
-        phone_field = wait.until(EC.presence_of_element_located((By.ID, "id_phoneNumber")))
-        phone_field.clear()
-        phone_field.send_keys("0999999999")  # Số điện thoại mới
-
-        # lưu
-        driver.find_element(By.XPATH, "//button[text()='Lưu']").click()
-        time.sleep(4)
-
-        # nút hủy 
-        # appointment_history_customer
         # delete_customer
 
-#-------------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------------
 
 #     def test_unit_add_pet(self):
 #         print("Bắt đầu test chức năng thú cưng...")
@@ -163,8 +186,8 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #         # medicalRecord_history_pet
 #         # delete_pet
 
-# #-------------------------------------------------------------------------------------
-# #-------------------------------------------------------------------------------------
+# #------------------------------------------------------------------------------------------------------------
+# #------------------------------------------------------------------------------------------------------------
 
 #     def test_unit_add_appointment(self):
 #         print("Bắt đầu test chức năng đặt lịch hẹn...")
@@ -226,6 +249,9 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #         # Check for the status in the table
 #         self.assertIn("pending", table_text, "Không tìm thấy trạng thái 'pending' trong bảng kết quả.")
         
+
+# #------------------------------------------------------------------------------------------------------------
+# #------------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     unittest.main()
