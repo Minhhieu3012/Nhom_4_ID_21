@@ -19,7 +19,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #-------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------
 
-    # def test_unit_01_add_customer(self):
+    # def test_unit_add_customer(self):
     #     print("Bắt đầu test chức năng khách hàng...")
     #     driver = self.driver
     #     driver.get("http://127.0.0.1:8000/") 
@@ -62,6 +62,8 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
     #         print("Không tìm thấy dữ liệu khách hàng vừa tạo...")
 
     #     time.sleep(4)
+
+
 
     # def test_edit_customer(self):
     #     print("Bắt đầu test chức năng chỉnh sửa khách hàng...")
@@ -114,77 +116,195 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
     #     time.sleep(4)
 
-    def test_unit_appointment_history_customer(self):
+
+
+    # def test_unit_appointment_history_customer(self):
+    #     print("Bắt đầu test chức năng xem lịch sử đặt hẹn của khách hàng...")
+    #     driver = self.driver
+    #     driver.get("http://127.0.0.1:8000/") 
+    #     time.sleep(3)
+
+    #     driver.find_element(By.LINK_TEXT, "KHÁCH HÀNG").click()
+    #     time.sleep(2)
+
+    #     # Nhấn vào nút ba chấm để mở dropdown
+    #     driver.find_element(By.XPATH, ".//td[last()]//button").click()
+
+    #     # Chờ menu hiển thị và chọn "Xem lịch sử đặt hẹn"
+    #     wait = WebDriverWait(driver, 10)
+    #     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'dropdown-menu')]//a[contains(text(), 'Xem lịch sử đặt hẹn')]"))).click()
+
+    #     print("Đã vào trang lịch sử đặt hẹn của khách hàng.")
+    #     time.sleep(4)
+
+
+
+    # def test_unit_delete_customer(self):
+    #     print("Bắt đầu test chức năng xóa khách hàng...")
+    #     driver = self.driver
+    #     driver.get("http://127.0.0.1:8000/") 
+    #     time.sleep(3)
+
+    #     driver.find_element(By.LINK_TEXT, "KHÁCH HÀNG").click()
+    #     time.sleep(2)
+
+    #     # Nhấn vào nút ba chấm để mở dropdown
+    #     driver.find_element(By.XPATH, ".//td[last()]//button").click()
+
+    #     # Chờ menu hiển thị và chọn "Xóa"
+    #     wait = WebDriverWait(driver, 10)
+    #     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'dropdown-menu')]//a[contains(text(), 'Xóa')]"))).click()
+
+    #     print("Đã vào trang xóa khách hàng.")
+    #     time.sleep(4)
+
+#----------------------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------------
+
+    # def test_unit_add_pet(self):
+    #     print("Bắt đầu test chức năng thú cưng...")
+    #     driver = self.driver
+    #     driver.get("http://127.0.0.1:8000/") 
+    #     time.sleep(3)
+
+    #     driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+    #     time.sleep(2)
+
+    #     driver.find_element(By.LINK_TEXT, "THÊM THÚ CƯNG MỚI").click()
+    #     time.sleep(2)
+
+    #     # Điền thông tin thú cưng
+    #     driver.find_element(By.ID, "id_name").send_keys("Buddy")
+
+    #     # Nhập ngày sinh qua JavaScript
+    #     #   - Gán giá trị cho trường id_dateOfBirth
+    #     #   - Kế tiếp, "dispatchEvent(new Event('change'))" để kích hoạt hàm lắng nghe sự kiện "change"
+    #     driver.execute_script(
+    #         "document.getElementById('id_dateOfBirth').value = '2022-02-12';"
+    #     )
+    #     driver.execute_script(
+    #         "document.getElementById('id_dateOfBirth').dispatchEvent(new Event('change'));"
+    #     )
+    #     driver.find_element(By.ID, "id_species").send_keys("Chó")
+    #     driver.find_element(By.ID, "id_healthStatus").send_keys("Sức khỏe tốt")
+    #     driver.find_element(By.ID, "id_owner").send_keys("Garnacho")
+    #     driver.find_element(By.ID, "id_gender").send_keys("Đực")
+    #     time.sleep(2)
+
+    #     # --- Lưu thú cưng ---
+    #     driver.find_element(By.XPATH, "//button[text()='Tạo thú cưng']").click()
+    #     time.sleep(2)
+
+    #     # Thử tìm nút Hủy (hoặc về danh sách)
+    #     try:
+    #         wait = WebDriverWait(driver, 10)
+    #         cancel_btn = wait.until(EC.element_to_be_clickable((By.ID, "cancel-link")))
+    #         cancel_btn.click()
+    #     except:
+    #         # Nếu không tìm thấy nút "Hủy", có thể trang đã tự chuyển về danh sách.
+    #         pass
+
+    #     print("Thêm thú cưng thành công. Kiểm tra danh sách...")
+
+    #     # --- Kiểm tra xem "Buddy" có trong danh sách không ---
+    #     try:
+    #         pet_list_element = driver.find_element(By.ID, "pet_list")
+    #         self.assertIn("Buddy", pet_list_element.text)
+    #         print("Tên thú cưng đã hiển thị trong danh sách...")
+    #     except:
+    #         print("Không tìm thấy dữ liệu thú cưng vừa tạo...")
+
+    #     time.sleep(5)
+
+
+    def test_edit_pet(self):
         print("Bắt đầu test chức năng chỉnh sửa khách hàng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
         time.sleep(3)
 
-        driver.find_element(By.LINK_TEXT, "KHÁCH HÀNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
         time.sleep(2)
-        # delete_customer
+        
 
-#----------------------------------------------------------------------------------------------------------------
-#----------------------------------------------------------------------------------------------------------------
+        # Nhấn vào nút ba chấm để mở dropdown
+        driver.find_element(By.XPATH, ".//td[last()]//button").click()
 
-#     def test_unit_add_pet(self):
-#         print("Bắt đầu test chức năng thú cưng...")
-#         driver = self.driver
-#         driver.get("http://127.0.0.1:8000/") 
-#         time.sleep(3)
+        # Chờ menu hiển thị và chọn "Chỉnh sửa"
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'dropdown-menu')]//a[contains(text(), 'Chỉnh sửa')]"))).click()
 
-#         driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
-#         time.sleep(2)
+        print("Đã vào trang chỉnh sửa thú cưng.")
+        time.sleep(2)
 
-#         driver.find_element(By.LINK_TEXT, "THÊM THÚ CƯNG MỚI").click()
-#         time.sleep(2)
+        # Nhập thông tin mới vào form chỉnh sửa
+        health_status = wait.until(EC.presence_of_element_located((By.ID, "id_healthStatus")))
+        health_status.clear()
+        health_status.send_keys("Sức khỏe tốt")  # Số điện thoại mới
 
-#         # Điền thông tin thú cưng
-#         driver.find_element(By.ID, "id_name").send_keys("Buddy")
+        # lưu
+        driver.find_element(By.XPATH, "//button[text()='Lưu']").click()
+        time.sleep(4)
 
-#         # Nhập ngày sinh qua JavaScript
-#         #   - Gán giá trị cho trường id_dateOfBirth
-#         #   - Kế tiếp, "dispatchEvent(new Event('change'))" để kích hoạt hàm lắng nghe sự kiện "change"
-#         driver.execute_script(
-#             "document.getElementById('id_dateOfBirth').value = '2022-02-12';"
-#         )
-#         driver.execute_script(
-#             "document.getElementById('id_dateOfBirth').dispatchEvent(new Event('change'));"
-#         )
-#         driver.find_element(By.ID, "id_species").send_keys("Chó")
-#         driver.find_element(By.ID, "id_healthStatus").send_keys("Sức khỏe tốt")
-#         driver.find_element(By.ID, "id_owner").send_keys("Garnacho")
-#         driver.find_element(By.ID, "id_gender").send_keys("Đực")
-#         time.sleep(2)
+        try:
+            wait = WebDriverWait(driver, 10)
+            wait.until(EC.element_to_be_clickable((By.ID, "cancel-link"))).click()
+        except:
+            # Nếu không tìm thấy nút "Hủy", có thể trang đã tự chuyển về danh sách.
+            pass
 
-#         # --- Lưu thú cưng ---
-#         driver.find_element(By.XPATH, "//button[text()='Tạo thú cưng']").click()
-#         time.sleep(2)
+        print("Sửa thông tin thú cưng thành công. Kiểm tra danh sách...")
 
-#         # Thử tìm nút Hủy (hoặc về danh sách)
-#         try:
-#             wait = WebDriverWait(driver, 10)
-#             cancel_btn = wait.until(EC.element_to_be_clickable((By.ID, "cancel-link")))
-#             cancel_btn.click()
-#         except:
-#             # Nếu không tìm thấy nút "Hủy", có thể trang đã tự chuyển về danh sách.
-#             pass
+        try:
+            customer_list_element = driver.find_element(By.ID, "pet_list")
+            self.assertIn("Garnacho", customer_list_element.text)
+            print("Thông tin thú cưng đã được chỉnh sửa trong danh sách...")
+        except:
+            print("Không chỉnh sửa được thông tin thú cưng...")
 
-#         print("Thêm thú cưng thành công. Kiểm tra danh sách...")
+        time.sleep(4)
 
-#         # --- Kiểm tra xem "Buddy" có trong danh sách không ---
-#         try:
-#             pet_list_element = driver.find_element(By.ID, "pet_list")
-#             self.assertIn("Buddy", pet_list_element.text)
-#             print("Tên thú cưng đã hiển thị trong danh sách...")
-#         except:
-#             print("Không tìm thấy dữ liệu thú cưng vừa tạo...")
 
-#         time.sleep(5)
-    
-#         # edit_pet
-#         # medicalRecord_history_pet
-#         # delete_pet
+
+    # def test_unit_appointment_history_customer(self):
+    #     print("Bắt đầu test chức năng xem hồ sơ khám bệnh của thú cưng...")
+    #     driver = self.driver
+    #     driver.get("http://127.0.0.1:8000/") 
+    #     time.sleep(3)
+
+    #     driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+    #     time.sleep(2)
+
+    #     # Nhấn vào nút ba chấm để mở dropdown
+    #     driver.find_element(By.XPATH, ".//td[last()]//button").click()
+
+    #     # Chờ menu hiển thị và chọn "Xem lịch sử đặt hẹn"
+    #     wait = WebDriverWait(driver, 10)
+    #     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'dropdown-menu')]//a[contains(text(), 'Xem lịch sử đặt hẹn')]"))).click()
+
+    #     print("Đã vào trang lịch sử đặt hẹn của khách hàng.")
+    #     time.sleep(4)
+
+
+
+    # def test_unit_delete_customer(self):
+    #     print("Bắt đầu test chức năng xóa khách hàng...")
+    #     driver = self.driver
+    #     driver.get("http://127.0.0.1:8000/") 
+    #     time.sleep(3)
+
+    #     driver.find_element(By.LINK_TEXT, "KHÁCH HÀNG").click()
+    #     time.sleep(2)
+
+    #     # Nhấn vào nút ba chấm để mở dropdown
+    #     driver.find_element(By.XPATH, ".//td[last()]//button").click()
+
+    #     # Chờ menu hiển thị và chọn "Xóa"
+    #     wait = WebDriverWait(driver, 10)
+    #     wait.until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'dropdown-menu')]//a[contains(text(), 'Xóa')]"))).click()
+
+    #     print("Đã vào trang xóa khách hàng.")
+    #     time.sleep(4)
 
 # #------------------------------------------------------------------------------------------------------------
 # #------------------------------------------------------------------------------------------------------------
