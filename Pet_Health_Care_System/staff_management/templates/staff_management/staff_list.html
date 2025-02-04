@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Danh sách nhân viên</h2>
+<table>
+    <tr>
+        <th>Họ và tên</th>
+        <th>Vai trò</th>
+        <th>Email</th>
+        <th>Hành động</th>
+    </tr>
+    {% for staff in staffs %}
+    <tr>
+        <td>{{ staff.full_name }}</td>
+        <td>{{ staff.role.name }}</td>
+        <td>{{ staff.email }}</td>
+        <td>
+            <a href="{% url 'staff_detail' staff.id %}">Xem</a>
+            <a href="{% url 'staff_edit' staff.id %}">Sửa</a>
+            <a href="{% url 'staff_delete' staff.id %}">Xóa</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

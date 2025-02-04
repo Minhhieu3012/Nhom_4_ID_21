@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Chi tiết nhân viên</h2>
+<p>Họ và tên: {{ staff.full_name }}</p>
+<p>Email: {{ staff.email }}</p>
+<p>Vai trò: {{ staff.role.name }}</p>
+<a href="{% url 'staff_edit' staff.id %}">Chỉnh sửa</a>
+{% endblock %}
+
+# templates/schedule_list.html
+{% extends 'base.html' %}
+{% block content %}
+<h2>Danh sách lịch làm việc</h2>
+<table>
+    <tr>
+        <th>Nhân viên</th>
+        <th>Ngày</th>
+        <th>Bắt đầu</th>
+        <th>Kết thúc</th>
+    </tr>
+    {% for schedule in schedule_list %}
+    <tr>
+        <td>{{ schedule.staff.full_name }}</td>
+        <td>{{ schedule.date }}</td>
+        <td>{{ schedule.start_time }}</td>
+        <td>{{ schedule.end_time }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
