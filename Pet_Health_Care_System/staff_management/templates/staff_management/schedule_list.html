@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .schedule-container {
+        width: 90%;
+        max-width: 800px;
+        margin: 20px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        text-align: center;
+        color: #2c3e50;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
+
+    th {
+        background: #3498db;
+        color: white;
+        font-size: 18px;
+    }
+
+    tr:hover {
+        background: #f1f1f1;
+        transition: 0.3s;
+    }
+
+    .staff-name {
+        font-weight: bold;
+        color: #2c3e50;
+    }
+</style>
+
+<div class="schedule-container">
+    <h2>Danh sách lịch làm việc</h2>
+    <table>
+        <tr>
+            <th>Nhân viên</th>
+            <th>bác sĩ thú y</th>
+            <th>Ngày</th>
+            <th>Bắt đầu</th>
+            <th>Kết thúc</th>
+        </tr>
+        {% for schedule in schedule_list %}
+        <tr>
+            <td class="staff-name">{{ schedule.staff.full_name }}</td>
+            <td>{{ schedule.date }}</td>
+            <td>{{ schedule.start_time }}</td>
+            <td>{{ schedule.end_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

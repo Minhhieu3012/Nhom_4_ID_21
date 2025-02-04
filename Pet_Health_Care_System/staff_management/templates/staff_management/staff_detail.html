@@ -1,31 +1,55 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Chi tiết nhân viên</h2>
-<p>Họ và tên: {{ staff.full_name }}</p>
-<p>Email: {{ staff.email }}</p>
-<p>Vai trò: {{ staff.role.name }}</p>
-<a href="{% url 'staff_edit' staff.id %}">Chỉnh sửa</a>
-{% endblock %}
+<style>
+    .staff-card {
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        background: #ffffff;
+        text-align: center;
+    }
 
-# templates/schedule_list.html
-{% extends 'base.html' %}
-{% block content %}
-<h2>Danh sách lịch làm việc</h2>
-<table>
-    <tr>
-        <th>Nhân viên</th>
-        <th>Ngày</th>
-        <th>Bắt đầu</th>
-        <th>Kết thúc</th>
-    </tr>
-    {% for schedule in schedule_list %}
-    <tr>
-        <td>{{ schedule.staff.full_name }}</td>
-        <td>{{ schedule.date }}</td>
-        <td>{{ schedule.start_time }}</td>
-        <td>{{ schedule.end_time }}</td>
-    </tr>
-    {% endfor %}
-</table>
-{% endblock %}
+    .staff-card h2 {
+        color: #2c3e50;
+    }
 
+    .staff-info {
+        font-size: 18px;
+        margin: 10px 0;
+        color: #555;
+    }
+
+    .role-badge {
+        background: #3498db;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
+    .edit-btn {
+        display: inline-block;
+        padding: 10px 15px;
+        background: #f39c12;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .edit-btn:hover {
+        background: #e67e22;
+    }
+</style>
+
+<div class="staff-card">
+    <h2>Chi tiết nhân viên</h2>
+    <p class="staff-info"><strong>Họ và tên:</strong> {{ staff.full_name }}</p>
+    <p class="staff-info"><strong>Email:</strong> {{ staff.email }}</p>
+    <p class="staff-info"><strong>Vai trò:</strong> <span class="role-badge">{{ staff.role.name }}</span></p>
+    <a href="{% url 'staff_edit' staff.id %}" class="edit-btn">✏️ Chỉnh sửa</a>
+</div>
+{% endblock %}
