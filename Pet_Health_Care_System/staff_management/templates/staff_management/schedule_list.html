@@ -35,7 +35,8 @@
     }
 
     tr:hover {
-        background: #f1f1f1;
+        background: #ecf0f1;
+        cursor: pointer;
         transition: 0.3s;
     }
 
@@ -50,7 +51,7 @@
     <table>
         <tr>
             <th>Nhân viên</th>
-            <th>bác sĩ thú y</th>
+            <th>Bác sĩ thú y</th>
             <th>Ngày</th>
             <th>Bắt đầu</th>
             <th>Kết thúc</th>
@@ -58,7 +59,8 @@
         {% for schedule in schedule_list %}
         <tr>
             <td class="staff-name">{{ schedule.staff.full_name }}</td>
-            <td>{{ schedule.date }}</td>
+            <td>{{ schedule.veterinarian.full_name }}</td>
+            <td>{{ schedule.date|date:"d/m/Y" }}</td>
             <td>{{ schedule.start_time }}</td>
             <td>{{ schedule.end_time }}</td>
         </tr>
