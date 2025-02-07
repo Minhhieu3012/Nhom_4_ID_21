@@ -1,17 +1,41 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from .models import Appointment, Customers, Pets, Vet
 from datetime import datetime
-from .forms import CustomerRegistrationForm, CustomerLoginForm
+from .forms import CustomerRegistrationForm, CustomerLoginForm, CustomerProfileForm
 
 from django.contrib.auth.decorators import login_required
 
 @login_required
-
 def home(request):
     return render(request, 'Dat_lich_khan_va_dich_vu/home.html')
+
+@login_required
+def my_appointments_view(request):
+    print(" View function my_appointments_view() is being called.")  # Debug
+
+    if request.method == "POST":
+        print(" Received a POST request.")  # Debug
+
+        appointment_id = request.POST.get("cancel_appointment_id")
+        print(f" Extracted Appointment ID: {appointment_id}")  # Debug
+
+        if appointment_id:
+            appointment = Appointment.objects.filter(pk=appointment_id, pet__owner=request.user).first()
+            if appointment:
+                print(f" Deleting Appointment: {appointment}")  # Debug
+                appointment.delete()
+                messages.success(request, "Appointment cancelled successfully.")
+            else:
+                print(" User does not have permission to cancel this appointment.")  # Debug
+                messages.error(request, "You do not have permission to cancel this appointment.")
+        else:
+            print(" No appointment ID found in POST request.")  # Debug
+
+    appointments = Appointment.objects.filter(pet__owner=request.user)
+    return render(request, "Dat_lich_khan_va_dich_vu/my_appointments.html", {"appointments": appointments})
 
 def appointment_view(request):
     if request.method == "POST":
@@ -22,35 +46,29 @@ def appointment_view(request):
         vet_name = request.POST.get("vet_name", "").strip()
         additional_message = request.POST.get("message", "").strip()
 
-        #  Lấy email khách hàng từ tài khoản đăng nhập
         owner_email = request.user.email  
 
-        # Kiểm tra dữ liệu hợp lệ
         if not pet_name or not species or not datetime_str or not service_type or not vet_name:
             messages.error(request, "All fields are required.")
             return redirect("appointment")
 
-        # Chuyển đổi datetime string sang dạng Python datetime object
         try:
             appointment_datetime = datetime.strptime(datetime_str, "%m/%d/%Y %H:%M")
         except ValueError:
             messages.error(request, "Invalid date format. Please select a valid date and time.")
             return redirect("appointment")
 
-        # Tìm hoặc tạo thú cưng
         pet, created = Pets.objects.get_or_create(
             name=pet_name, 
-            owner=request.user,  #  Gán khách hàng hiện tại làm chủ
+            owner=request.user,  
             defaults={"species": species, "age": 0, "health_record": ""}
         )
 
-        # Tìm bác sĩ thú y
         vet = Vet.objects.filter(name__iexact=vet_name).first()
         if not vet:
             messages.error(request, f"Vet '{vet_name}' not found. Please check the name.")
             return redirect("appointment")
 
-        #  Tạo và lưu lịch hẹn
         appointment = Appointment.objects.create(
             pet=pet,
             vet=vet,
@@ -58,7 +76,6 @@ def appointment_view(request):
             service_type=service_type
         )
 
-        #  Lưu tin nhắn bổ sung vào hồ sơ thú cưng
         if additional_message:
             pet.health_record += f"\nAppointment Note: {additional_message}"
             pet.save()
@@ -96,7 +113,7 @@ def about(request):
     return render(request, 'Dat_lich_khan_va_dich_vu/about.html')
 
 def list_appointments(request):
-    appointments = Appointment.objects.select_related('pet', 'vet', 'pet__owner').all()  # Ensure pet and owner are retrieved
+    appointments = Appointment.objects.select_related('pet', 'vet', 'pet__owner').all()  
 
     appointment_data = []
     for appointment in appointments:
@@ -152,9 +169,17 @@ def logout_view(request):
     messages.success(request, "You have logged out.")
     return redirect("login")
 
-def my_appointments_view(request):
-    if not request.user.is_authenticated:
-        return redirect("login")
-    
-    appointments = Appointment.objects.filter(pet__owner=request.user)
-    return render(request, "Dat_lich_khan_va_dich_vu/my_appointments.html", {"appointments": appointments})
+@login_required
+def profile_update_view(request):
+    customer = request.user
+
+    if request.method == "POST":
+        form = CustomerProfileForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your profile has been updated successfully.")
+            return redirect("profile_update")
+    else:
+        form = CustomerProfileForm(instance=customer)
+
+    return render(request, "Dat_lich_khan_va_dich_vu/profile_update.html", {"form": form})
