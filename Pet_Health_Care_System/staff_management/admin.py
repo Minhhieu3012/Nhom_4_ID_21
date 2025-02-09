@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Role, Staff, WorkingSchedule, Appointment, AuditLog, Notification
+from .models import Role, Staff, WorkingSchedule, Appointment, AuditLog, Notification, AppointmentHistory
 
 # Đăng ký các mô hình vào Django Admin
 @admin.register(Role)
@@ -32,3 +32,11 @@ class AuditLogAdmin(admin.ModelAdmin):
 class NotificationAdmin(admin.ModelAdmin):
     list_display = ('staff', 'message', 'is_read', 'timestamp')
     list_filter = ('is_read', 'timestamp')
+    
+
+@admin.register(AppointmentHistory)
+class AppointmentHistoryAdmin(admin.ModelAdmin):
+    list_display = ('appointment', 'user', 'action', 'timestamp')
+    list_filter = ('action', 'timestamp')
+    search_fields = ('appointment__customer_name', 'appointment__pet_name', 'user__username')
+
