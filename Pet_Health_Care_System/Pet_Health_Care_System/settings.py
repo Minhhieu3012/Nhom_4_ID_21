@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Pet_Cus_Info_Mng',
     'app_admin',
-    'django_elasticsearch_dsl',
 ]
 
 MIDDLEWARE = [
