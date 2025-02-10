@@ -1,6 +1,8 @@
 # Sử dụng Python base image
 FROM python:3.12-slim
 
+# Create a non-root user
+RUN adduser --disabled-password --gecos '' appuser
 # Đặt thư mục làm việc
 WORKDIR /app
 

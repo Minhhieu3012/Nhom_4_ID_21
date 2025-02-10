@@ -6,7 +6,8 @@ from django.views.generic import ListView,DeleteView,CreateView,UpdateView
 from django.urls import reverse_lazy
 from .forms import AppointmentsForm
 from .models import Pet, Customer, MedicalRecord, Appointment
-
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 
 # Create your views here.
 # View cho Customer

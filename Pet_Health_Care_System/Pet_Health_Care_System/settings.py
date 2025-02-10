@@ -133,3 +133,17 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+
+# CACHES = {
+#     'default':{
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION':'redis://redis:6379/1', # Use the Redis service name
+#         'OPTIONS':{
+#             'CLIENT_CLASS':'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
+
+# SESSION_ENGINE = "django.contrib.session.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
