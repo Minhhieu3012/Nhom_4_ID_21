@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Pet_Cus_Info_Mng',
     'app_admin',
+    'django_elasticsearch_dsl',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +149,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # SESSION_ENGINE = "django.contrib.session.backends.cache"
 # SESSION_CACHE_ALIAS = "default"
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://localhost:9200/'  # Elasticsearch service name in docker-compose.yml
+    }
+}

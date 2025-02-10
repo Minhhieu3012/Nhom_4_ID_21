@@ -12,6 +12,7 @@ services:
     depends_on:
       - db
       - redis
+      - elasticsearch
 
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -27,6 +28,14 @@ services:
     image: redis:latest
     ports:
       - "6379:6379" 
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+    ports:
+      - "9200:9200"
 
 volumes:
   db_data: {}
