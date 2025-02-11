@@ -1,3 +1,12 @@
+# admin.py
 from django.contrib import admin
+from .models import Pet, MedicalRecord, Treatment, Medication, Notification, MedicalHistory
 
-# Register your models here.
+# Đăng ký các model với Django Admin
+admin.site.register(Pet, MedicalRecord, Treatment, Medication, Notification, MedicalHistory)
+
+
+
+
+
+
