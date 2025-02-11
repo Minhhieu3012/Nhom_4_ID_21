@@ -29,40 +29,45 @@
 <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <div class="card">
-    <h5 class="card-header">DANH SÁCH THÚ CƯNG</h5>
-    <div>
-      <table id="pet_list" class="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tên thú cưng</th>
-            <th class="rounded-end-bottom">THÊM</th>
+  <h5 class="card-header">DANH SÁCH THÚ CƯNG</h5>
+  <div>
+    <table id="pet_list" class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tên thú cưng</th>
+          <th class="rounded-end-bottom">THÊM</th>
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        {% for item in pets %}
+          <tr class="table-default">
+            <td><span>{{ item.id }}</span></td>
+            <td><span>{{ item.name }}</span></td>
+            <td class="rounded-end-bottom">
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{% url 'pet_detail' pk=item.id %}">Xem chi tiết</a>
+                </div>
+              </div>
+            </td>
           </tr>
-        </thead>
-        <tbody class="table-border-bottom-0">
-            {% for item in pets %}
-                <tr class="table-default">
-                    <td><i></i> <span>{{item.id}}</span></td>
-                    <td><i></i> <span>{{item.name}}</span></td>
-                    <td class="rounded-end-bottom">
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ item.id }}/edit">Chỉnh sửa</a>
-                            <a class="dropdown-item" href="{{ item.id }}/delete">Xóa</a>
-                            <a class="dropdown-item" href="{{item.id}}">Xem chi tiết thú cưng</a>
-                          </div>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-      </table>
-    </div>
+        {% empty %}
+          <tr>
+            <td colspan="3" class="text-center">Không có thú cưng nào</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
-<!--Nút thêm thú cưng-->
+
+<!-- Nút thêm thú cưng -->
 <div class="mt-4 text-center">
   <a href="{% url 'pet_create' %}" class="btn btn-primary">Thêm thú cưng mới</a>
 </div>

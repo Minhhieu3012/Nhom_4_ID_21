@@ -36,8 +36,8 @@
     <p><strong>Tình trạng sức khỏe:</strong> {{ pet.current_health_status }}</p>
   </div>
   <div class="card-footer">
-    <a href="{% url 'pet_update' pet.pk %}" class="btn btn-warning">Chỉnh sửa</a>
-    <a href="{% url 'pet_delete' pet.pk %}" class="btn btn-danger">Xóa</a>
+    <a href="{% url 'pet_update' pk=pet.id %}" class="btn btn-warning">Chỉnh sửa</a>
+    <a href="{% url 'pet_delete' pk=pet.id %}" class="btn btn-danger">Xóa</a>
     <a href="{% url 'pet_list' %}" class="btn btn-secondary">Quay lại danh sách</a>
   </div>
 </div>

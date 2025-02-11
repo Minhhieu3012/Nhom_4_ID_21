@@ -70,17 +70,32 @@ class MedicalRecordListView(ListView):
         return MedicalRecord.objects.all().order_by('-date')
 
 
+
+
 class MedicalRecordCreateView(CreateView):
     model = MedicalRecord
     form_class = MedicalRecordForm
     template_name = 'Pet_Health_CheckUp_Treatment_Prg/medical_record_form.html'
-    success_url = reverse_lazy('medical_record_list')  # Định nghĩa name trong urls.py
-
+    
     def form_valid(self, form):
-        form.save()
-        messages.success(self.request, "Bệnh án đã được tạo thành công!")
-        return HttpResponseRedirect(self.get_success_url())
-
+        # Lấy pet_id từ URL
+        pet_id = self.kwargs.get('pet_id')
+        if pet_id:
+            form.instance.pet_id = pet_id  # gán trực tiếp pet_id cho đối tượng
+        else:
+            if not form.cleaned_data.get('pet'):
+                form.add_error('pet', 'Bạn phải chọn thú cưng.')
+                return self.form_invalid(form)
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        # In ra lỗi để debug
+        print("Form errors:", form.errors)
+        return super().form_invalid(form)
+    
+    def get_success_url(self):
+        # Sau khi lưu, self.object.pet.id phải có giá trị hợp lệ
+        return reverse_lazy('medical_record_list', kwargs={'pet_id': self.object.pet.id})
 
 class MedicalRecordUpdateView(UpdateView):
     model = MedicalRecord
@@ -96,12 +111,12 @@ class MedicalRecordUpdateView(UpdateView):
 
 class MedicalRecordDeleteView(DeleteView):
     model = MedicalRecord
-    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medical_record_confirm_delete.html'
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medical_record_delete.html'
     success_url = reverse_lazy('medical_record_list')
 
-    def delete(self, request, *args, **kwargs):
-        messages.success(request, "Bệnh án đã được xóa thành công!")
-        return super().delete(request, *args, **kwargs)
+    def get_success_url(self):
+        # Sử dụng self.object.pet.id để lấy pet_id của bệnh án vừa xóa
+        return reverse_lazy('medical_record_list', kwargs={'pet_id': self.object.pet.id})
 
 
 # ----------------------------------------------

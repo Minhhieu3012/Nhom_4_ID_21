@@ -23,8 +23,109 @@
 </nav>
 {% endblock %}
 
-{%block servicesection%}
+{% block servicesection %}
+{% load static %}
+<div class="card">
+  <div class="card-header">
+    <h3>{% if medical_record %}CẬP NHẬT BỆNH ÁN{% else %}TẠO BỆNH ÁN{% endif %}</h3>
+  </div>
+  <div class="card-body pt-4">
+    <!-- Hiển thị thông báo nếu có -->
+    {% if messages %}
+      <div class="alert alert-success">
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="row g-3">
+        {# Nếu chưa có đối tượng medical_record (tạo mới), cho phép chọn thú cưng #}
+        {% if not medical_record %}
+          <div class="col-md-6">
+            <label for="id_pet" class="form-label">Chọn thú cưng</label>
+            {{ form.pet }}
+            {% if form.pet.errors %}
+              <div class="text-danger">
+                {% for error in form.pet.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <!-- Ngày khám -->
+        <div class="col-md-6">
+          <label for="id_date" class="form-label">Ngày khám</label>
+          <input type="date" id="id_date" name="date" class="form-control" placeholder="Chọn ngày khám" 
+                 value="{{ form.date.value|default_if_none:'' }}">
+          {% if form.date.errors %}
+            <div class="text-danger">
+              {% for error in form.date.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Triệu chứng -->
+        <div class="col-12">
+          <label for="id_symptoms" class="form-label">Triệu chứng</label>
+          <textarea id="id_symptoms" name="symptoms" class="form-control" placeholder="Nhập triệu chứng của thú cưng">{{ form.symptoms.value }}</textarea>
+          {% if form.symptoms.errors %}
+            <div class="text-danger">
+              {% for error in form.symptoms.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Bệnh/Chẩn đoán -->
+        <div class="col-12">
+          <label for="id_disease" class="form-label">Bệnh/Chẩn đoán</label>
+          <input type="text" id="id_disease" name="disease" class="form-control" placeholder="Nhập bệnh hoặc chẩn đoán" 
+                 value="{{ form.disease.value|default_if_none:'' }}">
+          {% if form.disease.errors %}
+            <div class="text-danger">
+              {% for error in form.disease.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Ghi chú của bác sĩ -->
+        <div class="col-12">
+          <label for="id_vet_notes" class="form-label">Ghi chú của bác sĩ</label>
+          <textarea id="id_vet_notes" name="vet_notes" class="form-control" placeholder="Nhập ghi chú của bác sĩ">{{ form.vet_notes.value }}</textarea>
+          {% if form.vet_notes.errors %}
+            <div class="text-danger">
+              {% for error in form.vet_notes.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!-- Nút gửi và Hủy -->
+      <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-primary">
+          {% if medical_record %}Cập nhật{% else %}Lưu bệnh án{% endif %}
+        </button>
+        <a href="{% url 'pet_list' %}" class="btn btn-primary">Hủy</a>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
+
 
 {%block footer%}
     {% include 'includes/footer.html' %}

@@ -24,6 +24,48 @@
 {% endblock %}
 
 {%block servicesection%}
+<div class="card">
+  <div class="card-header">
+    <h3>Lịch sử Bệnh án của Thú cưng</h3>
+  </div>
+  <div class="card-body">
+    {% if medical_records %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Ngày khám</th>
+            <th>Triệu chứng</th>
+            <th>Bệnh/Chẩn đoán</th>
+            <th>Ghi chú bác sĩ</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in medical_records %}
+            <tr>
+              <td>{{ record.id }}</td>
+              <td>{{ record.date|date:"d/m/Y" }}</td>
+              <td>{{ record.symptoms }}</td>
+              <td>{{ record.disease }}</td>
+              <td>{{ record.vet_notes }}</td>
+              <td>
+                <a href="{% url 'medical_record_update' record.pk %}" class="btn btn-sm btn-warning">Sửa</a>
+                <a href="{% url 'medical_record_delete' record.pk %}" class="btn btn-sm btn-danger">Xóa</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Không có bệnh án nào được ghi nhận.</p>
+    {% endif %}
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'medical_record_create' %}" class="btn btn-primary">Thêm bệnh án mới</a>
+    <a href="{% url 'pet_list' %}" class="btn btn-primary">Quay lại danh sách thú cưng</a> 
+  </div>
+</div>
 {% endblock %}
 
 {%block footer%}

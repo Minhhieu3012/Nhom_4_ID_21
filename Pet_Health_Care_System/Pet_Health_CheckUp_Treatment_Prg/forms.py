@@ -13,7 +13,7 @@ class MedicalRecordForm(forms.ModelForm):
         model = MedicalRecord
         fields = ['pet', 'date', 'symptoms', 'disease', 'vet_notes']
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'})  # sử dụng date picker của HTML5
+            'date': forms.DateInput(attrs={'type': 'date'}),
         }
 
 class TreatmentProgressForm(forms.ModelForm):

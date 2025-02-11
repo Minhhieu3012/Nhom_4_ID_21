@@ -24,6 +24,21 @@
 {% endblock %}
 
 {%block servicesection%}
+<div class="card">
+  <div class="card-header">
+    <h3>XÁC NHẬN XÓA BỆNH ÁN</h3>
+  </div>
+  <div class="card-body pt-4">
+    <p>Bạn có chắc chắn muốn xóa bệnh án của thú cưng <strong>{{ medical_record.pet.name }}</strong> không?</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a href="{% url 'pet_list' %}" class="btn btn-secondary">Hủy</a>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
 
 
