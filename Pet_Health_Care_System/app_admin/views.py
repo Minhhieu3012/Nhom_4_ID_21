@@ -81,27 +81,6 @@ def admission_list(request):
     admissions = Admission.objects.all()
     return render(request, "app_admin/admission-list.html", {"admissions": admissions})
 
-#Tạo mới một ca nhập viện
-# def admission_create(request):
-#     if request.method == "POST":
-#         pet_id = request.POST.get("pet")
-#         room_id = request.POST.get("room")
-
-#         pet = get_object_or_404(Pet, id=pet_id)
-#         room = get_object_or_404(Room, id=room_id)
-
-#         # Tạo Admission
-#         admission = Admission.objects.create(pet=pet, room=room, admission_date=now())
-
-#         # Cập nhật trạng thái phòng
-#         room.status = "Occupied"
-#         room.save()
-
-#         return redirect("admission-list")
-
-#     pets = Pet.objects.all()
-#     rooms = Room.objects.filter(status="Available")  # Chỉ hiển thị phòng trống
-#     return render(request, "app_admin/admission-create.html", {"pets": pets, "rooms": rooms})
 
 from django.db import models  # Import đúng models.F
 
@@ -134,31 +113,6 @@ def admission_create(request):
 
 
 # #Xuất viện và tạo hóa đơn
-# def admission_discharge(request, id):
-#     admission = get_object_or_404(Admission, id=id)
-    
-#     # Cập nhật ngày xuất viện
-#     admission.discharge_date = now()
-#     admission.save()
-
-#     # Tạo hóa đơn thanh toán
-#    # Tạo hóa đơn nhưng chưa lưu
-#     invoice = Invoice(admission=admission, issued_date=now(), is_paid=False)
-
-#     # Tính tổng tiền trước khi lưu
-#     invoice.calculate_total()
-
-#     # Sau khi có total_amount, lưu invoice vào database
-#     invoice.save()
-    
-#     # Giải phóng phòng
-#     admission.room.status = "Available"
-#     admission.room.save()
-
-#     # Cập nhật lại admission để có thông tin invoice
-#     admission.refresh_from_db()
-
-#     return redirect("invoice-detail", invoice.id)
 
 def admission_discharge(request, id):
     admission = get_object_or_404(Admission, id=id)

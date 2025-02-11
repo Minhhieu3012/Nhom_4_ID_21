@@ -31,36 +31,6 @@ class Owner(models.Model):
     def __str__(self):
         return self.full_name
 
-# class Room(models.Model):
-#     room_type = models.CharField(
-#         max_length=20,
-#         choices=[
-#             ('Standard', 'Standard'),
-#             ('Luxury', 'Luxury'),
-#             ('Indoor', 'Indoor'),
-#             ('Outdoor', 'Outdoor'),
-#             ('Quarantine', 'Quarantine'),
-#             ('Recovery', 'Recovery'),
-#             ('Training', 'Training'),
-#             ('Breeding', 'Breeding'),
-#             ('Large', 'Large Animal'),
-#             ('Custom', 'Customizable'),
-#         ],
-#         default='Standard'
-#     )
-#     capacity = models.IntegerField()
-#     status = models.CharField(
-#         max_length=20,
-#         choices=[('Available', 'Available'),
-#                 ('Occupied', 'Occupied'), 
-#                 ('Under Maintenance', 'Under Maintenance')],
-#         default='Available'
-#     )
-#     # daily_rate = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # Thêm trường này
-
-#     def __str__(self):
-#         return f"{self.room_type} - {self.status}"
-
 class Room(models.Model):
     room_type = models.CharField(
         max_length=20,
