@@ -1,123 +1,202 @@
 # views.py
-from django.shortcuts import redirect, render
+from django.contrib import messages
+from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from .models import MedicalRecord, Medication, Treatment, Notification
-from .forms import MedicalRecordForm, NotificationForm, TreatmentForm
-
-# ----------------------------------------------------------------------------------------------------
-
-def medical_record_list(request):
-    # Lấy tất cả bệnh án từ cơ sở dữ liệu
-    records = MedicalRecord.objects.all()
-    return render(request, 'medical_record_list.html', {'records': records})
-
-def medical_record_detail(request, record_id):
-    # Lấy bệnh án theo ID hoặc trả về lỗi 404 nếu không tìm thấy
-    record = get_object_or_404(MedicalRecord, pk=record_id)
-    return render(request, 'medical_record_detail.html', {'record': record})
-
-def medical_record_create(request):
-    # Nếu phương thức yêu cầu là POST (người dùng đã gửi form)
-    if request.method == 'POST':
-        form = MedicalRecordForm(request.POST)
-        if form.is_valid():
-            form.save()  # Lưu bệnh án mới vào cơ sở dữ liệu
-            return redirect('medical_record_list')  # Chuyển hướng đến danh sách bệnh án
-    else:
-        form = MedicalRecordForm()  # Tạo form mới khi yêu cầu là GET
-
-    return render(request, 'medical_record_form.html', {'form': form})
-
-def medical_record_edit(request, record_id):
-    # Lấy bệnh án theo ID
-    record = get_object_or_404(MedicalRecord, pk=record_id)
-
-    # Nếu phương thức yêu cầu là POST (người dùng đã gửi form)
-    if request.method == 'POST':
-        form = MedicalRecordForm(request.POST, instance=record)
-        if form.is_valid():
-            form.save()  # Lưu các thay đổi vào cơ sở dữ liệu
-            return redirect('medical_record_list')  # Chuyển hướng đến danh sách bệnh án
-    else:
-        form = MedicalRecordForm(instance=record)  # Tạo form từ dữ liệu hiện tại của bệnh án
-
-    return render(request, 'medical_record_form.html', {'form': form})
-
-def medical_history_list(request, pet_id):
-    history = MedicalHistory.objects.filter(pet_id=pet_id)  # Lọc theo thú cưng
-    return render(request, 'medical_history_list.html', {'history': history})
-
-#------------------------------------------------------------------------------------------------------------
-
-def medication_list(request):
-    medications = Medication.objects.all()
-    return render(request, 'medication_list.html', {'medications': medications})
-
-def medication_create(request):
-    if request.method == 'POST':
-        form = MedicationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('medication_list')
-    else:
-        form = MedicationForm()
-
-    return render(request, 'medication_form.html', {'form': form})
-
-# ----------------------------------------------------------------------------------------------------
-
-def notification_list(request):
-    notifications = Notification.objects.all()
-    return render(request, 'notification_list.html', {'notifications': notifications})
-
-
-def notification_create(request):
-    if request.method == 'POST':
-        form = NotificationForm(request.POST)
-        if form.is_valid():
-            form.save()  # Lưu thông báo mới vào cơ sở dữ liệu
-            return redirect('notification_list')
-    else:
-        form = NotificationForm()
-
-    return render(request, 'notification_form.html', {'form': form})
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from .models import MedicalRecord, TreatmentProgress, Medication, Pet
+from .forms import MedicalRecordForm, TreatmentProgressForm, MedicationForm, PetForm
 
 
 
-# ----------------------------------------------------------------------------------------------------
+#----------------------------
+# --- Views cho Pet ---------
+#----------------------------
+class PetListView(ListView):
+    model = Pet
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_list.html'  
+    context_object_name = 'pets'
+
+class PetDetailView(DetailView):
+    model = Pet
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_detail.html'
+    context_object_name = 'pet'
+
+class PetCreateView(CreateView):
+    model = Pet
+    form_class = PetForm
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_form.html'
+    success_url = reverse_lazy('pet_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Thú cưng đã được tạo thành công!")
+        return response
+
+class PetUpdateView(UpdateView):
+    model = Pet
+    form_class = PetForm
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_form.html'
+    success_url = reverse_lazy('pet_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Thông tin thú cưng đã được cập nhật thành công!")
+        return response
+
+class PetDeleteView(DeleteView):
+    model = Pet
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_confirm_delete.html'
+    success_url = reverse_lazy('pet_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "Thú cưng đã được xóa thành công!")
+        return super().delete(request, *args, **kwargs)
+    
+
+# ----------------------------------------------
+# Views cho Medical Record (Quản lý bệnh án)
+# ----------------------------------------------
+class MedicalRecordListView(ListView):
+    model = MedicalRecord
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medical_record_list.html' 
+    context_object_name = 'medical_records'
+
+    def get_queryset(self):
+        # Nếu truyền pet_id qua URL, chỉ lấy bệnh án của thú cưng đó
+        pet_id = self.kwargs.get('pet_id')
+        if pet_id:
+            return MedicalRecord.objects.filter(pet__id=pet_id).order_by('-date')
+        return MedicalRecord.objects.all().order_by('-date')
 
 
-def treatment_list(request):
-    treatments = Treatment.objects.all()  # Lấy tất cả tiến trình điều trị
-    return render(request, 'treatment_list.html', {'treatments': treatments})
+class MedicalRecordCreateView(CreateView):
+    model = MedicalRecord
+    form_class = MedicalRecordForm
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medical_record_form.html'
+    success_url = reverse_lazy('medical_record_list')  # Định nghĩa name trong urls.py
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Bệnh án đã được tạo thành công!")
+        return HttpResponseRedirect(self.get_success_url())
 
 
-def treatment_create(request):
-    if request.method == 'POST':
-        form = TreatmentForm(request.POST)
-        if form.is_valid():
-            form.save()  # Lưu tiến trình điều trị mới vào cơ sở dữ liệu
-            return redirect('treatment_list')
-    else:
-        form = TreatmentForm()  # Tạo form mới
+class MedicalRecordUpdateView(UpdateView):
+    model = MedicalRecord
+    form_class = MedicalRecordForm
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medical_record_form.html'
+    success_url = reverse_lazy('medical_record_list')
 
-    return render(request, 'treatment_form.html', {'form': form})
-
-
-def treatment_edit(request, treatment_id):
-    treatment = get_object_or_404(Treatment, pk=treatment_id)
-
-    if request.method == 'POST':
-        form = TreatmentForm(request.POST, instance=treatment)
-        if form.is_valid():
-            form.save()  # Lưu các thay đổi vào cơ sở dữ liệu
-            return redirect('treatment_list')  # Chuyển hướng đến danh sách tiến trình điều trị
-    else:
-        form = TreatmentForm(instance=treatment)  # Tạo form từ dữ liệu hiện tại của tiến trình điều trị
-
-    return render(request, 'treatment_form.html', {'form': form})
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Bệnh án đã được cập nhật thành công!")
+        return HttpResponseRedirect(self.get_success_url())
 
 
-def treatment_detail(request, treatment_id):
-    treatment = get_object_or_404(Treatment, pk=treatment_id)  # Lấy tiến trình điều trị theo ID
-    return render(request, 'treatment_detail.html', {'treatment': treatment})
+class MedicalRecordDeleteView(DeleteView):
+    model = MedicalRecord
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medical_record_confirm_delete.html'
+    success_url = reverse_lazy('medical_record_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Bệnh án đã được xóa thành công!")
+        return super().delete(request, *args, **kwargs)
+
+
+# ----------------------------------------------
+# Views cho Treatment Progress (Tiến trình điều trị)
+# ----------------------------------------------
+class TreatmentProgressListView(ListView):
+    model = TreatmentProgress
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/treatment_progress_list.html'
+    context_object_name = 'treatment_progress_list'
+
+    def get_queryset(self):
+        pet_id = self.kwargs.get('pet_id')
+        if pet_id:
+            return TreatmentProgress.objects.filter(pet__id=pet_id).order_by('-updated_at')
+        return TreatmentProgress.objects.all().order_by('-updated_at')
+
+
+class TreatmentProgressCreateView(CreateView):
+    model = TreatmentProgress
+    form_class = TreatmentProgressForm
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/treatment_progress_form.html'
+    success_url = reverse_lazy('treatment_progress_list')
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Tiến trình điều trị đã được tạo thành công!")
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Truyền thêm danh sách bệnh án (nếu cần) để lựa chọn trong form
+        context['medical_records'] = MedicalRecord.objects.all()
+        return context
+
+
+class TreatmentProgressUpdateView(UpdateView):
+    model = TreatmentProgress
+    form_class = TreatmentProgressForm
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/treatment_progress_form.html'
+    success_url = reverse_lazy('treatment_progress_list')
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Tiến trình điều trị đã được cập nhật thành công!")
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class TreatmentProgressDeleteView(DeleteView):
+    model = TreatmentProgress
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/treatment_progress_confirm_delete.html'
+    success_url = reverse_lazy('treatment_progress_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Tiến trình điều trị đã được xóa thành công!")
+        return super().delete(request, *args, **kwargs)
+
+
+# ----------------------------------------------
+# Views cho Medication (Quản lý thuốc)
+# ----------------------------------------------
+class MedicationListView(ListView):
+    model = Medication
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medication_list.html'
+    context_object_name = 'medications'
+
+
+class MedicationCreateView(CreateView):
+    model = Medication
+    form_class = MedicationForm
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medication_form.html'
+    success_url = reverse_lazy('medication_list')
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Thuốc đã được thêm thành công!")
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class MedicationUpdateView(UpdateView):
+    model = Medication
+    form_class = MedicationForm
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medication_form.html'
+    success_url = reverse_lazy('medication_list')
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, "Thông tin thuốc đã được cập nhật thành công!")
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class MedicationDeleteView(DeleteView):
+    model = Medication
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medication_confirm_delete.html'
+    success_url = reverse_lazy('medication_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Thuốc đã được xóa thành công!")
+        return super().delete(request, *args, **kwargs)
