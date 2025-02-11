@@ -18,8 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', include('Pet_Health_CheckUp_Treatment_Prg.urls')),
-
-
+    path('', include('app_admin.urls')),
+    path('admin/', admin.site.urls),
 ]
