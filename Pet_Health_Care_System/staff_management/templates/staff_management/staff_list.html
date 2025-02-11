@@ -1,78 +1,34 @@
-# templates/staff_list.html
-{% comment %} {% extends 'base.html' %} {% endcomment %}
-{% block content %}
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
-    }
-    .container {
-        max-width: 900px;
-        margin: auto;
-        background: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    h2 {
-        text-align: center;
-        color: #333;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-    th, td {
-        padding: 12px;
-        border: 1px solid #ddd;
-        text-align: left;
-    }
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-    .action-links a {
-        text-decoration: none;
-        padding: 5px 10px;
-        margin: 2px;
-        display: inline-block;
-        border-radius: 4px;
-    }
-    .view { background-color: #2196F3; color: white; }
-    .edit { background-color: #FFC107; color: black; }
-    .delete { background-color: #F44336; color: white; }
-    .action-links a:hover {
-        opacity: 0.8;
-    }
-</style>
+{% extends "base.html" %}
 
-<div class="container">
-    <h2>Danh sách nhân viên</h2>
-    <table>
+{% block content %}
+<h2>Danh sách nhân viên</h2>
+<table border="1">
+    <thead>
         <tr>
-            <th>Họ và tên</th>
+            <th>Tên</th>
             <th>Vai trò</th>
             <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Ngày tuyển dụng</th>
+            <th>Trạng thái</th>
             <th>Hành động</th>
         </tr>
-        {% for staff in staffs %}
+    </thead>
+    <tbody>
+        {% for staff in staff_list %}
         <tr>
-            <td>{{ staff.full_name }}</td>
+            <td>{{ staff.first_name }} {{ staff.last_name }}</td>
             <td>{{ staff.role.name }}</td>
             <td>{{ staff.email }}</td>
-            <td class="action-links">
-                <a href="{% url 'staff_detail' staff.id %}" class="view">Xem</a>
-                <a href="{% url 'staff_edit' staff.id %}" class="edit">Sửa</a>
-                <a href="{% url 'staff_delete' staff.id %}" class="delete">Xóa</a>
+            <td>{{ staff.phone }}</td>
+            <td>{{ staff.hire_date }}</td>
+            <td>{% if staff.is_active %} Đang làm việc {% else %} Đã nghỉ {% endif %}</td>
+            <td>
+                <a href="{% url 'staff_detail' staff.id %}">Xem</a> | 
+                <a href="{% url 'staff_edit' staff.id %}">Sửa</a>
             </td>
         </tr>
         {% endfor %}
-    </table>
-</div>
+    </tbody>
+</table>
 {% endblock %}

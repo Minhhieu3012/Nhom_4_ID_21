@@ -1,141 +1,73 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from datetime import timedelta
 
-# Mô hình phân quyền
+# Mô hình cho vai trò của nhân viên (Role)
 class Role(models.Model):
-    name = models.CharField(max_length=100, unique=True)  # Tên vai trò
-    description = models.TextField()  # Mô tả quyền hạn
-    can_manage_schedule = models.BooleanField(default=False)  # Quản lý lịch làm việc
-    can_view_appointments = models.BooleanField(default=False)  # Xem lịch hẹn
-    can_edit_pet_info = models.BooleanField(default=False)  # Chỉnh sửa thông tin thú cưng
-    can_manage_users = models.BooleanField(default=False)  # Quản lý người dùng
-    can_manage_doctor_schedule = models.BooleanField(default=False)  # Quản lý lịch bác sĩ
-    can_confirm_appointments = models.BooleanField(default=False)  # Xác nhận/hủy lịch hẹn
-    can_view_reports = models.BooleanField(default=False)  # Truy cập báo cáo & thống kê
+    name = models.CharField(max_length=50, unique=True)  # Tên vai trò: ví dụ 'Bác sĩ thú y', 'Quản lý', 'Nhân viên'
+    description = models.TextField(blank=True, null=True)  # Mô tả chi tiết về vai trò
 
     def __str__(self):
         return self.name
 
-# Mô hình nhân viên
+# Mô hình cho thông tin nhân viên (Staff)
 class Staff(models.Model):
-    WORK_STATUS_CHOICES = [
-        ('working', 'Đang làm việc'),
-        ('on_break', 'Nghỉ giải lao'),
-        ('off_duty', 'Hết ca làm'),
-    ]
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
-    full_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=15)
-    email = models.EmailField()
-    join_date = models.DateField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
-    work_status = models.CharField(max_length=20, choices=WORK_STATUS_CHOICES, default='working')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Liên kết với tài khoản người dùng
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)  # Vai trò của nhân viên (ví dụ: Bác sĩ thú y)
+    first_name = models.CharField(max_length=100)  # Tên nhân viên
+    last_name = models.CharField(max_length=100)  # Họ nhân viên
+    phone = models.CharField(max_length=15, blank=True, null=True)  # Số điện thoại
+    email = models.EmailField(max_length=100, blank=True, null=True)  # Email liên lạc
+    address = models.CharField(max_length=255, blank=True, null=True)  # Địa chỉ
+    hire_date = models.DateField()  # Ngày tuyển dụng
+    is_active = models.BooleanField(default=True)  # Trạng thái hoạt động (true: đang làm việc, false: nghỉ việc)
+    date_of_birth = models.DateField(null=True, blank=True)  # Ngày sinh
+    gender = models.CharField(max_length=10, choices=[('Male', 'Nam'), ('Female', 'Nữ'), ('Other', 'Khác')], blank=True, null=True)  # Giới tính
+    emergency_contact = models.CharField(max_length=15, blank=True, null=True)  # Số điện thoại liên lạc khẩn cấp
+    profile_picture = models.ImageField(upload_to='staff_profile_pictures/', null=True, blank=True)  # Hình ảnh đại diện
 
     def __str__(self):
-        return self.full_name
+        return f"{self.first_name} {self.last_name} - {self.role.name}"
 
-    def get_appointment_count(self):
-        return Appointment.objects.filter(doctor=self).count()
-    
-    def get_total_work_hours(self):
-        schedules = WorkingSchedule.objects.filter(staff=self)
-        total_hours = sum((schedule.end_time.hour - schedule.start_time.hour) for schedule in schedules)
-        return total_hours
-
-# Mô hình lịch làm việc
-class WorkingSchedule(models.Model):
-    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    is_off_day = models.BooleanField(default=False)
-    is_overtime = models.BooleanField(default=False)
+# Mô hình cho lịch làm việc của bác sĩ và nhân viên (WorkSchedule)
+class WorkSchedule(models.Model):
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)  # Liên kết với nhân viên/bác sĩ
+    start_time = models.DateTimeField()  # Thời gian bắt đầu làm việc
+    end_time = models.DateTimeField()  # Thời gian kết thúc làm việc
+    work_type = models.CharField(
+        max_length=100, 
+        choices=[('Consultation', 'Tư vấn'), ('Treatment', 'Điều trị'), ('Admin', 'Quản lý'), ('Other', 'Khác')]
+    )  # Loại công việc, có thể là tư vấn, điều trị, hoặc công việc quản lý hành chính
+    location = models.CharField(max_length=255, blank=True, null=True)  # Địa điểm làm việc
+    is_off_day = models.BooleanField(default=False)  # Ngày nghỉ (nếu có)
+    notes = models.TextField(blank=True, null=True)  # Ghi chú về lịch làm việc
 
     def __str__(self):
-        return f'{self.staff.full_name} - {self.date}'
+        return f"{self.staff.first_name} {self.staff.last_name} - {self.start_time} to {self.end_time}"
 
-    def is_available(self):
-        return not self.is_off_day and not self.is_overtime
-
-    def clean(self):
-        if self.start_time >= self.end_time:
-            raise ValidationError("Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc.")
-
-        overlapping_schedules = WorkingSchedule.objects.filter(
-            staff=self.staff,
-            date=self.date,
-            start_time__lt=self.end_time,
-            end_time__gt=self.start_time,
-        ).exclude(pk=self.pk)
-
-        if overlapping_schedules.exists():
-            raise ValidationError("Lịch làm việc bị trùng lặp.")
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
-# Mô hình lịch hẹn
-class Appointment(models.Model):
-    customer_name = models.CharField(max_length=255)
-    pet_name = models.CharField(max_length=255)
-    pet_type = models.CharField(max_length=100)
-    doctor = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True, limit_choices_to={'role__name': 'Bác sĩ thú y'})
-    appointment_date = models.DateField()
-    appointment_time = models.TimeField()
-    status = models.CharField(
+# Mô hình quản lý quyền truy cập cho các nhân viên (UserPermission)
+class UserPermission(models.Model):
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)  # Liên kết với nhân viên
+    permission_type = models.CharField(
         max_length=50,
-        choices=[('pending', 'Chưa xác nhận'), ('confirmed', 'Đã xác nhận'), ('canceled', 'Đã hủy')],
-        default='pending'
-    )
-    notes = models.TextField(null=True, blank=True)
+        choices=[('View', 'Xem'), ('Edit', 'Chỉnh sửa'), ('Delete', 'Xóa'), ('Admin', 'Quản trị')],
+    )  # Loại quyền truy cập (Xem, Chỉnh sửa, Xóa, Quản trị)
+    model_name = models.CharField(max_length=50)  # Tên mô hình (ví dụ: Pet, MedicalRecord, etc.)
+    permission_description = models.TextField(blank=True, null=True)  # Mô tả quyền truy cập
 
     def __str__(self):
-        return f'{self.customer_name} - {self.pet_name} ({self.appointment_date} {self.appointment_time})'
+        return f"Permission {self.permission_type} for {self.staff.first_name} {self.staff.last_name} on {self.model_name}"
 
-    def save(self, *args, **kwargs):
-        action = 'created' if self._state.adding else 'updated'
-        super().save(*args, **kwargs)
-        AppointmentHistory.objects.create(appointment=self, user=self.doctor.user, action=action)
-        Notification.objects.create(
-            staff=self.doctor,
-            message=f"Lịch hẹn mới: {self.customer_name} - {self.pet_name} vào {self.appointment_date} {self.appointment_time}"
-        )
-
-# Mô hình lịch sử hoạt động của lịch hẹn
-class AppointmentHistory(models.Model):
-    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    action = models.CharField(max_length=50, choices=[
-        ('created', 'Tạo mới'),
-        ('updated', 'Cập nhật'),
-        ('canceled', 'Hủy lịch'),
-    ])
-    timestamp = models.DateTimeField(auto_now_add=True)
+# Mô hình lưu trữ các loại ca làm việc của nhân viên (WorkShift)
+class WorkShift(models.Model):
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)  # Liên kết với nhân viên
+    shift_type = models.CharField(
+        max_length=50,
+        choices=[('Morning', 'Sáng'), ('Afternoon', 'Chiều'), ('Night', 'Tối')]
+    )  # Ca làm việc (Sáng, Chiều, Tối)
+    start_time = models.DateTimeField()  # Thời gian bắt đầu ca
+    end_time = models.DateTimeField()  # Thời gian kết thúc ca
+    is_active = models.BooleanField(default=True)  # Trạng thái ca làm việc (hoạt động hay không)
 
     def __str__(self):
-        return f'{self.user.username} {self.action} {self.appointment}'
+        return f"{self.staff.first_name} {self.staff.last_name} - {self.shift_type} shift"
 
-# Mô hình lịch sử hoạt động chung
-class AuditLog(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    action = models.CharField(max_length=255)
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.user.username} - {self.action} - {self.timestamp}'
-
-# Mô hình thông báo
-class Notification(models.Model):
-    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
-    message = models.TextField()
-    is_read = models.BooleanField(default=False)
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'Thông báo cho {self.staff.full_name} - {self.timestamp}'

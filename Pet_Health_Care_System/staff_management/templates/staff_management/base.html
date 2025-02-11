@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Quản lý Nhân viên{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { color: #007bff; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        table, th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        a { color: blue; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hệ thống quản lý nhân viên</h1>
+        <nav>
+            <a href="{% url 'staff_list' %}">Nhân viên</a> |
+            <a href="{% url 'work_schedule_list' %}">Lịch làm việc</a> |
+            <a href="{% url 'work_shift_list' %}">Ca làm việc</a>
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <hr>
+        <p>&copy; 2025 Pet Health Care System</p>
+    </footer>
+</body>
+</html>

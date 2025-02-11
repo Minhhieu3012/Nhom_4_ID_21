@@ -1,42 +1,41 @@
 from django.contrib import admin
-from .models import Role, Staff, WorkingSchedule, Appointment, AuditLog, Notification, AppointmentHistory
+from .models import Role, Staff, WorkSchedule, UserPermission, WorkShift
 
-# Đăng ký các mô hình vào Django Admin
-@admin.register(Role)
+# --- Role Admin ---
 class RoleAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'can_manage_schedule', 'can_view_appointments', 'can_edit_pet_info', 'can_manage_users')
+    list_display = ('name', 'description')
+    search_fields = ('name',)
 
-@admin.register(Staff)
+admin.site.register(Role, RoleAdmin)
+
+# --- Staff Admin ---
 class StaffAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'role', 'phone_number', 'email', 'join_date', 'is_active')
-    search_fields = ('full_name', 'email')
+    list_display = ('first_name', 'last_name', 'role', 'email', 'phone', 'hire_date', 'is_active')
+    search_fields = ('first_name', 'last_name', 'email', 'phone')
     list_filter = ('role', 'is_active')
 
-@admin.register(WorkingSchedule)
-class WorkingScheduleAdmin(admin.ModelAdmin):
-    list_display = ('staff', 'date', 'start_time', 'end_time', 'is_off_day', 'is_overtime')
-    list_filter = ('date', 'is_off_day', 'is_overtime')
+admin.site.register(Staff, StaffAdmin)
 
-@admin.register(Appointment)
-class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('customer_name', 'pet_name', 'pet_type', 'doctor', 'appointment_date', 'appointment_time', 'status')
-    list_filter = ('appointment_date', 'status')
+# --- WorkSchedule Admin ---
+class WorkScheduleAdmin(admin.ModelAdmin):
+    list_display = ('staff', 'start_time', 'end_time', 'work_type', 'location', 'is_off_day')
+    list_filter = ('staff', 'work_type', 'is_off_day')
+    search_fields = ('staff__first_name', 'staff__last_name', 'work_type')
 
-@admin.register(AuditLog)
-class AuditLogAdmin(admin.ModelAdmin):
-    list_display = ('user', 'action', 'timestamp')
-    search_fields = ('user__username', 'action')
-    list_filter = ('timestamp',)
+admin.site.register(WorkSchedule, WorkScheduleAdmin)
 
-@admin.register(Notification)
-class NotificationAdmin(admin.ModelAdmin):
-    list_display = ('staff', 'message', 'is_read', 'timestamp')
-    list_filter = ('is_read', 'timestamp')
-    
+# --- UserPermission Admin ---
+class UserPermissionAdmin(admin.ModelAdmin):
+    list_display = ('staff', 'permission_type', 'model_name', 'permission_description')
+    list_filter = ('permission_type', 'model_name')
+    search_fields = ('staff__first_name', 'staff__last_name', 'model_name')
 
-@admin.register(AppointmentHistory)
-class AppointmentHistoryAdmin(admin.ModelAdmin):
-    list_display = ('appointment', 'user', 'action', 'timestamp')
-    list_filter = ('action', 'timestamp')
-    search_fields = ('appointment__customer_name', 'appointment__pet_name', 'user__username')
+admin.site.register(UserPermission, UserPermissionAdmin)
 
+# --- WorkShift Admin ---
+class WorkShiftAdmin(admin.ModelAdmin):
+    list_display = ('staff', 'shift_type', 'start_time', 'end_time', 'is_active')
+    list_filter = ('shift_type', 'is_active')
+    search_fields = ('staff__first_name', 'staff__last_name', 'shift_type')
+
+admin.site.register(WorkShift, WorkShiftAdmin)

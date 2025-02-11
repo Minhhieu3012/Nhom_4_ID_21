@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Ca làm việc</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Nhân viên</th>
+            <th>Loại ca</th>
+            <th>Bắt đầu</th>
+            <th>Kết thúc</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for shift in shift_list %}
+        <tr>
+            <td>{{ shift.staff.first_name }} {{ shift.staff.last_name }}</td>
+            <td>{{ shift.get_shift_type_display }}</td>
+            <td>{{ shift.start_time }}</td>
+            <td>{{ shift.end_time }}</td>
+            <td>{% if shift.is_active %} Hoạt động {% else %} Ngừng hoạt động {% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

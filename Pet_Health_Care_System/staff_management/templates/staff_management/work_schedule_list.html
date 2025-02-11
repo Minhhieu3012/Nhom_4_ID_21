@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Lịch làm việc</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Nhân viên</th>
+            <th>Loại công việc</th>
+            <th>Bắt đầu</th>
+            <th>Kết thúc</th>
+            <th>Địa điểm</th>
+            <th>Ngày nghỉ</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for schedule in schedule_list %}
+        <tr>
+            <td>{{ schedule.staff.first_name }} {{ schedule.staff.last_name }}</td>
+            <td>{{ schedule.get_work_type_display }}</td>
+            <td>{{ schedule.start_time }}</td>
+            <td>{{ schedule.end_time }}</td>
+            <td>{{ schedule.location }}</td>
+            <td>{% if schedule.is_off_day %} Có {% else %} Không {% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
