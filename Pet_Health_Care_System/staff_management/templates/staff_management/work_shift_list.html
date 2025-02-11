@@ -1,27 +1,77 @@
-{% extends "base.html" %}
-
 {% block content %}
-<h2>Ca làm việc</h2>
-<table border="1">
-    <thead>
-        <tr>
-            <th>Nhân viên</th>
-            <th>Loại ca</th>
-            <th>Bắt đầu</th>
-            <th>Kết thúc</th>
-            <th>Trạng thái</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for shift in shift_list %}
-        <tr>
-            <td>{{ shift.staff.first_name }} {{ shift.staff.last_name }}</td>
-            <td>{{ shift.get_shift_type_display }}</td>
-            <td>{{ shift.start_time }}</td>
-            <td>{{ shift.end_time }}</td>
-            <td>{% if shift.is_active %} Hoạt động {% else %} Ngừng hoạt động {% endif %}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<style>
+    .schedule-container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+    .schedule-header {
+        text-align: center;
+        color: #333;
+        font-size: 28px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    .schedule-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .schedule-table th, .schedule-table td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    .schedule-table th {
+        background-color: #007bff;
+        color: white;
+    }
+    .schedule-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    .back-link:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="schedule-container">
+    <h2 class="schedule-header">Ca làm việc</h2>
+    <table class="schedule-table">
+        <thead>
+            <tr>
+                <th>Nhân viên</th>
+                <th>Loại ca</th>
+                <th>Bắt đầu</th>
+                <th>Kết thúc</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for shift in shift_list %}
+            <tr>
+                <td>{{ shift.staff.first_name }} {{ shift.staff.last_name }}</td>
+                <td>{{ shift.get_shift_type_display }}</td>
+                <td>{{ shift.start_time }}</td>
+                <td>{{ shift.end_time }}</td>
+                <td>{% if shift.is_active %} Hoạt động {% else %} Ngừng hoạt động {% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'staff_list' %}" class="back-link">Quay lại danh sách</a>
+</div>
 {% endblock %}

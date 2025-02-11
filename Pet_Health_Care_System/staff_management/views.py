@@ -2,6 +2,30 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Staff, WorkSchedule, WorkShift
 from .forms import StaffForm, WorkScheduleForm, WorkShiftForm
 
+
+# from django.shortcuts import render, redirect, get_object_or_404
+# from .models import Staff
+# from .forms import StaffForm
+
+def staff_detail(request, staff_id):
+    staff = get_object_or_404(Staff, id=staff_id)
+    return render(request, 'staff_management/staff_detail.html', {'staff': staff})
+
+def staff_edit(request, staff_id):
+    staff = get_object_or_404(Staff, id=staff_id)
+    
+    if request.method == 'POST':
+        form = StaffForm(request.POST, instance=staff)
+        if form.is_valid():
+            form.save()
+            return redirect('staff_detail', staff_id=staff.id)
+    else:
+        form = StaffForm(instance=staff)
+
+    return render(request, 'staff_management/staff_form.html', {'form': form, 'staff': staff})
+
+
+
 # --- Staff Views ---
 def staff_list(request):
     staffs = Staff.objects.all()
@@ -106,3 +130,17 @@ def work_shift_delete(request, id):
     shift = get_object_or_404(WorkShift, id=id)
     shift.delete()
     return redirect('work_shift_list')
+
+
+def staff_list(request):
+    return render(request, 'staff_management/staff_list.html')
+
+def staff_detail(request):
+    return render(request, 'staff_management/staff_detail.html')
+
+def work_schedule_list(request):
+    return render(request, 'staff_management/work_schedule_list.html')
+
+def work_shift_list(request):
+    return render(request, 'staff_management/work_shift_list.html')
+

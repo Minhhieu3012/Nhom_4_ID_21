@@ -3,6 +3,7 @@ from . import views
 from .views import staff_list, staff_detail, work_schedule_list, work_shift_list
 
 urlpatterns = [
+
     # Quản lý nhân viên
     path('staff/', views.staff_list, name='staff_list'),
     path('staff/<int:id>/', views.staff_detail, name='staff_detail'),
@@ -24,11 +25,6 @@ urlpatterns = [
     path('work-shift/<int:id>/update/', views.work_shift_update, name='work_shift_update'),
     path('work-shift/<int:id>/delete/', views.work_shift_delete, name='work_shift_delete'),
 
-
-
-    # path('staff/', staff_list, name='staff_list'),  # Danh sách nhân viên
-    # path('staff/<int:staff_id>/', staff_detail, name='staff_detail'),  # Chi tiết nhân viên
-    # path('work-schedule/', work_schedule_list, name='work_schedule_list'),  # Lịch làm việc
-    # path('work-shift/', work_shift_list, name='work_shift_list'),  # Ca làm việc
-
+    path('schedule/', views.work_schedule_list, name='work_schedule_list'),
+    path('shift/', views.work_shift_list, name='work_shift_list'),
 ]

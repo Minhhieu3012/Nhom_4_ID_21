@@ -1,15 +1,115 @@
-{% extends "base.html" %}
-
 {% block content %}
-<h2>Thông tin nhân viên</h2>
-<p><strong>Tên:</strong> {{ staff.first_name }} {{ staff.last_name }}</p>
-<p><strong>Vai trò:</strong> {{ staff.role.name }}</p>
-<p><strong>Email:</strong> {{ staff.email }}</p>
-<p><strong>Số điện thoại:</strong> {{ staff.phone }}</p>
-<p><strong>Địa chỉ:</strong> {{ staff.address }}</p>
-<p><strong>Ngày tuyển dụng:</strong> {{ staff.hire_date }}</p>
-<p><strong>Giới tính:</strong> {{ staff.get_gender_display }}</p>
-<p><strong>Trạng thái:</strong> {% if staff.is_active %} Đang làm việc {% else %} Đã nghỉ {% endif %}</p>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #eef2f7;
+        margin: 0;
+        padding: 0;
+    }
 
-<a href="{% url 'staff_list' %}">Quay lại danh sách</a>
+    .staff-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 25px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+        text-align: center;
+    }
+
+    .staff-header {
+        font-size: 26px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+    }
+
+    .staff-info {
+        width: 100%;
+    }
+
+    .staff-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .staff-table tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .staff-table td {
+        padding: 10px;
+        font-size: 16px;
+        color: #555;
+        text-align: left;
+    }
+
+    .staff-table td:first-child {
+        font-weight: bold;
+        color: #222;
+        width: 40%;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 18px;
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: transform 0.2s ease, background 0.3s ease;
+        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    .back-link:hover {
+        background: linear-gradient(135deg, #0056b3, #003d82);
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="staff-container">
+    <h2 class="staff-header">Thông tin nhân viên</h2>
+    <div class="staff-info">
+        <table class="staff-table">
+            <tr>
+                <td>Tên:</td>
+                <td>{{ staff.first_name }} {{ staff.last_name }}</td>
+            </tr>
+            <tr>
+                <td>Vai trò:</td>
+                <td>{{ staff.role.name }}</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>{{ staff.email }}</td>
+            </tr>
+            <tr>
+                <td>Số điện thoại:</td>
+                <td>{{ staff.phone }}</td>
+            </tr>
+            <tr>
+                <td>Địa chỉ:</td>
+                <td>{{ staff.address }}</td>
+            </tr>
+            <tr>
+                <td>Ngày tuyển dụng:</td>
+                <td>{{ staff.hire_date }}</td>
+            </tr>
+            <tr>
+                <td>Giới tính:</td>
+                <td>{{ staff.get_gender_display }}</td>
+            </tr>
+            <tr>
+                <td>Trạng thái:</td>
+                <td>{% if staff.is_active %} 🟢 Đang làm việc {% else %} 🔴 Đã nghỉ {% endif %}</td>
+            </tr>
+        </table>
+    </div>
+    <a href="{% url 'staff_list' %}" class="back-link">⬅ Quay lại danh sách</a>
+</div>
 {% endblock %}

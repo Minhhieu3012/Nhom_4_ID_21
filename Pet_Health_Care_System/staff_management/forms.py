@@ -1,6 +1,7 @@
 from django import forms
 from .models import Staff, WorkSchedule, WorkShift
 
+
 # --- Staff Form ---
 class StaffForm(forms.ModelForm):
     class Meta:
