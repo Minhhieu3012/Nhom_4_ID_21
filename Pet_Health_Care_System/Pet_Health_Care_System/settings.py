@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app_admin',
+    'Pet_Health_CheckUp_Treatment_Prg',
 ]
 
 MIDDLEWARE = [
@@ -77,10 +78,16 @@ WSGI_APPLICATION = 'Pet_Health_Care_System.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": {
+        "ENGINE": "mssql",
+        "NAME": "Pet_health_care_DB",
+        "USER": "sa",
+        "PASSWORD": "Hieudeptroai666@",
+        "HOST": "127.0.0.1",
+        "PORT": "1433",
+        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
+        },
+    },
 }
 #MSS SQL Server
 
