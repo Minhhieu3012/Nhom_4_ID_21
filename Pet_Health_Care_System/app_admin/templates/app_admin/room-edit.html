@@ -10,30 +10,29 @@
 
 {%block content%}
 <div class="container mt-5">
-    <h2 class="text-center">Edit Room</h2>
+    <h2 class="text-center">Chỉnh sửa phòng</h2>
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label for="room_type">Room Type</label>
+            <label for="room_type">Loại phòng</label>
             <select 
                 class="form-control" 
                 id="room_type" 
                 name="room_type" 
                 required>
-                <option value="Standard" {% if room.room_type == "Standard" %}selected{% endif %}>Standard</option>
-                <option value="Luxury" {% if room.room_type == "Luxury" %}selected{% endif %}>Luxury</option>
-                <option value="Indoor" {% if room.room_type == "Indoor" %}selected{% endif %}>Indoor</option>
-                <option value="Outdoor" {% if room.room_type == "Outdoor" %}selected{% endif %}>Outdoor</option>
-                <option value="Quarantine" {% if room.room_type == "Quarantine" %}selected{% endif %}>Quarantine</option>
-                <option value="Recovery" {% if room.room_type == "Recovery" %}selected{% endif %}>Recovery</option>
-                <option value="Training" {% if room.room_type == "Training" %}selected{% endif %}>Training</option>
-                <option value="Breeding" {% if room.room_type == "Breeding" %}selected{% endif %}>Breeding</option>
-                <option value="Large" {% if room.room_type == "Large" %}selected{% endif %}>Large Animal</option>
-                <option value="Custom" {% if room.room_type == "Custom" %}selected{% endif %}>Customizable</option>
+                <option value="Standard" {% if room.room_type == "Standard" %}selected{% endif %}>Tiêu chuẩn</option>
+                <option value="Luxury" {% if room.room_type == "Luxury" %}selected{% endif %}>Cao cấp</option>
+                <option value="Indoor" {% if room.room_type == "Indoor" %}selected{% endif %}>Trong nhà</option>
+                <option value="Outdoor" {% if room.room_type == "Outdoor" %}selected{% endif %}>Ngoài trời</option>
+                <option value="Quarantine" {% if room.room_type == "Quarantine" %}selected{% endif %}>Cách ly</option>
+                <option value="Recovery" {% if room.room_type == "Recovery" %}selected{% endif %}>Hồi phục</option>
+                <option value="Training" {% if room.room_type == "Training" %}selected{% endif %}>Huấn luyện</option>
+                <option value="Breeding" {% if room.room_type == "Breeding" %}selected{% endif %}>Nhân giống</option>
+                <option value="Large" {% if room.room_type == "Large" %}selected{% endif %}>Phòng lớn</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="capacity">Capacity</label>
+            <label for="capacity">Sức chứachứa</label>
             <input 
                 type="number" 
                 class="form-control" 
@@ -43,18 +42,17 @@
                 required>
         </div>
         <div class="form-group">
-            <label for="status">Status</label>
+            <label for="status">Trạng thái</label>
             <select 
                 class="form-control" 
                 id="status" 
                 name="status" 
                 required>
-                <option value="Available" {% if room.status == "Available" %}selected{% endif %}>Available</option>
-                <option value="Occupied" {% if room.status == "Occupied" %}selected{% endif %}>Occupied</option>
-                <option value="Under Maintenance" {% if room.status == "Under Maintenance" %}selected{% endif %}>Under Maintenance</option>
+                <option value="Available" {% if room.status == "Available" %}selected{% endif %}>Có sẵn</option>
+                <option value="Occupied" {% if room.status == "Occupied" %}selected{% endif %}>Đầy</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+        <button type="submit" class="btn btn-primary mt-3">Lưu</button>
     </form>
 </div>
 {%endblock%}

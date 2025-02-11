@@ -9,32 +9,83 @@
 {% endblock %}
 
 {% block content %}
+<div class="row mt-4">
+    <!-- Phần giới thiệu -->
+    <div class="col-md-6">
+        <div class="alert alert shadow-lg p-4 rounded-3">
+            <h1 class="fw-bold text-danger"> 📞Cấp cứu 24/7</h1>
+            <strong> <h4> 🚑 PetCare cung cấp dịch vụ cấp cứu 24/7, kể cả ngày lễ.</h4> </strong>
+            <p class="fs-5">Hãy gọi ngay cho chi nhánh PetCare gần nhất nếu thú cưng có dấu hiệu sau:</p>
+            <ul class="fs-5">
+                <li>⚠️ Thần kinh (sốc, co giật, hôn mê)</li>
+                <li>😰 Khó thở.</li>
+                <li>🦴 Gãy xương</li>
+                <li>💩 Tiêu chảy</li>
+                <li>🤮 Nôn mửa nặng</li>
+                <li>☠️ Nuốt phải dị vật hoặc chất độc</li>
+                <li>🚽 Tắc đường tiểu</li>
+                <li>🐾 Đẻ khó</li>
+                <li>🩸 Bị thương nặng</li>
+            </ul>
+            <strong> <p class="fw-bold fs-5 text-danger">📞 Trường hợp cấp cứu sau 19h xin vui lòng liên hệ:</p> </strong>
+            <p class="fw-bold">🏥 PetCare 1: (Thêm địa chỉ)</p>
+            <p class="fw-bold">🏥 PetCare 2: (Thêm địa chỉ)</p>
+            <p class="fw-bold text-danger">☎️ Hotline: (Thêm số điện thoại)</p>
+        </div>
+    </div>
+        <!-- Hình ảnh bên phải -->
+    <div class="col-md-6 d-flex justify-content-center align-items-center">
+        <img src="https://petcare.vn/wp-content/uploads/2016/06/chobobot.jpg" alt="PetCare" class="img-fluid rounded">
+    </div>
+</div>
 <div class="card">
-    <h5 class="card-header">Admission List</h5>
+    <h5 class="card-header bg-primary text-white">📋Danh Sách Nhập Viện</h5>
     <div class="table-responsive text-nowrap">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Pet</th>
-                    <th>Room</th>
-                    <th>Admission Date</th>
-                    <th>Discharge Date</th>
-                    <th>Status</th>
-                    <th>Action</th> <!-- Thêm cột hành động -->
+                    <th>🐶 Thú cưng</th>
+                    <th>🏠 Phòng</th>
+                    <th>📅 Ngày nhập viện</th>
+                    <th>📆 Ngày xuất viện</th>
+                    <th>📌 Trạng thái</th>
+                    <th>⚙️ Hành động</th>
                 </tr>
             </thead>
             <tbody class="table-border-bottom-0">
                 {% for admission in admissions %}
                 <tr>
                     <td>{{ admission.pet.name }}</td>
-                    <td>{{ admission.room.room_type }}</td>
+                    {% comment %} <td>{{ admission.room.room_type }}</td> {% endcomment %}
+                    <td>
+                        {% if admission.room.room_type == "Standard" %}
+                            Tiêu chuẩn
+                        {% elif admission.room.room_type == "Luxury" %}
+                            Cao cấp
+                        {% elif admission.room.room_type == "Indoor" %}
+                            Trong nhà
+                        {% elif admission.room.room_type == "Outdoor" %}
+                            Ngoài trời
+                        {% elif admission.room.room_type == "Quarantine" %}
+                            Cách ly
+                        {% elif admission.room.room_type == "Recovery" %}
+                            Hồi phục
+                        {% elif admission.room.room_type == "Training" %}
+                            Huấn luyện
+                        {% elif admission.room.room_type == "Breeding" %}
+                            Nhân giống
+                        {% elif admission.room.room_type == "Large" or admission.room.room_type == "Large Animal" %}
+                            Phòng lớn
+                        {% endif %}
+                    </td>
+                    
                     <td>{{ admission.admission_date }}</td>
                     <td>{{ admission.discharge_date|default:"-" }}</td>
                     <td>
                         {% if admission.discharge_date %}
-                            <span class="badge bg">Discharged</span>
+                            <span class="badge bg">Đã xuất viện</span>
                         {% else %}
-                            <span class="badge bg">Admitted</span>
+                            <span class="badge bg">Đang nhập viện</span>
                         {% endif %}
                     </td>
                     <td>
@@ -42,16 +93,16 @@
                             {% with invoice=admission.invoice_set.first %}
                                 {% if invoice %}
                                     {% if invoice.is_paid %}
-                                        <a href="{% url 'invoice-detail' invoice.id %}" class="btn btn-info">View Invoice</a>
+                                        <a href="{% url 'invoice-detail' invoice.id %}" class="btn btn-info">Xem hóa đơn</a>
                                     {% else %}
-                                        <a href="{% url 'invoice-payment' invoice.id %}" class="btn btn-primary">Pay Now</a>
+                                        <a href="{% url 'invoice-payment' invoice.id %}" class="btn btn-primary">Thanh toán ngay</a>
                                     {% endif %}
                                 {% else %}
                                     <span class="text-danger">Invoice Missing</span>
                                 {% endif %}
                             {% endwith %}
                         {% else %}
-                            <a href="{% url 'admission-discharge' admission.id %}" class="btn btn-warning">Discharge</a>
+                            <a href="{% url 'admission-discharge' admission.id %}" class="btn btn-warning">Xuất viện</a>
                         {% endif %}
 
                     </td>                    
@@ -63,7 +114,7 @@
 
     <!-- Nút thêm Admission -->
     <div class="card-footer text-end">
-        <a href="{% url 'admission-create' %}" class="btn btn-success">+ Add Admission</a>
+        <a href="{% url 'admission-create' %}" class="btn btn-success">+ Thêm thú cưng nhập viện</a>
     </div>
 </div>
 {% endblock %}

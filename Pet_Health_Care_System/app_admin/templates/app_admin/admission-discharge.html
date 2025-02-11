@@ -12,16 +12,16 @@
 <div class="card">
     <h5 class="card-header">Discharge Admission</h5>
     <div class="card-body">
-        <p><strong>Pet:</strong> {{ admission.pet.name }}</p>
-        <p><strong>Room:</strong> {{ admission.room.room_type }}</p>
-        <p><strong>Admission Date:</strong> {{ admission.admission_date }}</p>
-        <p><strong>Discharge Date:</strong> {{ admission.discharge_date|default:"Not Discharged Yet" }}</p>
-        <p><strong>Estimated Cost:</strong> ${{ estimated_cost }}</p>
+        <p><strong>Thú cưng:</strong> {{ admission.pet.name }}</p>
+        <p><strong>Phòng:</strong> {{ admission.room.room_type }}</p>
+        <p><strong>Ngày nhập viện:</strong> {{ admission.admission_date }}</p>
+        <p><strong>Ngày xuất viện:</strong> {{ admission.discharge_date|default:"Not Discharged Yet" }}</p>
+        <p><strong>Chi phí ước tính:</strong> ${{ estimated_cost }}</p>
 
         <form method="post">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Confirm Discharge</button>
-            <a href="{% url 'admission-list' %}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-danger">Xác nhận xuất viện</button>
+            <a href="{% url 'admission-list' %}" class="btn btn-secondary">Hủy</a>
         </form>
     </div>
 </div>

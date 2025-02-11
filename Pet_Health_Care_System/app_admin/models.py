@@ -43,8 +43,7 @@ class Room(models.Model):
             ('Recovery', 'Recovery'),
             ('Training', 'Training'),
             ('Breeding', 'Breeding'),
-            ('Large', 'Large Animal'),
-            ('Custom', 'Customizable'),
+            ('Large Animal', 'Large Animal'),
         ],
         default='Standard'
     )
@@ -53,8 +52,7 @@ class Room(models.Model):
     status = models.CharField(
         max_length=20,
         choices=[('Available', 'Available'),
-                ('Occupied', 'Occupied'), 
-                ('Under Maintenance', 'Under Maintenance')],
+                ('Occupied', 'Occupied')],
         default='Available'
     )
     def update_status(self):
@@ -120,7 +118,6 @@ class Invoice(models.Model):
             "Training": 75,
             "Breeding": 85,
             "Large": 120,
-            "Custom": 110,
         }
         
         room_cost = room_prices.get(self.admission.room.room_type, 50) * days_hospitalized

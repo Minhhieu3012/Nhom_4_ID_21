@@ -11,14 +11,14 @@
 
 {% block content %}
 <div class="card">
-    <h5 class="card-header">New Admission</h5>
+    <h5 class="card-header">Thêm nnhập viện mới</h5>
     <div class="card-body">
         <form method="POST">
             {% csrf_token %}
             
             <!-- Chọn thú cưng -->
             <div class="mb-3">
-                <label for="pet" class="form-label">Select Pet</label>
+                <label for="pet" class="form-label">Chọn thú cưngcưng</label>
                 <select class="form-select" id="pet" name="pet" required>
                     {% for pet in pets %}
                         <option value="{{ pet.id }}">{{ pet.name }} ({{ pet.species }})</option>
@@ -28,28 +28,28 @@
 
             <!-- Chọn phòng -->
             <div class="mb-3">
-                <label for="room" class="form-label">Select Room</label>
+                <label for="room" class="form-label">Chọn phòng</label>
                 <select class="form-select" id="room" name="room" required>
                     {% for room in rooms %}
-                        <option value="{{ room.id }}">{{ room.room_type }} - Capacity: {{ room.capacity }}</option>
+                        <option value="{{ room.id }}">{{ room.room_type }} - Sức chứa: {{ room.capacity }}</option>
                     {% endfor %}
                 </select>
             </div>
 
             <!-- Ngày nhập viện -->
             <div class="mb-3">
-                <label for="admission_date" class="form-label">Admission Date</label>
+                <label for="admission_date" class="form-label">Ngày nhập viện</label>
                 <input type="datetime-local" class="form-control" id="admission_date" name="admission_date" value="{{ current_time }}" required>
             </div>
 
             <!-- Ngày xuất viện (Có thể để trống) -->
             <div class="mb-3">
-                <label for="discharge_date" class="form-label">Discharge Date (Optional)</label>
+                <label for="discharge_date" class="form-label">Ngày xuất viện (Có thể để trống)</label>
                 <input type="datetime-local" class="form-control" id="discharge_date" name="discharge_date">
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <a href="{% url 'admission-list' %}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Xác nhận</button>
+            <a href="{% url 'admission-list' %}" class="btn btn-secondary">Hủy</a>
         </form>
     </div>
 </div>
