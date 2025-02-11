@@ -1,0 +1,58 @@
+{% extends "master-page.html" %}
+
+{%block header%}
+    {% include '../includes/header.html' %}
+{%endblock%}
+
+{%block head-menu%}
+    {% include '../includes/head-menu.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h5 class="card-header">Invoice Detail</h5>
+    <div class="card-body">
+        <h5 class="card-title">Invoice #{{ invoice.id }}</h5>
+        <p><strong>Pet:</strong> {{ invoice.admission.pet.name }}</p>
+        <p><strong>Room:</strong> {{ invoice.admission.room.room_type }}</p>
+        <p><strong>Admission Date:</strong> {{ invoice.admission.admission_date }}</p>
+        <p><strong>Discharge Date:</strong> {{ invoice.admission.discharge_date }}</p>
+        <p><strong>Total Amount:</strong> ${{ invoice.total_amount }}</p>
+
+        {% comment %} <h6>Services:</h6>
+        <ul>
+            {% for service in invoice.admission.service_set.all %}
+                <li>{{ service.name }}: ${{ service.cost }}</li>
+            {% endfor %}
+        </ul> {% endcomment %}
+
+        <p><strong>Status:</strong> 
+            {% if invoice.is_paid %}
+                <span style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold;">
+                    Paid
+                </span>
+                
+            {% else %}
+                <span style="background-color:rgb(203, 206, 21); padding: 5px 10px; border-radius: 5px; font-weight: bold;">
+                    Unpaid
+                </span>
+            {% endif %}
+        </p>
+
+        {% if not invoice.is_paid %}
+
+            <form method="get" action="{% url 'invoice-payment' invoice.id %}">
+                <button type="submit" class="btn btn-success">Pay Now</button>
+            </form>
+            
+        {% endif %}
+
+        <a href="{% url 'admission-list' %}" class="btn btn-secondary mt-3">Back to Admissions</a>
+    </div>
+</div>
+{% endblock %}
+
+
+{%block footer%}
+    {% include '../includes/footer.html' %}
+{% endblock %} 

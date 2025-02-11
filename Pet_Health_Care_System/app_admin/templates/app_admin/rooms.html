@@ -11,12 +11,13 @@
 {% block content %}
 <div class="card">
     <h5 class="card-header">Room List</h5>
-    <div class="table-responsive text-nowrap">
+    <div class="table-responsive text-nowrap">       
       <table class="table">
         <thead>
           <tr>
             <th>Room Type</th>
             <th>Capacity</th>
+            <th>Current Occupancy</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -26,7 +27,8 @@
             {% for item in room %}
                 <tr class="table-default">
                     <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong>{{item.room_type}}</strong></td>
-                    <td>{{item.capacity}}</td>
+                    <td>{{item.capacity}}</td> 
+                    <td>{{ item.current_occupancy }}/{{ item.capacity }}</td>
             
                     <td><span class="badge bg-label-primary me-1">{{item.status}}</span></td>
                     <td>
@@ -35,8 +37,8 @@
                                 <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="room-edit/{{ item.id }}"
-                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                <a class="dropdown-item" href="room-edit/{{ item.id }}">
+                                    <i class="bx bx-edit-alt me-1"></i> Edit</a>
                                 <a class="dropdown-item" href="room-delete/{{ item.id }}"
                                     ><i class="bx bx-trash me-1"></i> Delete</a>
                             </div>
@@ -46,6 +48,9 @@
             {% endfor %}
         </tbody>
       </table>
+        <a href="{% url 'room-add' %}" class="btn btn-primary mb-3">
+            <i class="bx bx-plus"></i> ADD ROOM
+        </a> 
     </div>
   </div>
 {% endblock %}

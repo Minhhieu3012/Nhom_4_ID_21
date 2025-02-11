@@ -1,0 +1,62 @@
+{% extends "master-page.html" %}
+
+{%block header%}
+    {% include '../includes/header.html' %}
+{%endblock%}
+
+{%block head-menu%}
+    {% include '../includes/head-menu.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="card">
+    <h5 class="card-header">New Admission</h5>
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Chọn thú cưng -->
+            <div class="mb-3">
+                <label for="pet" class="form-label">Select Pet</label>
+                <select class="form-select" id="pet" name="pet" required>
+                    {% for pet in pets %}
+                        <option value="{{ pet.id }}">{{ pet.name }} ({{ pet.species }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Chọn phòng -->
+            <div class="mb-3">
+                <label for="room" class="form-label">Select Room</label>
+                <select class="form-select" id="room" name="room" required>
+                    {% for room in rooms %}
+                        <option value="{{ room.id }}">{{ room.room_type }} - Capacity: {{ room.capacity }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Ngày nhập viện -->
+            <div class="mb-3">
+                <label for="admission_date" class="form-label">Admission Date</label>
+                <input type="datetime-local" class="form-control" id="admission_date" name="admission_date" value="{{ current_time }}" required>
+            </div>
+
+            <!-- Ngày xuất viện (Có thể để trống) -->
+            <div class="mb-3">
+                <label for="discharge_date" class="form-label">Discharge Date (Optional)</label>
+                <input type="datetime-local" class="form-control" id="discharge_date" name="discharge_date">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{% url 'admission-list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{%block footer%}
+    {% include '../includes/footer.html' %}
+{% endblock %} 

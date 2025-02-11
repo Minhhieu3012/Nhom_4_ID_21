@@ -1,0 +1,75 @@
+{% extends "master-page.html" %}
+
+{%block header%}
+    {% include '../includes/header.html' %}
+{%endblock%}
+
+{%block head-menu%}
+    {% include '../includes/head-menu.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h5 class="card-header">Admission List</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Pet</th>
+                    <th>Room</th>
+                    <th>Admission Date</th>
+                    <th>Discharge Date</th>
+                    <th>Status</th>
+                    <th>Action</th> <!-- Thêm cột hành động -->
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for admission in admissions %}
+                <tr>
+                    <td>{{ admission.pet.name }}</td>
+                    <td>{{ admission.room.room_type }}</td>
+                    <td>{{ admission.admission_date }}</td>
+                    <td>{{ admission.discharge_date|default:"-" }}</td>
+                    <td>
+                        {% if admission.discharge_date %}
+                            <span class="badge bg">Discharged</span>
+                        {% else %}
+                            <span class="badge bg">Admitted</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if admission.discharge_date %}
+                            {% with invoice=admission.invoice_set.first %}
+                                {% if invoice %}
+                                    {% if invoice.is_paid %}
+                                        <a href="{% url 'invoice-detail' invoice.id %}" class="btn btn-info">View Invoice</a>
+                                    {% else %}
+                                        <a href="{% url 'invoice-payment' invoice.id %}" class="btn btn-primary">Pay Now</a>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-danger">Invoice Missing</span>
+                                {% endif %}
+                            {% endwith %}
+                        {% else %}
+                            <a href="{% url 'admission-discharge' admission.id %}" class="btn btn-warning">Discharge</a>
+                        {% endif %}
+
+                    </td>                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Nút thêm Admission -->
+    <div class="card-footer text-end">
+        <a href="{% url 'admission-create' %}" class="btn btn-success">+ Add Admission</a>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{%block footer%}
+    {% include '../includes/footer.html' %}
+{% endblock %} 

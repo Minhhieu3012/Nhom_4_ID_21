@@ -1,0 +1,39 @@
+{% extends "master-page.html" %}
+
+{%block header%}
+    {% include '../includes/header.html' %}
+{%endblock%}
+
+{%block head-menu%}
+    {% include '../includes/head-menu.html' %}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="card">
+    <h5 class="card-header">Invoice Payment</h5>
+    <div class="card-body">
+        <h5 class="card-title">Invoice #{{ invoice.id }}</h5>
+        <p><strong>Pet:</strong> {{ invoice.admission.pet.name }}</p>
+        <p><strong>Room:</strong> {{ invoice.admission.room.room_type }}</p>
+        <p><strong>Admission Date:</strong> {{ invoice.admission.admission_date }}</p>
+        <p><strong>Discharge Date:</strong> {{ invoice.admission.discharge_date }}</p>
+        <p><strong>Total Amount:</strong> ${{ invoice.total_amount }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Confirm Payment</button>
+        </form>
+
+        <a href="{% url 'invoice-detail' invoice.id %}" class="btn btn-secondary mt-3">Cancel</a>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{%block footer%}
+    {% include '../includes/footer.html' %}
+{% endblock %} 

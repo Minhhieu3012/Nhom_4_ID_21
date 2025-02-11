@@ -1,0 +1,50 @@
+{% extends "master-page.html" %}
+
+{%block header%}
+    {% include '../includes/header.html' %}
+{%endblock%}
+
+{%block head-menu%}
+    {% include '../includes/head-menu.html' %}
+{% endblock %} 
+
+{%block content%}
+<div class="container">
+    <h2>Thêm Phòng Mới</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="room_type">Loại phòng:</label>
+            <select id="room_type" name="room_type" class="form-control">
+                <option value="Standard">Standard</option>
+                <option value="Luxury">Luxury</option>
+                <option value="Indoor">Indoor</option>
+                <option value="Outdoor">Outdoor</option>
+                <option value="Quarantine">Quarantine</option>
+                <option value="Recovery">Recovery</option>
+                <option value="Training">Training</option>
+                <option value="Breeding">Breeding</option>
+                <option value="Large">Large Animal</option>
+                <option value="Custom">Customizable</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="capacity">Sức chứa:</label>
+            <input type="number" id="capacity" name="capacity" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="status">Trạng thái:</label>
+            <select id="status" name="status" class="form-control">
+                <option value="Available">Available</option>
+                <option value="Occupied">Occupied</option>
+                <option value="Under Maintenance">Under Maintenance</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+{%endblock%}
+
+{%block footer%}
+    {% include '../includes/footer.html' %}
+{% endblock %} 
