@@ -25,7 +25,7 @@ class PetDetailView(DetailView):
 class PetCreateView(CreateView):
     model = Pet
     form_class = PetForm
-    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_form.html'
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_create.html'
     success_url = reverse_lazy('pet_list')
 
     def form_valid(self, form):
@@ -36,7 +36,7 @@ class PetCreateView(CreateView):
 class PetUpdateView(UpdateView):
     model = Pet
     form_class = PetForm
-    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_form.html'
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_update.html'
     success_url = reverse_lazy('pet_list')
 
     def form_valid(self, form):
@@ -46,7 +46,7 @@ class PetUpdateView(UpdateView):
 
 class PetDeleteView(DeleteView):
     model = Pet
-    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_confirm_delete.html'
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/pet_delete.html'
     success_url = reverse_lazy('pet_list')
 
     def delete(self, request, *args, **kwargs):

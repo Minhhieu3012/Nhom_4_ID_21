@@ -1,6 +1,7 @@
 from django.db import models
 
 class Pet(models.Model):
+    id = models.AutoField(primary_key=True)  # ID
     name = models.CharField(max_length=100, blank=False)
     species = models.CharField(max_length=255, blank=False, null=True)
     age = models.PositiveIntegerField(blank=False)

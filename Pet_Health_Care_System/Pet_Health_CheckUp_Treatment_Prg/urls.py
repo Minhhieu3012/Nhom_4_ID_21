@@ -12,13 +12,13 @@ urlpatterns = [
     path('pets/<int:pk>/delete/', views.PetDeleteView.as_view(), name='pet_delete'),
 
     # Các URL cho Medical Record
-    path('medical-records/<int:pet_id>/', views.MedicalRecordListView.as_view(), name='medical_record_list'),
+    path('pets/medical-records/<int:pet_id>/', views.MedicalRecordListView.as_view(), name='medical_record_list'),
     path('medical-records/new/', views.MedicalRecordCreateView.as_view(), name='medical_record_create'),
     path('medical-records/<int:pk>/edit/', views.MedicalRecordUpdateView.as_view(), name='medical_record_update'),
     path('medical-records/<int:pk>/delete/', views.MedicalRecordDeleteView.as_view(), name='medical_record_delete'),
 
     # Các URL cho Treatment Progress
-    path('treatment-progress/<int:pet_id>/', views.TreatmentProgressListView.as_view(), name='treatment_progress_list'),
+    path('pets/treatment-progress/<int:pet_id>/', views.TreatmentProgressListView.as_view(), name='treatment_progress_list'),
     path('treatment-progress/new/', views.TreatmentProgressCreateView.as_view(), name='treatment_progress_create'),
     path('treatment-progress/<int:pk>/edit/', views.TreatmentProgressUpdateView.as_view(), name='treatment_progress_update'),
     path('treatment-progress/<int:pk>/delete/', views.TreatmentProgressDeleteView.as_view(), name='treatment_progress_delete'),
