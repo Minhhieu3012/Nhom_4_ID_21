@@ -1,6 +1,6 @@
-#---------------------------
+#--------------------------------
 #Selenium Testing
-#---------------------------
+#--------------------------------
 import unittest
 import time
 from selenium import webdriver
