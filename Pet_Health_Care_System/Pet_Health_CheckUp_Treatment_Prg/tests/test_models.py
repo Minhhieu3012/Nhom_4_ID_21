@@ -1,141 +1,111 @@
 # #------------------
 # #Unit Testing
 # #------------------
-# from django.test import TestCase, Client
-# from django.urls import reverse
-# from Pet_Cus_Info_Mng.models import Pet, Customer, MedicalRecord, Appointment
+from django.test import TestCase
+from datetime import date
+from Pet_Health_CheckUp_Treatment_Prg.models import Pet, TreatmentProgress, MedicalRecord, Medication, Notification
 
-# class ViewsTestCase(TestCase):
-#     def setUp(self):
-#         self.client = Client()
+class PetModelTest(TestCase):
+    def setUp(self):
+        self.pet = Pet.objects.create(
+            name="Buddy",
+            species="Chó",
+            age=5,
+            current_health_status="Khỏe mạnh"
+        )
 
-#         self.customer = Customer.objects.create(
-#             firstName="Alexandro", 
-#             lastName="Garnacho", 
-#             email="grn123@gmail.com", 
-#             phoneNumber="0327329948",
-#             address="47/24/38 Bùi Đình Túy", 
-#             age=19, 
-#             gender="Nam"
-#         )
-#         self.pet = Pet.objects.create(
-#             name="Buddy", 
-#             species="Bull Pháp", 
-#             gender="Đực", 
-#             dateOfBirth="2022-02-22", 
-#             healthStatus="Sức khỏe tốt", 
-#             owner=self.customer
-#         )
-#         self.medicalRecord = MedicalRecord.objects.create(
-#             pet = self.pet,
-#             date="2023-02-22",      
-#             treatmentDetails="Khám sức khỏe định kỳ và tiêm vaccine",
-#             doctor="Bác sĩ Nguyễn Văn A",
-#             remarks="Cần theo dõi thêm phần hô hấp"
-#         )
-#         self.appointment = Appointment.objects.create(
-#             customer = self.customer,
-#             pet = self.pet,
-#             date="2024-02-22",
-#             time = "10:00:00",
-#             status = "Đã thanh toán"
-#         )
-# #-------------------------------------------------------------------------------
-# #-------------------------------------------------------------------------------
+    def test_pet_str(self):
+        # __str__ của Pet nên trả về tên của pet
+        self.assertEqual(str(self.pet), "Buddy")
 
-#     def test_home_view(self):
-#         response = self.client.get(reverse('app_admin'))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, 'app_admin/app_admin.html')
-# #-------------------------------------------------------------------------------
-# #-------------------------------------------------------------------------------
-#     def test_pets_view(self):
-#         response = self.client.get(reverse('pet_list'))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, self.pet.name)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pets.html')
 
-#     def test_pet_new_view(self):
-#         response = self.client.get(reverse('pet_add'))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pet_form.html')
+class MedicalRecordModelTest(TestCase):
+    def setUp(self):
+        self.pet = Pet.objects.create(
+            name="Kitty",
+            species="Mèo",
+            age=3,
+            current_health_status="Ốm"
+        )
+        self.medical_record = MedicalRecord.objects.create(
+            pet=self.pet,
+            date=date(2025, 2, 10),
+            symptoms="Ốm và mệt mỏi",
+            disease="Nhiễm trùng do virus",
+            vet_notes="Cần được nghỉ ngơi và uống nhiều nước"
+        )
 
-#     def test_edit_pet_view(self):
-#         response = self.client.get(reverse('pet_edit', args=[self.pet.id]))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, self.pet.name)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pet_edit.html')
+    def test_medical_record_str(self):
+        # __str__ trả về chuỗi: '<pet.name> - <date>'
+        expected_str = f"{self.pet.name} - {self.medical_record.date}"
+        self.assertEqual(str(self.medical_record), expected_str)
 
-#     def test_delete_pet_view(self):
-#         response = self.client.get(reverse('pet_delete', args=[self.pet.id]))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, self.pet.name)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pet_delete.html')
-# #-------------------------------------------------------------------------------
-# #-------------------------------------------------------------------------------
 
-#     def test_customers_view(self):
-#         response = self.client.get(reverse('customer_list'))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, self.customer.firstName)
-#         self.assertContains(response, self.customer.lastName)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customers.html')
+class TreatmentProgressModelTest(TestCase):
+    def setUp(self):
+        self.pet = Pet.objects.create(
+            name="Charlie",
+            species="Chó",
+            age=4,
+            current_health_status="Đang được điều trị"
+        )
+        self.medical_record = MedicalRecord.objects.create(
+            pet=self.pet,
+            date=date(2025, 2, 11),
+            symptoms="Ho và hắt hơi",
+            disease="Nhiễm trùng do vi khuẩn",
+            vet_notes="Quản lý thuốc kháng sinh"
+        )
+        self.treatment_progress = TreatmentProgress.objects.create(
+            pet=self.pet,
+            medical_record=self.medical_record,
+            treatment_method="Liệu pháp kháng sinh",
+            next_appointment_date=date(2025, 2, 20),
+            updated_health_status="Đang hồi phục"
+        )
+        # Nếu có thuốc liên quan, có thể thêm qua ManyToManyField
+        self.medication = Medication.objects.create(
+            name="Amoxicillin",
+            description="Kháng sinh cho nhiễm trùng vi khuẩn",
+            dosage_info="500mg/2 lần một ngày"
+        )
+        # Thêm thuốc cho tiến trình điều trị
+        self.treatment_progress.medication.add(self.medication)
 
-#     def test_customer_new_view(self):
-#         response = self.client.get(reverse('customer_add'))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customer_form.html')
+    def test_treatment_progress_str(self):
+        # Kiểm tra __str__ có chứa tên thú cưng
+        expected_start = f"Treatment for {self.pet.name} on "
+        self.assertTrue(str(self.treatment_progress).startswith(expected_start))
 
-#     def test_customer_edit_view(self):
-#         response = self.client.get(reverse('customer_edit', args=[self.customer.id]))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, self.customer.firstName)
-#         self.assertContains(response, self.customer.lastName)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customer_edit.html')
 
-#     def test_customer_delete_view(self):
-#         response = self.client.get(reverse('customer_delete', args=[self.customer.id]))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, self.customer.firstName)
-#         self.assertContains(response, self.customer.lastName)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/customer_delete.html')
+class MedicationModelTest(TestCase):
+    def setUp(self):
+        self.medication = Medication.objects.create(
+            name="Paracetamol",
+            description="Thuốc giảm đau và hạ sốt",
+            dosage_info="500mg/mỗi 6 tiếng"
+        )
 
-# #-------------------------------------------------------------------------------
-# #-------------------------------------------------------------------------------
+    def test_medication_str(self):
+        self.assertEqual(str(self.medication), "Paracetamol")
 
-#     def test_appointment_view(self):
-#         response = self.client.get(reverse('appointments_list'))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, self.customer.firstName)
-#         self.assertContains(response, self.customer.lastName)
-#         self.assertContains(response, self.pet.name)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/appointments-list.html')
-    
-#     def test_appointment_create_view(self):
-#         response = self.client.get(reverse('appointments_create'))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/appointments-create.html')
-    
-#     def test_appointment_filter_view(self):
-#         response = self.client.get(reverse('appointments_filter'))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, self.appointment.status)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/appointments-filter.html')
 
-#     def test_appointments_history_view(self):
-#         response = self.client.get(reverse('appointments_history', args=[self.customer.email]))
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, self.customer.email)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/appointments-history.html')
+class NotificationModelTest(TestCase):
+    def setUp(self):
+        self.pet = Pet.objects.create(
+            name="Max",
+            species="Chó",
+            age=6,
+            current_health_status="Khỏe mạnh"
+        )
+        self.notification = Notification.objects.create(
+            pet=self.pet,
+            message="Đã đến lúc tiêm vắc-xin hàng năm."
+        )
 
-# #-------------------------------------------------------------------------------
-# #-------------------------------------------------------------------------------
-
-#     def test_medical_records_history_view(self):
-#         url = reverse('medicalRecords_history', args=[self.pet.id])
-#         response = self.client.get(url)
-#         self.assertEqual(response.status_code, 200)
-#         self.assertContains(response, self.medicalRecord.treatmentDetails)
-#         self.assertContains(response, self.medicalRecord.doctor)
-#         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/medicalRecords-history.html')
+    def test_notification_str(self):
+        # Kiểm tra chuỗi trả về chứa tên của thú cưng và thông điệp
+        notification_str = str(self.notification)
+        self.assertIn(self.pet.name, notification_str)
+        self.assertIn("Notification for", notification_str)
         
