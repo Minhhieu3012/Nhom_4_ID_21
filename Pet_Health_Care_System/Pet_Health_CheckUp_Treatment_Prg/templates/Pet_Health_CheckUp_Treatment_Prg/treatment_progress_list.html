@@ -1,0 +1,96 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">THÚ CƯNG</a></li>
+        <li class="nav-item"><a href="{% url 'medication_list' %}" class="nav-link">THUỐC ĐIỀU TRỊ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{%block servicesection%}
+<div class="card">
+  <div class="card-header">
+    <h3>TIẾN TRÌNH ĐIỀU TRỊ</h3>
+  </div>
+  <div class="card-body">
+    {% if treatment_progress_list %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Ngày cập nhật</th>
+            <th>Phương pháp điều trị</th>
+            <th>Ngày tái khám</th>
+            <th>Tình trạng sau điều trị</th>
+            <th>Thuốc</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in treatment_progress_list %}
+            <tr>
+              <td>{{ record.id }}</td>
+              <td>{{ record.updated_at|date:"d/m/Y H:i" }}</td>
+              <td>{{ record.treatment_method }}</td>
+              <td>
+                {% if record.next_appointment_date %}
+                  {{ record.next_appointment_date|date:"d/m/Y" }}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if record.updated_health_status %}
+                  {{ record.updated_health_status }}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% with meds=record.medication.all %}
+                  {% if meds %}
+                    {% for med in meds %}
+                      {{ med.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                  {% else %}
+                    -
+                  {% endif %}
+                {% endwith %}
+              </td>
+              <td>
+                <a href="{% url 'treatment_progress_update' pk=record.id %}" class="btn btn-sm btn-warning">Sửa</a>
+                <a href="{% url 'treatment_progress_delete' pk=record.id %}" class="btn btn-sm btn-danger">Xóa</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Không có tiến trình điều trị nào được ghi nhận.</p>
+    {% endif %}
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'treatment_progress_create' %}" class="btn btn-primary">Thêm tiến trình điều trị mới</a>
+  </div>
+</div>
+{% endblock %}
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}

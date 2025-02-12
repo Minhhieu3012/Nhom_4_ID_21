@@ -1,0 +1,152 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">THÚ CƯNG</a></li>
+        <li class="nav-item"><a href="{% url 'medication_list' %}" class="nav-link">THUỐC ĐIỀU TRỊ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{%block servicesection%}
+<div class="card">
+  <div class="card-header">
+    <h3>
+      {% if treatment_progress %}
+        CẬP NHẬT TIẾN TRÌNH ĐIỀU TRỊ
+      {% else %}
+        TẠO TIẾN TRÌNH ĐIỀU TRỊ
+      {% endif %}
+    </h3>
+  </div>
+  <div class="card-body pt-4">
+    {% if messages %}
+      <div class="alert alert-success">
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="row g-3">
+        {# Nếu tạo mới, hiển thị trường chọn thú cưng và bệnh án; nếu cập nhật, giả sử các giá trị đã được xác định #}
+        {% if not treatment_progress %}
+          <div class="col-md-6">
+            <label for="id_pet" class="form-label">Thú cưng</label>
+            {{ form.pet }}
+            {% if form.pet.errors %}
+              <div class="text-danger">
+                {% for error in form.pet.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <label for="id_medical_record" class="form-label">Bệnh án</label>
+            {{ form.medical_record }}
+            {% if form.medical_record.errors %}
+              <div class="text-danger">
+                {% for error in form.medical_record.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <!-- Phương pháp điều trị -->
+        <div class="col-12">
+          <label for="id_treatment_method" class="form-label">Phương pháp điều trị</label>
+          <textarea id="id_treatment_method" name="treatment_method" class="form-control" placeholder="Nhập phương pháp điều trị">{{ form.treatment_method.value }}</textarea>
+          {% if form.treatment_method.errors %}
+            <div class="text-danger">
+              {% for error in form.treatment_method.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Ngày tái khám -->
+        <div class="col-md-6">
+          <label for="id_next_appointment_date" class="form-label">Ngày tái khám</label>
+          <input type="date" id="id_next_appointment_date" name="next_appointment_date" class="form-control" value="{{ form.next_appointment_date.value|default_if_none:'' }}">
+          {% if form.next_appointment_date.errors %}
+            <div class="text-danger">
+              {% for error in form.next_appointment_date.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Tình trạng sau điều trị -->
+        <div class="col-12">
+          <label for="id_updated_health_status" class="form-label">Tình trạng sức khỏe sau điều trị</label>
+          <textarea id="id_updated_health_status" name="updated_health_status" class="form-control" placeholder="Nhập tình trạng sức khỏe sau điều trị">{{ form.updated_health_status.value }}</textarea>
+          {% if form.updated_health_status.errors %}
+            <div class="text-danger">
+              {% for error in form.updated_health_status.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Thuốc -->
+        <div class="col-12">
+          <label for="id_medication" class="form-label">Thuốc</label>
+          {{ form.medication }}
+          {% if form.medication.errors %}
+            <div class="text-danger">
+              {% for error in form.medication.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!-- Nút gửi và Hủy -->
+      <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-primary">
+          {% if treatment_progress %}Cập nhật{% else %}Lưu tiến trình{% endif %}
+        </button>
+
+        {% if treatment_progress and treatment_progress.pet %}
+          <a href="{% url 'treatment_progress_list' pet_id=treatment_progress.pet.id %}" class="btn btn-secondary">Hủy</a>
+        {% elif pet_id %}
+          <a href="{% url 'treatment_progress_list' pet_id=pet_id %}" class="btn btn-secondary">Hủy</a>
+        {% else %}
+          <a href="{% url 'pet_list' %}" class="btn btn-secondary">Hủy</a>
+        {% endif %}
+      </div>
+
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}

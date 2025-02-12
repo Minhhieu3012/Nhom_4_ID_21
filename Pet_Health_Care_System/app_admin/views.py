@@ -7,6 +7,9 @@ from .models import Admission, Pet, Room, Invoice
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import now
 
+from django.shortcuts import render
+from django.http import HttpResponse
+
 
 
 def pet(request):
@@ -223,3 +226,7 @@ def invoice_payment(request, id):
         return redirect("admission-list")  # Quay lại danh sách nhập viện
 
     return render(request, "app_admin/invoice-payment.html", {"invoice": invoice})
+
+def app_admin(request):
+    return render(request,'app_admin/app_admin.html')
+

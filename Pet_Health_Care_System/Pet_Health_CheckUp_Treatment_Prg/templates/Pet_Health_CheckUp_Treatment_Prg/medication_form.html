@@ -1,0 +1,60 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">THÚ CƯNG</a></li>
+        <li class="nav-item"><a href="{% url 'medication_list' %}" class="nav-link">THUỐC ĐIỀU TRỊ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{%block servicesection%}
+<div class="container mt-4">
+  <h2 class="text-center">{% if medication %}Cập nhật Thông Tin Thuốc{% else %}THÊM THUỐC MỚI{% endif %}</h2>
+  
+  <form method="post" class="mt-4">
+      {% csrf_token %}
+      
+      <div class="mb-3">
+          <label for="id_name" class="form-label fw-bold">Tên Thuốc</label>
+          <input type="text" class="form-control" id="id_name" name="name" value="{{ form.name.value|default:'' }}" placeholder="Nhập tên thuốc" required>
+      </div>
+
+      <div class="mb-3">
+          <label for="id_description" class="form-label fw-bold">Mô Tả</label>
+          <textarea class="form-control" id="id_description" name="description" rows="3" placeholder="Nhập mô tả về thuốc">{{ form.description.value|default:'' }}</textarea>
+      </div>
+
+      <div class="mb-3">
+          <label for="id_dosage_info" class="form-label fw-bold">Hướng Dẫn Sử Dụng</label>
+          <textarea class="form-control" id="id_dosage_info" name="dosage_info" rows="3" placeholder="Nhập thông tin liều dùng">{{ form.dosage_info.value|default:'' }}</textarea>
+      </div>
+
+      <div class="d-flex justify-content-between">
+          <a href="{% url 'medication_list' %}" class="btn btn-secondary">Hủy</a>
+          <button type="submit" class="btn btn-primary">
+              {% if medication %}Cập nhật{% else %}Lưu{% endif %}
+          </button>
+      </div>
+  </form>
+</div>
+{% endblock %}
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}

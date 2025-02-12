@@ -1,0 +1,72 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+    <li class="nav-item"><a href="{% url 'customer_list' %}" class="nav-link">Khách Hàng</a></li>
+    <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">Thú cưng</a></li>
+    <li class="nav-item"><a href="{% url 'appointments_list' %}" class="nav-link">Lịch hẹn</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+
+{%block contactformsection%}
+<div class="container mt-5">
+    <h2>Lọc Lịch Hẹn</h2>
+    <form method="get" action="{% url 'appointments_filter' %}">
+        <label for="date">Ngày:</label>
+        <input type="date" id="date" name="date">
+        <label for="status">Trạng Thái:</label>
+        <select id="status" name="status">
+            <option value="choice">Chọn</option>
+            <option value="pending">Chưa thanh toán</option>
+            <option value="completed">Đã thanh toán</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Lọc</button>
+    </form>
+
+    <h3 class="mt-4">Kết Quả</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Ngày</th>
+                <th>Thời Gian</th>
+                <th>Thú Cưng</th>   
+                <th>Trạng Thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.time }}</td>
+                <td>{{ appointment.pet }}</td>
+                <td>{{ appointment.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}
