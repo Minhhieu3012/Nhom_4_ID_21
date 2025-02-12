@@ -62,6 +62,15 @@ class Room(models.Model):
         else:
             self.status = 'Available'
         self.save()  # Đảm bảo lưu lại thay đổi
+    def admit_pet(self):
+        if self.current_occupancy >= self.capacity:
+            raise Exception("Room is already full!")  # Đảm bảo Exception được raise
+        self.current_occupancy += 1
+        self.save()
+    def discharge_pet(self):
+        if self.current_occupancy > 0:
+            self.current_occupancy -= 1
+            self.save()
 
     def __str__(self):
         return f"{self.room_type} - {self.status}"
@@ -96,7 +105,7 @@ class Staff(models.Model):
 class Invoice(models.Model):
     admission = models.ForeignKey('Admission', on_delete=models.CASCADE)  # Liên kết với thông tin nhập viện
     issued_date = models.DateTimeField(default=now)  # Ngày hóa đơn được phát hành
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)  # Tổng số tiền
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)  # Tổng số tiền
     is_paid = models.BooleanField(default=False)  # Trạng thái thanh toán (Đã thanh toán hay chưa)
     payment_date = models.DateTimeField(null=True, blank=True)  # Ngày thanh toán (nếu đã thanh toán)
     notes = models.TextField(null=True, blank=True)  # Ghi chú (nếu có)

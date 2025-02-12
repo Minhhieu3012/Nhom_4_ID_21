@@ -1,10 +1,11 @@
+from datetime import datetime
+from django.contrib import messages
 from django.template import loader
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Admission, Pet, Room, Invoice
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import now
-
 
 
 
@@ -33,10 +34,9 @@ def rooms(request):
     return HttpResponse(template.render(context, request))
 
 def room_edit(request, id):
-    try:
-        room = Room.objects.get(id=id)
-    except ObjectDoesNotExist:
-        return HttpResponse("Room not found", status=404)
+
+
+    room = get_object_or_404(Room, id=id)
 
     if request.method == "POST":
         room.room_type = request.POST.get("room_type")
@@ -56,6 +56,18 @@ def room_add(request):
         room_type = request.POST.get("room_type")
         capacity = request.POST.get("capacity")
         status = request.POST.get("status")
+        try:
+            capacity = int(capacity)  # Chuyển đổi capacity sang số nguyên
+            if capacity <= 0:
+                messages.error(request, "Sức chứa phải là số dương.")
+                return redirect("room-add")
+            if capacity > 50:  # Giới hạn số lớn tùy ý (ví dụ: 50)
+                messages.error(request, "Sức chứa không thể vượt quá 50.")
+                return redirect("room-add")
+            
+        except ValueError:
+            messages.error(request, "Vui lòng nhập một số hợp lệ cho sức chứa.")
+            return redirect("room-add")
 
         Room.objects.create(room_type=room_type, capacity=capacity, status=status)
 
@@ -84,32 +96,111 @@ def admission_list(request):
 
 from django.db import models  # Import đúng models.F
 
+
+# def admission_create(request):
+#     if request.method == "POST":
+#         pet_id = request.POST.get("pet")
+#         room_id = request.POST.get("room")
+#         admission_date = request.POST.get("admission_date")
+#         discharge_date = request.POST.get("discharge_date")
+
+#         pet = get_object_or_404(Pet, id=pet_id)
+#         room = get_object_or_404(Room, id=room_id)
+
+#         # Kiểm tra nếu phòng đã đầy
+#         if room.current_occupancy >= room.capacity:
+#             messages.error(request, "Room is already full!")
+#             return redirect("admission-create")
+        
+#         # Chuyển đổi admission_date và discharge_date sang kiểu datetime
+#         if admission_date:
+#             admission_date = datetime.strptime(admission_date, "%Y-%m-%dT%H:%M")
+
+#         if discharge_date:
+#             discharge_date = datetime.strptime(discharge_date, "%Y-%m-%dT%H:%M")
+#             # Kiểm tra nếu discharge_date nhỏ hơn admission_date
+#             if discharge_date < admission_date:
+#                 messages.error(request, "Ngày xuất viện không thể trước ngày nhập viện!")
+#                 return redirect("admission-create")
+
+#         # Tạo Admission
+#         admission = Admission.objects.create(
+#             pet=pet,
+#             room=room,
+#             admission_date=admission_date,
+#             discharge_date=discharge_date if discharge_date else None
+#         )
+
+#         # Tăng số lượng thú cưng trong phòng
+#         room.current_occupancy += 1
+#         room.update_status()
+#         room.save()  # Cần lưu sau khi cập nhật trạng thái
+
+#         return redirect("admission-list")
+
+#     pets = Pet.objects.all()
+#     rooms = Room.objects.filter(current_occupancy__lt=models.F('capacity'))  # Chỉ hiển thị phòng chưa đầy
+#     return render(request, "app_admin/admission-create.html", {"pets": pets, "rooms": rooms})
+
 def admission_create(request):
     if request.method == "POST":
         pet_id = request.POST.get("pet")
         room_id = request.POST.get("room")
+        admission_date = request.POST.get("admission_date")
+        discharge_date = request.POST.get("discharge_date")
 
         pet = get_object_or_404(Pet, id=pet_id)
         room = get_object_or_404(Room, id=room_id)
 
         # Kiểm tra nếu phòng đã đầy
         if room.current_occupancy >= room.capacity:
-            return HttpResponse("Room is already full!", status=400)
+            messages.error(request, "Room is already full!")
+            return redirect("admission-create")
+
+        # Kiểm tra định dạng ngày hợp lệ
+        try:
+            admission_date = datetime.strptime(admission_date, "%Y-%m-%dT%H:%M")
+
+            # Kiểm tra nếu năm nhập viện có nhiều hơn 4 chữ số
+            if admission_date.year > 9999:
+                messages.error(request, "Định dạng ngày nhập viện không hợp lệ!")
+                return redirect("admission-create")
+
+        except ValueError:
+            messages.error(request, "Vui lòng nhập đúng định dạng ngày!")
+            return redirect("admission-create")
+
+        if discharge_date:
+            try:
+                discharge_date = datetime.strptime(discharge_date, "%Y-%m-%dT%H:%M")
+
+                # Kiểm tra ngày xuất viện phải sau ngày nhập viện
+                if discharge_date < admission_date:
+                    messages.error(request, "Ngày xuất viện không thể trước ngày nhập viện!")
+                    return redirect("admission-create")
+
+            except ValueError:
+                messages.error(request, "Vui lòng nhập đúng định dạng ngày xuất viện!")
+                return redirect("admission-create")
 
         # Tạo Admission
-        admission = Admission.objects.create(pet=pet, room=room, admission_date=now())
+        admission = Admission.objects.create(
+            pet=pet,
+            room=room,
+            admission_date=admission_date,
+            discharge_date=discharge_date if discharge_date else None
+        )
 
         # Tăng số lượng thú cưng trong phòng
         room.current_occupancy += 1
         room.update_status()
-        room.save()  # Cần lưu sau khi cập nhật trạng thái
+        room.save()
 
         return redirect("admission-list")
 
     pets = Pet.objects.all()
-    rooms = Room.objects.filter(current_occupancy__lt=models.F('capacity'))  # Chỉ hiển thị phòng chưa đầy
+    rooms = Room.objects.filter(current_occupancy__lt=models.F('capacity'))
     return render(request, "app_admin/admission-create.html", {"pets": pets, "rooms": rooms})
-
 
 
 # #Xuất viện và tạo hóa đơn
