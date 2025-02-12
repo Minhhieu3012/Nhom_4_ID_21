@@ -1,0 +1,113 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">THÚ CƯNG</a></li>
+        <li class="nav-item"><a href="{% url 'medication_list' %}" class="nav-link">THUỐC ĐIỀU TRỊ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{%block servicesection%}
+{% load static %}
+<div class="card">
+    <div class="card-header">
+    <h3>THÊM THÚ CƯNG</h3>
+    </div>
+    <!-- Start Information -->
+    <div class="card-body pt-4">
+    <!-- Hiển thị thông báo -->
+    {% if messages %}
+        <div class="alert alert-success">
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        </div>
+    {% endif %}
+
+    <!-- Form thêm thú cưng -->
+    <form method="post">
+        {% csrf_token %}
+        <div class="row g-3">
+        <!-- Tên thú cưng -->
+        <div class="col-md-6">
+            <label for="id_name" class="form-label">Tên thú cưng</label>
+            <input type="text" id="id_name" name="name" class="form-control" placeholder="Nhập tên thú cưng">
+            {% if form.name.errors %}
+            <div class="text-danger">
+                {% for error in form.name.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Giống loài -->
+        <div class="col-md-6">
+            <label for="id_species" class="form-label">Giống loài</label>
+            <input type="text" id="id_species" name="species" class="form-control" placeholder="Nhập giống loài">
+            {% if form.species.errors %}
+            <div class="text-danger">
+                {% for error in form.species.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Tuổi thú cưng -->
+        <div class="col-md-6">
+            <label for="id_age" class="form-label">Tuổi</label>
+            <input type="text" id="id_age" name="age" class="form-control" placeholder="Nhập tuổi thú cưng">
+            {% if form.age.errors %}
+            <div class="text-danger">
+                {% for error in form.age.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Tình trạng sức khỏe -->
+        <div class="col-md-6">
+            <label for="id_current_health_status" class="form-label">Tình trạng sức khỏe</label>
+            <input type="text" id="id_current_health_status" name="current_health_status" class="form-control" placeholder="Nhập tình trạng sức khỏe">
+            {% if form.current_health_status.errors %}
+            <div class="text-danger">
+                {% for error in form.current_health_status.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Nút gửi -->
+        <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-primary">Tạo thú cưng</button>
+        <a id="cancel-link" href="{% url 'pet_list' %}" class="btn btn-outline-secondary">Hủy</a>
+        </div>
+    </form>
+    </div>
+</div>
+{% endblock %}
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}

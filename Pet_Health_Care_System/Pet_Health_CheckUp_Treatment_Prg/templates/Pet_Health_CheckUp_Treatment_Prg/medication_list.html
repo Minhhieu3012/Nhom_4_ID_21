@@ -1,0 +1,67 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">THÚ CƯNG</a></li>
+        <li class="nav-item"><a href="{% url 'medication_list' %}" class="nav-link">THUỐC ĐIỀU TRỊ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{%block servicesection%}
+<div class="container mt-4">
+  <h2 class="text-center mb-4">DANH SÁCH THUỐC ĐIỀU TRỊ</h2>
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Tên Thuốc</th>
+              <th scope="col">Mô Tả</th>
+              <th scope="col">Hướng Dẫn Sử Dụng</th>
+              <th scope="col" class="text-center">Hành Động</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for medication in medications %}
+          <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ medication.name }}</td>
+              <td>{{ medication.description }}</td>
+              <td>{{ medication.dosage_info }}</td>
+              <td class="text-center">
+                  <a href="{% url 'medication_update' medication.id %}" class="btn btn-sm btn-warning">Sửa</a>
+                  <a href="{% url 'medication_delete' medication.id %}" class="btn btn-sm btn-danger">Xóa</a>
+              </td>
+          </tr>
+          {% empty %}
+          <tr>
+              <td colspan="5" class="text-center">Chưa có thuốc nào trong danh sách.</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+  <div class="d-flex justify-content-between mt-4">
+      <a href="{% url 'medication_create' %}" class="btn btn-primary">Thêm Thuốc Mới</a>
+      <a href="{% url 'pet_list' %}" class="btn btn-secondary">Quay lại danh sách thú cưng</a>
+  </div>
+</div>
+{% endblock %}
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}

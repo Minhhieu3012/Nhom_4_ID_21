@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Pet_Cus_Info_Mng',
     'app_admin',
+    'Pet_Health_CheckUp_Treatment_Prg',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,47 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">THÚ CƯNG</a></li>
+        <li class="nav-item"><a href="{% url 'medication_list' %}" class="nav-link">THUỐC ĐIỀU TRỊ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{%block servicesection%}
+<div class="card">
+  <div class="card-header">
+    <h3>XÁC NHẬN XÓA BỆNH ÁN</h3>
+  </div>
+  <div class="card-body pt-4">
+    <p>Bạn có chắc chắn muốn xóa bệnh án của thú cưng <strong>{{ medical_record.pet.name }}</strong> không?</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Xóa</button>
+        <a href="{% url 'medical_record_list' pet_id=medical_record.pet.id %}" class="btn btn-secondary">Hủy</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}
