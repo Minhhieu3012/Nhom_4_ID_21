@@ -1,0 +1,108 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+  </div>
+</nav>
+{% endblock %}
+
+{%block contactformsection%}
+<h2 style="padding: 20px";>CHỈNH SỬA THÔNG TIN THÚ CƯNG</h2>
+<form method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-xxl">
+            <div class="card mb-6" style="padding: 20px";>
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Thông tin thú cưng</h5>
+                    <small class="text-muted float-end">Điền thông tin cần sửa</small>
+                </div>
+                <div class="card-body">
+                    <!--Tên thú cưng -->
+                    <div class="row mb-3">
+                        <label>Tên thú cưng</label>
+                        <label class="col-sm-2 col-form-label" for="id_name"></label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                {{ form.name }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Giống loài -->
+                    <div class="row mb-3">
+                        <label>Giống loài</label>
+                        <label class="col-sm-2 col-form-label" for="id_species"></label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                {{ form.species }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tình trạng thú cưng -->
+                    <div class="row mb-3">
+                        <label>Tình trạng thú cưng</label>
+                        <label class="col-sm-2 col-form-label" for="id_healthStatus"></label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                {{ form.healthStatus }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Giới tính -->
+                    <div class="row mb-3">
+                        <label>Giới tính</label>
+                        <label class="col-sm-2 col-form-label" for="id_gender"></label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                {{ form.gender }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chủ sỡ hữu -->
+                    <div class="row mb-3">
+                        <label>Chủ sở hữu</label>
+                        <label class="col-sm-2 col-form-label" for="id_owner"></label>
+                        <div class="col-sm-10">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                {{ form.owner }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nút lưu -->
+                    <div class="row justify-content-end">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                            <a id="cancel-link" href="{% url 'pet_list' %}" class="btn btn-secondary">Hủy</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}
