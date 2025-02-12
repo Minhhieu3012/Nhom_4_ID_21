@@ -288,7 +288,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
     #     time.sleep(4)
 
 
-    # def test_unit_pet_medical_record_form_edit(self):
+    # def test_unit_pet_medical_record_delete(self):
     #     print("Bắt đầu test chức năng xem hồ sơ khám bệnh của thú cưng...")
     #     driver = self.driver
     #     driver.get("http://127.0.0.1:8000/") 
