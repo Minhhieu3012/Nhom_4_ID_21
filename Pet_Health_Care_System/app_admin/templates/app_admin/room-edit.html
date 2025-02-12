@@ -11,6 +11,13 @@
 {%block content%}
 <div class="container mt-5">
     <h2 class="text-center">Chỉnh sửa phòng</h2>
+    {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         <div class="form-group">

@@ -99,12 +99,11 @@
                                     {% endif %}
                                 {% else %}
                                     <span class="text-danger">Invoice Missing</span>
-                                {% endif %}
+                                {% endif %} 
                             {% endwith %}
                         {% else %}
                             <a href="{% url 'admission-discharge' admission.id %}" class="btn btn-warning">Xuất viện</a>
                         {% endif %}
-
                     </td>                    
                 </tr>
                 {% endfor %}
