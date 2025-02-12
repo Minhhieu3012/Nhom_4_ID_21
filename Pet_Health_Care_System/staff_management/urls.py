@@ -6,6 +6,7 @@ urlpatterns = [
 
     # Quản lý nhân viên
     path('staff/', views.staff_list, name='staff_list'),
+    
     path('staff/<int:id>/', views.staff_detail, name='staff_detail'),
     path('staff/create/', views.staff_create, name='staff_create'),
     path('staff/<int:id>/update/', views.staff_update, name='staff_update'),

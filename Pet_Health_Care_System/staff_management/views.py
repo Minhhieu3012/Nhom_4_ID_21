@@ -2,11 +2,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Staff, WorkSchedule, WorkShift
 from .forms import StaffForm, WorkScheduleForm, WorkShiftForm
 
-
-# from django.shortcuts import render, redirect, get_object_or_404
-# from .models import Staff
-# from .forms import StaffForm
-
 def staff_detail(request, staff_id):
     staff = get_object_or_404(Staff, id=staff_id)
     return render(request, 'staff_management/staff_detail.html', {'staff': staff})
