@@ -336,7 +336,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
 # -------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------
 
-    def test_unit_05_pet_treatment_progress_form(self):
+    def test_unit_07_pet_treatment_progress_form(self):
         print("🔍 Bắt đầu test chức năng xem tiến trình điều trị của thú cưng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -469,7 +469,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
 #------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------
     
-    def test_unit_06_pet_medication_form(self):
+    def test_unit_05_pet_medication_form(self):
         print("🔍 Bắt đầu test chức năng tạo đơn thuốc mới của thú cưng...")
         driver = self.driver
         wait = WebDriverWait(driver, 10)
@@ -548,7 +548,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
         print("Xóa thuốc thành công")
 
     
-    def test_unit_07_pet_medication_edit(self):
+    def test_unit_06_pet_medication_edit(self):
         print("🔍 Bắt đầu test chức năng cập nhật đơn thuốc mới của thú cưng...")
         driver = self.driver
         wait = WebDriverWait(driver, 10)
