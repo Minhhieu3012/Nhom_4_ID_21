@@ -52,6 +52,34 @@
         width: 40%;
     }
 
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .submit-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 18px;
+        background: linear-gradient(135deg, #28a745, #218838);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: transform 0.2s ease, background 0.3s ease;
+        box-shadow: 0 3px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    .submit-button:hover {
+        background: linear-gradient(135deg, #218838, #1e7e34);
+        transform: scale(1.05);
+    }
+
     .back-link {
         display: inline-block;
         margin-top: 20px;
@@ -74,42 +102,30 @@
 
 <div class="staff-container">
     <h2 class="staff-header">Thông tin nhân viên</h2>
-    <div class="staff-info">
-        <table class="staff-table">
-            <tr>
-                <td>Tên:</td>
-                <td>{{ staff.first_name }} {{ staff.last_name }}</td>
-            </tr>
-            <tr>
-                <td>Vai trò:</td>
-                <td>{{ staff.role.name }}</td>
-            </tr>
-            <tr>
-                <td>Email:</td>
-                <td>{{ staff.email }}</td>
-            </tr>
-            <tr>
-                <td>Số điện thoại:</td>
-                <td>{{ staff.phone }}</td>
-            </tr>
-            <tr>
-                <td>Địa chỉ:</td>
-                <td>{{ staff.address }}</td>
-            </tr>
-            <tr>
-                <td>Ngày tuyển dụng:</td>
-                <td>{{ staff.hire_date }}</td>
-            </tr>
-            <tr>
-                <td>Giới tính:</td>
-                <td>{{ staff.get_gender_display }}</td>
-            </tr>
-            <tr>
-                <td>Trạng thái:</td>
-                <td>{% if staff.is_active %} 🟢 Đang làm việc {% else %} 🔴 Đã nghỉ {% endif %}</td>
-            </tr>
-        </table>
-    </div>
-    <a href="{% url 'staff_list' %}" class="back-link">⬅ Quay lại danh sách</a>
-</div>
-{% endblock %}
+    <form method="POST" action="{% url 'staff_update' staff.id %}">
+        {% csrf_token %}
+        <div class="staff-info">
+            <table class="staff-table">
+                <tr>
+                    <td>Tên:</td>
+                    <td><input type="text" name="first_name" value="{{ staff.first_name }}" required></td>
+                </tr>
+                <tr>
+                    <td>Họ:</td>
+                    <td><input type="text" name="last_name" value="{{ staff.last_name }}" required></td>
+                </tr>
+                <tr>
+                    <td>Vai trò:</td>
+                    <td>
+                        <select name="role" required>
+                            {% for role in roles %}
+                                <option value="{{ role.id }}" {% if role.id == staff.role.id %}selected{% endif %}>{{ role.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="email" name="email" value="{{ staff.email }}" required></td>
+                </tr>
+                <tr
