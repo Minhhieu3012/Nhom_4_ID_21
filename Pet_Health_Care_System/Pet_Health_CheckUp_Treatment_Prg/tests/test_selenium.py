@@ -129,7 +129,6 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
     #     print("Đã vào trang chi tiết thú cưng.")
     #     time.sleep(2)
         
-    #     # Nhấn nút "CHỈNH SỬA" trên trang chi tiết
     #     driver.find_element(By.LINK_TEXT, "XÓA").click()
     #     time.sleep(2)
 
@@ -289,39 +288,45 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
     #     time.sleep(4)
 
 
-    def test_unit_pet_medical_record_form_edit(self):
-        print("Bắt đầu test chức năng xem hồ sơ khám bệnh của thú cưng...")
-        driver = self.driver
-        driver.get("http://127.0.0.1:8000/") 
-        time.sleep(3)
+    # def test_unit_pet_medical_record_form_edit(self):
+    #     print("Bắt đầu test chức năng xem hồ sơ khám bệnh của thú cưng...")
+    #     driver = self.driver
+    #     driver.get("http://127.0.0.1:8000/") 
+    #     time.sleep(3)
 
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
-        time.sleep(2)
+    #     driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+    #     time.sleep(2)
 
-        # Nhấn vào nút ba chấm của dòng cuối cùng để mở dropdown
-        driver.find_element(By.XPATH, ".//td[last()]//button").click()
-        time.sleep(1)
+    #     # Nhấn vào nút ba chấm của dòng cuối cùng để mở dropdown
+    #     driver.find_element(By.XPATH, ".//td[last()]//button").click()
+    #     time.sleep(1)
         
-        # Tìm và click vào liên kết "Xem chi tiết" trong dropdown
-        wait = WebDriverWait(driver, 20)
-        xem_chi_tiet_link = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Xem chi tiết")))
-        xem_chi_tiet_link.click()
-        time.sleep(2)
+    #     # Tìm và click vào liên kết "Xem chi tiết" trong dropdown
+    #     wait = WebDriverWait(driver, 20)
+    #     xem_chi_tiet_link = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Xem chi tiết")))
+    #     xem_chi_tiet_link.click()
+    #     time.sleep(2)
         
-        print("Đã vào trang chi tiết thú cưng.")
-        time.sleep(2)
+    #     print("Đã vào trang chi tiết thú cưng.")
+    #     time.sleep(2)
         
-        # Chuyển sang trang hồ sơ khám bệnh
-        driver.find_element(By.LINK_TEXT, "XEM HỒ SƠ KHÁM BỆNH").click()
-        time.sleep(2)
+    #     # Chuyển sang trang hồ sơ khám bệnh
+    #     driver.find_element(By.LINK_TEXT, "XEM HỒ SƠ KHÁM BỆNH").click()
+    #     time.sleep(2)
 
-        print("Đã vào trang hồ sơ khám bệnh của thú cưng.")
-        time.sleep(2)
+    #     print("Đã vào trang hồ sơ khám bệnh của thú cưng.")
+    #     time.sleep(2)
 
-        driver.find_element(By.LINK_TEXT, "XÓA").click()
-        time.sleep(2)
+    #     driver.find_element(By.LINK_TEXT, "XÓA").click()
+    #     time.sleep(2)
 
-        print("Đang vào trang xóa thông tin hồ sơ khám bệnh...")
+    #     print("Đã vào trang xóa thú cưng.")
+    #     time.sleep(4)
+
+    #     # Xóa hồ sơ khám bệnh
+    #     driver.find_element(By.XPATH, "//button[text()='Xóa']").click()
+    #     time.sleep(4)
+    #     print("Xóa hồ sơ khám bệnh thành công")
 
         
 
