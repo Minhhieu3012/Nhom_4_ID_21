@@ -3,7 +3,6 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
@@ -12,61 +11,48 @@ class TestAdmissionCreate(unittest.TestCase):
         self.driver = webdriver.Chrome()  # Khởi tạo trình duyệt Chrome
         self.driver.get("http://127.0.0.1:8000/admission-create")  # Mở trang nhập viện
         self.driver.maximize_window()
-        self.wait = WebDriverWait(self.driver, 10)  # Thêm thuộc tính self.wait
 
-    # Nhập viện với dữ liệu hợp lệ
+# *** CASE 1: NHẬP VIỆN VỚI DỮ LIỆU HỢP LỆ
     def test_valid_admission(self):
         driver = self.driver
         
-        try:
-            # Chờ dropdown pet xuất hiện
-            pet_dropdown = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.NAME, "pet"))
-            )
-            pet_select = Select(pet_dropdown)
-            pet_select.select_by_index(1)  # Chọn thú cưng đầu tiên (có thể thay đổi)
+        # Chờ dropdown pet xuất hiện
+        pet = driver.find_element(By.NAME, "pet")
+        pet_select = Select(pet)
+        pet_select.select_by_index(1)  # Chọn thú cưng đầu tiên (có thể thay đổi)
 
-            # Chờ dropdown room xuất hiện
-            room_dropdown = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.NAME, "room"))
-            )
-            room_select = Select(room_dropdown)
-            room_select.select_by_index(1)  # Chọn phòng đầu tiên (có thể thay đổi)
+        room = driver.find_element (By.NAME, "room")
+        room_select = Select(room)
+        room_select.select_by_index(1)  # Chọn phòng đầu tiên (có thể thay đổi)
 
-            admission_date = driver.find_element(By.NAME, "admission_date")
-            admission_date.send_keys("12/02/002025:12:00SA")
+        admission_date = driver.find_element(By.NAME, "admission_date")
+        admission_date.send_keys("12/02/002025:12:00SA")
 
-            discharge_date = driver.find_element(By.NAME, "discharge_date")
-            discharge_date.send_keys("14/02/002025:13:00CH")
-            time.sleep(3)
+        discharge_date = driver.find_element(By.NAME, "discharge_date")
+        discharge_date.send_keys("14/02/002025:13:00CH")
+        time.sleep(3)
 
-            # Chờ nút Submit và nhấn vào
-            submit_button = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
-            )
-            submit_button.click()
+        # Nhấp vào Xác nhận
+        driver.find_element(By.CLASS_NAME, "btn-primary").click()
+        time.sleep(3)
 
-            # Kiểm tra xem có chuyển hướng đến danh sách nhập viện không
-            WebDriverWait(driver, 10).until(
-                EC.url_contains("/admission-list")
-            )
-            self.assertIn("admission-list", driver.current_url)
-            print("✅ Admission Create Test Passed!")
-            time.sleep(5)
+        # Kiểm tra xem có chuyển hướng đến danh sách nhập viện không
+        self.assertIn("admission-list", driver.current_url)
+        print("Admission Create Test Passed!")
+        time.sleep(5)
 
-        except Exception as e:
-            print(f"❌ Test Failed: {e}")
-            self.fail("Test case failed")
-            time.sleep(5)
-        
+
+# *** CASE2: NGÀY XUẤT VIỆN TRƯỚC NGÀY NHẬP VIỆN
     def test_discharge_before_admission(self):
         driver = self.driver
 
-        pet_select = Select(self.wait.until(EC.presence_of_element_located((By.NAME, "pet"))))
-        pet_select.select_by_index(1)
-
-        room_select = Select(self.wait.until(EC.presence_of_element_located((By.NAME, "room"))))
-        room_select.select_by_index(1)
+        pet = driver.find_element(By.NAME, "pet")
+        pet_select = Select(pet)  # Tạo đối tượng Select
+        pet_select.select_by_index(0)  # Chọn phần tử đầu tiên
+       
+        room = driver.find_element(By.NAME, "room")
+        room_select = Select(room)  # Tạo đối tượng Select
+        room_select.select_by_index(0)  # Chọn phần tử đầu tiên
 
         # Nhập ngày nhập viện (hôm nay) và ngày xuất viện (hôm qua)
         admission_date = driver.find_element(By.NAME, "admission_date")
@@ -74,39 +60,36 @@ class TestAdmissionCreate(unittest.TestCase):
 
         discharge_date = driver.find_element(By.NAME, "discharge_date")
         discharge_date.send_keys("11/02/002025:12:00SA")
-        time.sleep(3)
 
-        submit_button = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']")))
-        submit_button.click()
+        driver.find_element(By.CLASS_NAME, "btn-primary").click()
 
         time.sleep(3)
-        # Kiểm tra lỗi hiển thị
-        error_message = self.wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(), 'Ngày xuất viện không thể trước ngày nhập viện!')]")))
-        self.assertIn("Ngày xuất viện không thể trước ngày nhập viện!", error_message.text)
+        error_message = driver.find_element(By.CLASS_NAME, "alert-danger").text
+        self.assertIn("Ngày xuất viện không thể trước ngày nhập viện!", error_message)
         print("✅ Test discharge before admission passed!")
 
-    # Test nhập viện với năm quá 4 số
+# CASE 3: NHẬP NĂM QUÁ 4 CHỮ SỐ
     def test_invalid_admission_year(self):
         driver = self.driver
 
-        pet_select = Select(self.wait.until(EC.presence_of_element_located((By.NAME, "pet"))))
-        pet_select.select_by_index(1)
+        pet = driver.find_element (By.NAME, "pet")
+        pet_select = Select(pet)
+        pet_select.select_by_index(0)
 
-        room_select = Select(self.wait.until(EC.presence_of_element_located((By.NAME, "room"))))
-        room_select.select_by_index(1)
+        room = driver.find_element (By.NAME, "room")
+        room_select = Select(room)
+        room_select.select_by_index(0)
 
-        # Nhập năm sai (1000000)
+        # Nhập năm sai
         admission_date = driver.find_element(By.NAME, "admission_date")
-        admission_date.send_keys("12-02-200000:12:00SA")
+        admission_date.send_keys("12-02-020000:12:00SA")
         time.sleep(3)
 
-        submit_button = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']")))
-        submit_button.click()
-
+        driver.find_element(By.CLASS_NAME, "btn-primary").click()
         time.sleep(3)
         # Kiểm tra lỗi hiển thị
-        error_message = self.wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(), 'Vui lòng nhập đúng định dạng ngày!')]")))
-        self.assertIn("Vui lòng nhập đúng định dạng ngày!", error_message.text)
+        error_message = driver.find_element(By.CLASS_NAME, "alert-danger").text
+        self.assertIn("Vui lòng nhập đúng định dạng ngày!", error_message)
         print("✅ Test invalid admission year passed!")
     
 
