@@ -201,8 +201,9 @@ class MedicationCreateView(CreateView):
     success_url = reverse_lazy('medication_list')
 
     def form_valid(self, form):
-        form.save()
-        messages.success(self.request, "Thuốc đã được thêm thành công!")
+        # Gán đối tượng vừa lưu vào self.object
+        self.object = form.save()
+        messages.success(self.request, "Thông tin thuốc đã được tạo thành công!")
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -220,7 +221,7 @@ class MedicationUpdateView(UpdateView):
 
 class MedicationDeleteView(DeleteView):
     model = Medication
-    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medication_confirm_delete.html'
+    template_name = 'Pet_Health_CheckUp_Treatment_Prg/medication_delete.html'
     success_url = reverse_lazy('medication_list')
 
     def delete(self, request, *args, **kwargs):

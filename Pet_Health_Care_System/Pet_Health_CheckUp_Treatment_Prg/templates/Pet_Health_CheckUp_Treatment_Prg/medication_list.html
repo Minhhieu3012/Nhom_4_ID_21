@@ -24,7 +24,42 @@
 {% endblock %}
 
 {%block servicesection%}
-
+<div class="container mt-4">
+  <h2 class="text-center mb-4">DANH SÁCH THUỐC ĐIỀU TRỊ</h2>
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Tên Thuốc</th>
+              <th scope="col">Mô Tả</th>
+              <th scope="col">Hướng Dẫn Sử Dụng</th>
+              <th scope="col" class="text-center">Hành Động</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for medication in medications %}
+          <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ medication.name }}</td>
+              <td>{{ medication.description }}</td>
+              <td>{{ medication.dosage_info }}</td>
+              <td class="text-center">
+                  <a href="{% url 'medication_update' medication.id %}" class="btn btn-sm btn-warning">Sửa</a>
+                  <a href="{% url 'medication_delete' medication.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">Xóa</a>
+              </td>
+          </tr>
+          {% empty %}
+          <tr>
+              <td colspan="5" class="text-center">Chưa có thuốc nào trong danh sách.</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+  <div class="d-flex justify-content-between mt-4">
+      <a href="{% url 'medication_create' %}" class="btn btn-primary">Thêm Thuốc Mới</a>
+      <a href="{% url 'pet_list' %}" class="btn btn-secondary">Quay lại danh sách thú cưng</a>
+  </div>
+</div>
 {% endblock %}
 
 {%block footer%}
