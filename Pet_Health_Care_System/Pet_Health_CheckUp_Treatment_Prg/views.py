@@ -107,6 +107,9 @@ class MedicalRecordUpdateView(UpdateView):
         form.save()
         messages.success(self.request, "Bệnh án đã được cập nhật thành công!")
         return HttpResponseRedirect(self.get_success_url())
+    def get_success_url(self):
+        return reverse('medical_record_list', kwargs={'pet_id': self.object.pet.id}) 
+
     
 
 class MedicalRecordDeleteView(DeleteView):
