@@ -322,7 +322,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
         time.sleep(2)
 
         print("Đang vào trang xóa thông tin hồ sơ khám bệnh...")
-
+111
         
 
 
