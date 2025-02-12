@@ -1,0 +1,51 @@
+{% extends "master-page.html" %}
+
+{% load static %}
+
+{% block header-nav %}
+{% include "header-nav.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Appointments</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="thead-dark">
+                <tr>
+                    <th style="width: 20%;">Customer</th>
+                    <th style="width: 15%;">Pet</th>
+                    <th style="width: 10%;">Species</th>
+                    <th style="width: 15%;">Vet</th>
+                    <th style="width: 20%;">Service Type</th>
+                    <th style="width: 20%;">Date & Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.customer }}</td>
+                    <td>{{ appointment.pet_name }}</td>
+                    <td>{{ appointment.pet_species }}</td>
+                    <td>{{ appointment.vet_name }}</td>
+                    <td>{{ appointment.service_type }}</td>
+                    <td>{{ appointment.appointment_date }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No appointments found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block footer %}
+{% include "footer.html" %}
+{% endblock %}

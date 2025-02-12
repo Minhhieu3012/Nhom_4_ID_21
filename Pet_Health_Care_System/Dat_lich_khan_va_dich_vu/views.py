@@ -53,7 +53,7 @@ def appointment_view(request):
             return redirect("appointment")
 
         try:
-            appointment_datetime = datetime.strptime(datetime_str, "%m/%d/%Y %H:%M")
+             appointment_datetime = datetime.strptime(datetime_str, "%Y-%m-%dT%H:%M")
         except ValueError:
             messages.error(request, "Invalid date format. Please select a valid date and time.")
             return redirect("appointment")
@@ -159,7 +159,7 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             messages.success(request, "Login successful!")
-            return redirect("home")
+            return redirect("appointment")
     else:
         form = CustomerLoginForm()
     return render(request, "Dat_lich_khan_va_dich_vu/login.html", {"form": form})

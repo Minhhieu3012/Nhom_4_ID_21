@@ -1,0 +1,102 @@
+{% extends "master-page.html" %}
+
+{% load static %}
+
+{% block header-nav %}
+{% include "header-nav.html" %}
+{% endblock %}
+
+{% block content %}
+{% if not user.is_authenticated %}
+    <script>
+        window.location.href = "{% url 'login' %}";
+    </script>
+{% endif %}
+{% if messages %}
+    <div class="alert alert-info">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img" style="background-image: url({% static 'Dat_lich_khan_va_dich_vu/images/bg_3.jpg' %});">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row d-md-flex justify-content-end">
+            <div class="col-md-12 col-lg-6 half p-3 py-5 pl-lg-5 ftco-animate">
+                <h2 class="mb-4">Free Consultation</h2>
+                
+                <!-- Navigation Buttons -->
+                <div class="btn-group mb-4">
+                    <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+                    <a href="{% url 'my_appointments' %}" class="btn btn-secondary">My Appointments</a>
+                    <a href="{% url 'profile_update' %}" class="btn btn-secondary">Profile Update</a>
+                </div>
+                
+                <form action="{% url 'appointment' %}" method="post" class="appointment">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="form-field">
+                                    <div class="select-wrap">
+                                        <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                                        <select name="service_type" class="form-control">
+                                            <option value="checkup">Check-up</option>
+                                            <option value="vaccination">Vaccination</option>
+                                            <option value="grooming">Grooming</option>
+                                            <option value="surgery">Surgery</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="pet_name" class="form-control" placeholder="Pet Name (e.g. GalaxyDestroyer)">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" name="species" class="form-control" placeholder="Pet Species (e.g. Dog, Cat, Dragon)">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-wrap">
+                                    <div class="icon"><span class="fa fa-calendar"></span></div>
+                                    <input type="datetime-local" id="datetimepicker" name="datetime" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-wrap">
+                                    <div class="icon"><span class="fa fa-user-md"></span></div>
+                                    <input type="text" name="vet_name" class="form-control" placeholder="Vet Name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea name="message" cols="30" rows="7" class="form-control" placeholder="Additional Message"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="submit" value="Schedule Appointment" class="btn btn-primary py-3 px-4">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+{% include "footer.html" %}
+{% endblock %}
