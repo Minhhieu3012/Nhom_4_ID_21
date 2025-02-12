@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 # Mô hình cho vai trò của nhân viên (Role)
 class Role(models.Model):
@@ -30,19 +31,30 @@ class Staff(models.Model):
 
 # Mô hình cho lịch làm việc của bác sĩ và nhân viên (WorkSchedule)
 class WorkSchedule(models.Model):
-    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)  # Liên kết với nhân viên/bác sĩ
-    start_time = models.DateTimeField()  # Thời gian bắt đầu làm việc
-    end_time = models.DateTimeField()  # Thời gian kết thúc làm việc
-    work_type = models.CharField(
-        max_length=100, 
-        choices=[('Consultation', 'Tư vấn'), ('Treatment', 'Điều trị'), ('Admin', 'Quản lý'), ('Other', 'Khác')]
-    )  # Loại công việc, có thể là tư vấn, điều trị, hoặc công việc quản lý hành chính
-    location = models.CharField(max_length=255, blank=True, null=True)  # Địa điểm làm việc
-    is_off_day = models.BooleanField(default=False)  # Ngày nghỉ (nếu có)
-    notes = models.TextField(blank=True, null=True)  # Ghi chú về lịch làm việc
+    WORK_TYPES = [
+        ('Consultation', 'Tư vấn'),
+        ('Treatment', 'Điều trị'),
+        ('Admin', 'Quản lý'),
+        ('Other', 'Khác'),
+    ]
 
-    def __str__(self):
-        return f"{self.staff.first_name} {self.staff.last_name} - {self.start_time} to {self.end_time}"
+    staff = models.ForeignKey("Staff", on_delete=models.CASCADE)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    work_type = models.CharField(max_length=100, choices=WORK_TYPES)
+    location = models.CharField(max_length=255, blank=True, null=True)
+    is_off_day = models.BooleanField(default=False)
+    notes = models.TextField(blank=True, null=True)
+
+    def clean(self):
+        """ Kiểm tra hợp lệ trước khi lưu dữ liệu """
+        if self.start_time >= self.end_time:
+            raise ValidationError("Thời gian kết thúc phải sau thời gian bắt đầu.")
+
+    def save(self, *args, **kwargs):
+        """ Gọi clean() trước khi lưu vào database """
+        self.clean()
+        super().save(*args, **kwargs)
 
 # Mô hình quản lý quyền truy cập cho các nhân viên (UserPermission)
 class UserPermission(models.Model):
