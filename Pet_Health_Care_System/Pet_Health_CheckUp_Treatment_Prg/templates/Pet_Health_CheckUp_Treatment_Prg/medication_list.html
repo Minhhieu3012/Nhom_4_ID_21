@@ -45,7 +45,7 @@
               <td>{{ medication.dosage_info }}</td>
               <td class="text-center">
                   <a href="{% url 'medication_update' medication.id %}" class="btn btn-sm btn-warning">Sửa</a>
-                  <a href="{% url 'medication_delete' medication.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa không?');">Xóa</a>
+                  <a href="{% url 'medication_delete' medication.id %}" class="btn btn-sm btn-danger">Xóa</a>
               </td>
           </tr>
           {% empty %}

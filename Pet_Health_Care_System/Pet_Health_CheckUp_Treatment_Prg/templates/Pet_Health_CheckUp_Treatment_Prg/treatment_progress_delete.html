@@ -50,7 +50,7 @@
     <form method="post">
       {% csrf_token %}
       <div class="d-flex justify-content-between mt-4">
-        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Xóa</button>
+        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Xóa</button>
         <a href="{% url 'treatment_progress_list' pet_id=treatment_progress.pet.id %}" class="btn btn-secondary">Hủy</a>
       </div>
     </form>
