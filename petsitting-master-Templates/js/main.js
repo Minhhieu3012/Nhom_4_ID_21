@@ -185,3 +185,121 @@
 
 })(jQuery);
 
+document.addEventListener("DOMContentLoaded", function () {
+    loadFeedbacks(); // Tải danh sách phản hồi ngay khi trang load
+
+    document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();  // Ngăn trình duyệt reload lại trang
+
+        let formData = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            rating: document.querySelector('input[name="rating"]:checked')?.value,
+            message: document.getElementById("message").value,
+        };
+
+        if (!formData.rating) {
+            alert("Vui lòng chọn mức đánh giá!");
+            return;
+        }
+
+        fetch("http://127.0.0.1:8000/feedback/submit-feedback/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);  // Thông báo thành công
+            document.querySelector("form").reset();  // Xóa nội dung form sau khi gửi
+            loadFeedbacks();  // Tải lại danh sách feedback mà không cần reload trang
+        })
+        .catch(error => console.error("Lỗi khi gửi phản hồi:", error));
+    });
+});
+
+// Hàm tải danh sách phản hồi từ server và hiển thị lên frontend
+function loadFeedbacks() {
+    fetch("http://127.0.0.1:8000/feedback/list/")  // Gọi API lấy danh sách feedback
+        .then(response => response.json())
+        .then(data => {
+            let feedbackList = document.getElementById("feedback-list");
+            feedbackList.innerHTML = "<h2>Phản hồi từ khách hàng</h2>";  // Đặt tiêu đề
+
+            data.forEach(feedback => {
+                let feedbackItem = `
+                    <div class="feedback-item">
+                        <h3>${feedback.name} ⭐(${feedback.rating})</h3>
+                        <p>${feedback.message}</p>
+                        <small>Ngày gửi: ${new Date(feedback.created_at).toLocaleString()}</small>
+                    </div>
+                    <hr>
+                `;
+                feedbackList.innerHTML += feedbackItem;
+            });
+        })
+        .catch(error => console.error("Lỗi khi tải feedback:", error));
+}
+document.addEventListener("DOMContentLoaded", function () {
+    loadFeedbacks(); // Tải danh sách phản hồi ngay khi trang load
+
+    document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();  // Ngăn trình duyệt reload lại trang
+
+        let formData = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            rating: document.querySelector('input[name="rating"]:checked')?.value,
+            message: document.getElementById("message").value,
+        };
+
+        if (!formData.rating) {
+            alert("Vui lòng chọn mức đánh giá!");
+            return;
+        }
+
+        fetch("http://127.0.0.1:8000/feedback/submit-feedback/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);  // Thông báo thành công
+            document.querySelector("form").reset();  // Xóa nội dung form sau khi gửi
+            loadFeedbacks();  // Tải lại danh sách feedback mà không cần reload trang
+        })
+        .catch(error => console.error("Lỗi khi gửi phản hồi:", error));
+    });
+});
+
+// Hàm tải danh sách phản hồi từ server và hiển thị lên frontend
+function loadFeedbacks() {
+    fetch("http://127.0.0.1:8000/feedback/list/")  // Gọi API lấy danh sách feedback
+        .then(response => response.json())
+        .then(data => {
+            let feedbackList = document.getElementById("feedback-list");
+            feedbackList.innerHTML = "<h2>Phản hồi từ khách hàng</h2>";  // Đặt tiêu đề
+
+            data.forEach(feedback => {
+                let feedbackItem = `
+                    <div class="feedback-item">
+                        <h3>${feedback.name} ⭐(${feedback.rating})</h3>
+                        <p>${feedback.message}</p>
+                        <small>Ngày gửi: ${new Date(feedback.created_at).toLocaleString()}</small>
+                    </div>
+                    <hr>
+                `;
+                feedbackList.innerHTML += feedbackItem;
+            });
+        })
+        .catch(error => console.error("Lỗi khi tải feedback:", error));
+}
+
+
+  
+  
