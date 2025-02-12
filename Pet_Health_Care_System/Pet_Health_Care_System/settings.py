@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Pet_Cus_Info_Mng',
     'app_admin',
     'Pet_Health_CheckUp_Treatment_Prg',
 ]
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'Pet_Health_Care_System.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,6 +79,7 @@ WSGI_APPLICATION = 'Pet_Health_Care_System.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# settings.py
 DATABASES = {
     "default": {
         "ENGINE": "mssql",
@@ -89,7 +92,7 @@ DATABASES = {
         },
     },
 }
-#MSS SQL Server
+#MSS SQL Serverg
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -131,3 +134,24 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# CACHES = {
+#     'default':{
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION':'redis://redis:6379/1', # Use the Redis service name
+#         'OPTIONS':{
+#             'CLIENT_CLASS':'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
+
+# SESSION_ENGINE = "django.contrib.session.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://localhost:9200/'  # Elasticsearch service name in docker-compose.yml
+    }
+}

@@ -1,0 +1,114 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+    <li class="nav-item"><a href="{% url 'customer_list' %}" class="nav-link">Khách Hàng</a></li>
+    <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">Thú cưng</a></li>
+    <li class="nav-item"><a href="{% url 'appointments_list' %}" class="nav-link">Lịch hẹn</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block contactformsection %}
+<div class="container mt-5">
+  <h2>Tạo Lịch Hẹn</h2>
+  <form method="post">
+      {% csrf_token %}
+      {% if form.errors %}
+          <div class="alert alert-danger">
+              <ul>
+                  {% for field, errors in form.errors.items %}
+                      <li>{{ field }}: {{ errors|join:", " }}</li>
+                  {% endfor %}
+              </ul>
+          </div>
+      {% endif %}
+      
+      <!-- Dropdown Customer -->
+      <label for="id_customer">Customer:</label>
+      <select id="id_customer" name="customer" class="form-control">
+          <option value="">--Chọn khách hàng--</option>
+          {% for customer in customers %}
+              <option value="{{ customer.email }}">{{ customer.firstName }} {{ customer.lastName }} ({{ customer.email }})</option>
+          {% endfor %}
+      </select>
+
+      <!-- Dropdown Pet -->
+      <label for="id_pet">Pet:</label>
+      <select id="id_pet" name="pet" class="form-control">
+          <option value="">--Chọn thú cưng--</option>
+          {% for pet in pets %}
+              <!-- Gắn đúng data-customer với email của khách hàng -->
+              <option value="{{ pet.id }}" data-customer="{{ pet.owner.email }}">{{ pet.name }}</option>
+          {% endfor %}
+      </select>
+
+      <!-- Date Input -->
+      <label for="id_date">Date:</label>
+      <input type="date" name="date" id="id_date" class="form-control">
+
+      <label for="id_time">Time:</label>
+      <input type="time" name="time" id="id_time" class="form-control">
+
+      <label for="id_status">Status:</label>
+      <select name="status" id="id_status" class="form-control">
+          <option value="choice">--Chọn--</option>
+          <option value="pending">Chưa thanh toán</option>
+          <option value="completed">Đã thanh toán</option>
+      </select>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary mt-3">Lưu lịch hẹn</button>
+      <a href="{% url 'appointments_list' %}" class="btn btn-secondary mt-3">Hủy</a>
+  </form>
+</div>
+
+<!-- JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const customerSelect = document.getElementById('id_customer'); // Dropdown khách hàng
+    const petSelect = document.getElementById('id_pet'); // Dropdown thú cưng
+
+    customerSelect.addEventListener('change', function () {
+        const selectedCustomerEmail = customerSelect.value; // Email khách hàng được chọn
+
+        Array.from(petSelect.options).forEach(option => {
+            if (option.value === "") {
+                option.hidden = false;
+                option.disabled = false;
+            } else if (option.dataset.customer === selectedCustomerEmail) {
+                option.hidden = false;
+                option.disabled = false;
+            } else {
+                option.hidden = true;
+                option.disabled = true;
+            }
+        });
+
+        // Đặt lại lựa chọn thú cưng
+        petSelect.value = "";
+    });
+});
+
+</script>
+{% endblock %}
+
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}
