@@ -48,7 +48,7 @@ class PetCreateView(CreateView):
     model = Pet
     template_name = 'Pet_Cus_Info_Mng/pet_form.html'
     fields = ['name', 'species', 'gender', 'dateOfBirth', 'age', 'healthStatus', 'owner']
-    success_url = reverse_lazy('pet_list')
+    success_url = reverse_lazy('pet_listt')
     def form_valid(self, form):
         form.save()
         messages.success(self.request, "Thú cưng đã được tạo thành công!")
@@ -62,7 +62,7 @@ class PetUpdateView(UpdateView):
     model = Pet
     template_name = 'Pet_Cus_Info_Mng/pet_edit.html'  # Sử dụng chung form với CreateView
     fields = ['name', 'species', 'gender', 'healthStatus', 'owner']
-    success_url = reverse_lazy('pet_list')
+    success_url = reverse_lazy('pet_listt')
     def get_success_url(self):
         messages.success(self.request, "Thông tin thú cưng đã được cập nhật thành công!")
         return reverse_lazy('pet_edit', kwargs={'pk': self.object.pk})
@@ -70,7 +70,7 @@ class PetUpdateView(UpdateView):
 class PetDeleteView(DeleteView):
     model = Pet
     template_name = 'Pet_Cus_Info_Mng/pet_delete.html' #trang xac nhan xoa
-    success_url = reverse_lazy('pet_list')
+    success_url = reverse_lazy('pet_listt')
 
 # -------------------------------------------------------------------------------------------
 class MedicalRecordListView(ListView):
