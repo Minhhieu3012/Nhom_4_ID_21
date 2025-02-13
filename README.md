@@ -17,9 +17,10 @@
   - Xem danh sách lịch khám đã đặt 
 
 - **Quản lý khám chữa bệnh và theo dõi tiến trình điều trị**  
-  - Create và lưu trữ hồ sơ bệnh án
-  - Theo dõi quá trình điều trị
-  - Hỗ trợ tư vấn trực tuyến
+  - Lưu trữ lịch sử khám bệnh và điều trị của thú cưng.
+  - Cập nhật tiến trình điều trị (ví dụ: đơn thuốc, liệu trình, lịch tái khám).
+  - Quản lý thông tin bác sĩ thú y phụ trách điều trị.
+  - Thông báo nhắc nhở lịch hẹn khám cho chủ thú cưng
 
 - **Quản lý chuồng (phòng) và dịch vụ nhập viện**  
   - CRUD Chuồng
