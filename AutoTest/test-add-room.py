@@ -1,7 +1,7 @@
 import unittest
-from selenium import webdriver 
-from selenium.webdriver.common.by import By 
-from selenium.webdriver.common.keys import Keys 
+from selenium import webdriver  # type: ignore
+from selenium.webdriver.common.by import By  # type: ignore
+from selenium.webdriver.common.keys import Keys  # type: ignore
 import time
 
 class TestRoomAdd(unittest.TestCase):

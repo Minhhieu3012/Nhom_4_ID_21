@@ -1,8 +1,8 @@
 
 import unittest
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
+from selenium import webdriver # type: ignore
+from selenium.webdriver.common.by import By # type: ignore
+from selenium.webdriver.support.ui import Select # type: ignore
 import time
 
 class TestAdmissionCreate(unittest.TestCase):
