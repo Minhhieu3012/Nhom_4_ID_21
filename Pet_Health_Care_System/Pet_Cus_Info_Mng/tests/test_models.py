@@ -50,7 +50,7 @@ class ViewsTestCase(TestCase):
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
     def test_pets_view(self):
-        response = self.client.get(reverse('pet_list'))
+        response = self.client.get(reverse('pet_listt'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.pet.name)
         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pets.html')
@@ -61,13 +61,13 @@ class ViewsTestCase(TestCase):
         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pet_form.html')
 
     def test_edit_pet_view(self):
-        response = self.client.get(reverse('pet_edit', args=[self.pet.id]))
+        response = self.client.get(reverse('pet_editt', args=[self.pet.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.pet.name)
         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pet_edit.html')
 
     def test_delete_pet_view(self):
-        response = self.client.get(reverse('pet_delete', args=[self.pet.id]))
+        response = self.client.get(reverse('pet_deletee', args=[self.pet.id]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.pet.name)
         self.assertTemplateUsed(response, 'Pet_Cus_Info_Mng/pet_delete.html')

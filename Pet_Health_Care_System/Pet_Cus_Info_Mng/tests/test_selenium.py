@@ -208,7 +208,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
         # --- Kiểm tra xem "Buddy" có trong danh sách không ---
         try:
-            pet_list_element = driver.find_element(By.ID, "pet_list")
+            pet_list_element = driver.find_element(By.ID, "pet_listt")
             self.assertIn("Buddy", pet_list_element.text)
             print("Tên thú cưng đã hiển thị trong danh sách...")
         except:
@@ -256,7 +256,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         print("Sửa thông tin thú cưng thành công. Kiểm tra danh sách...")
 
         try:
-            pet_list_element = driver.find_element(By.ID, "pet_list")
+            pet_list_element = driver.find_element(By.ID, "pet_listt")
             self.assertIn("PowPow", pet_list_element.text)
             print("Thông tin thú cưng đã được chỉnh sửa trong danh sách...")
         except:

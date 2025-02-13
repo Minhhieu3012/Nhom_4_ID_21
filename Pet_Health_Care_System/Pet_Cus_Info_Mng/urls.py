@@ -10,9 +10,9 @@ from .views import (
 urlpatterns = [
     # Quản lý thú cưng
     path('petss/', views.pet_list, name='pet_listt'),  # Danh sách thú cưng
-    path('pets/add/', PetCreateView.as_view(), name='pet_add'),  # Thêm thú cưng
-    path('pets/<int:pk>/edit/', PetUpdateView.as_view(), name='pet_edit'),  # Sửa thú cưng
-    path('pets/<int:pk>/delete/', PetDeleteView.as_view(), name='pet_delete'),  # Xóa thú cưng
+    path('petss/add/', PetCreateView.as_view(), name='pet_add'),  # Thêm thú cưng
+    path('petss/<int:pk>/editt/', PetUpdateView.as_view(), name='pet_editt'),  # Sửa thú cưng
+    path('petss/<int:pk>/deletee/', PetDeleteView.as_view(), name='pet_deletee'),  # Xóa thú cưng
 
     # Quản lý khách hàng
     path('customers/', views.customer_list, name='customer_list'),  # Danh sách khách hàng
@@ -21,7 +21,7 @@ urlpatterns = [
     path('customers/<int:pk>/delete/', CustomerDeleteView.as_view(), name='customer_delete'),  # Xóa khách hàng
 
     # Quản lý lịch sử khám chữa bệnh
-    path('pets/medicalRecords-history/<int:pet_id>/', MedicalRecordListView.as_view(), name='medicalRecords_history'),  # Lịch sử khám chữa bệnh
+    path('petss/medicalRecords-history/<int:pet_id>/', MedicalRecordListView.as_view(), name='medicalRecords_history'),  # Lịch sử khám chữa bệnh
 
     # Quản lý lịch hẹn
     path('appointments-list/', AppointmentListView.as_view(), name='appointments_list'),

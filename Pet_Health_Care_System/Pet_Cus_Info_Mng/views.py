@@ -65,7 +65,7 @@ class PetUpdateView(UpdateView):
     success_url = reverse_lazy('pet_listt')
     def get_success_url(self):
         messages.success(self.request, "Thông tin thú cưng đã được cập nhật thành công!")
-        return reverse_lazy('pet_edit', kwargs={'pk': self.object.pk})
+        return reverse_lazy('pet_editt', kwargs={'pk': self.object.pk})
     
 class PetDeleteView(DeleteView):
     model = Pet
