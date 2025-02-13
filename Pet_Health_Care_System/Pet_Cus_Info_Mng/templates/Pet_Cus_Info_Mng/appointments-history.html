@@ -1,0 +1,73 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+    <li class="nav-item"><a href="{% url 'customer_list' %}" class="nav-link">Khách Hàng</a></li>
+    <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">Thú cưng</a></li>
+    <li class="nav-item"><a href="{% url 'appointments_list' %}" class="nav-link">Lịch hẹn</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+
+{% block contactformsection %}
+<h2>LỊCH SỬ ĐẶT LỊCH CHO: {{ appointments.0.customer.email }}</h2>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Ngày</th>
+            <th>Thời gian</th>
+            <th>Thú cưng</th>
+            <th>Tình trạng</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if appointments %}
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ appointment.date|date:"d/m/Y" }}</td>
+                <td>{{ appointment.time|time:"H:i" }}</td>
+                <td>{{ appointment.pet.name }}</td>
+                <td>
+                    {% if appointment.status == "pending" %}
+                        <span class="badge bg-warning text-dark">Chưa thanh toán</span>
+                    {% elif appointment.status == "completed" %}
+                        <span class="badge bg-success" style="color: #333">Đã thanh toán</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Không xác định</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Không có lịch hẹn nào.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
+
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}

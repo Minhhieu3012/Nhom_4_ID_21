@@ -1,0 +1,63 @@
+{% extends "app_admin/master-page.html" %}
+
+{%block header%}
+    {% include 'includes/header.html' %}
+{% endblock %}
+
+
+{%block navbar%}
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar" style="background-color: #fff !important";>
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'app_admin' %}"><span class="flaticon-pawprint-1 mr-2"></span>Pet Health Care System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fa fa-bars"></span> Menu
+    </button>
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a href="{% url 'pet_list' %}" class="nav-link">THÚ CƯNG</a></li>
+        <li class="nav-item"><a href="{% url 'medication_list' %}" class="nav-link">THUỐC ĐIỀU TRỊ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{%block servicesection%}
+<div class="card">
+  <div class="card-header">
+    <h3>XÁC NHẬN XÓA TIẾN TRÌNH ĐIỀU TRỊ</h3>
+  </div>
+  <div class="card-body pt-4">
+    <p>Bạn có chắc chắn muốn xóa tiến trình điều trị cho thú cưng <strong>🐶{{ treatment_progress.pet.name }}</strong> không?</p>
+
+    <p><strong>Phương pháp điều trị:</strong> 
+      {% if treatment_progress.treatment_method %}
+      💊{{ treatment_progress.treatment_method }}
+      {% else %}
+        Không có thông tin
+      {% endif %}
+    </p>
+
+    <p><strong>Ngày tái khám:</strong> 
+      {% if treatment_progress.next_appointment_date %}
+      📅{{ treatment_progress.next_appointment_date|date:"d/m/Y" }}
+      {% else %}
+        Chưa xác định
+      {% endif %}
+    </p>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i>Xóa</button>
+        <a href="{% url 'treatment_progress_list' pet_id=treatment_progress.pet.id %}" class="btn btn-secondary">Hủy</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{%block footer%}
+    {% include 'includes/footer.html' %}
+{% endblock %}

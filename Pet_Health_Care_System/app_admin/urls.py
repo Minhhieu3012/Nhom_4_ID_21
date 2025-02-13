@@ -1,6 +1,8 @@
 from django.urls import path, include
 from . import views
 from .views import admission_list, admission_create, admission_discharge, invoice_detail, invoice_payment
+from django.contrib import admin
+from django.urls import include, path
 
 
 urlpatterns = [
@@ -26,4 +28,6 @@ urlpatterns = [
     
     path("invoice-detail/<int:id>/", views.invoice_detail, name="invoice-detail"),
     path("invoice-payment/<int:id>/", views.invoice_payment, name="invoice-payment"),
+  
+    path('', views.app_admin, name='app_admin'),
 ] 

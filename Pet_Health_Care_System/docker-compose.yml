@@ -1,0 +1,41 @@
+version: '3.9'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:9000
+    volumes:
+      - .:/app
+    ports:
+      - "9000:9000" 
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Hieudeptroai666@"
+    volumes:
+      - db_data:/var/lib/mssql/data
+    ports:
+      - "1434:1434"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379" 
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+    ports:
+      - "9200:9200"
+
+volumes:
+  db_data: {}
