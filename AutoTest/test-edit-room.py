@@ -3,14 +3,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import time
 
 class EditRoomTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome() 
-        self.driver.get("http://localhost:8000/room-edit/70028/")
+        self.driver.get("http://localhost:8000/room-edit/1/")
         self.driver.maximize_window()
 
 # *** CASE 1: CHỈNH SỬA PHÒNG DỮ LIỆU HỢP LỆ
@@ -40,7 +38,8 @@ class EditRoomTest(unittest.TestCase):
         capacity = driver.find_element(By.NAME, "capacity")
         capacity.clear()
         capacity.send_keys("-5")  # Nhập số âm
-
+        time.sleep(3)
+        
         driver.find_element(By.CLASS_NAME, "btn-primary").click()
         time.sleep(2)
 
@@ -54,6 +53,7 @@ class EditRoomTest(unittest.TestCase):
         capacity = driver.find_element(By.NAME, "capacity")
         capacity.clear()
         capacity.send_keys("51")  # Nhập số lớn hơn 50
+        time.sleep(3)
 
         driver.find_element(By.CLASS_NAME, "btn-primary").click()
         time.sleep(2)
@@ -66,7 +66,8 @@ class EditRoomTest(unittest.TestCase):
         driver = self.driver
         capacity = driver.find_element(By.NAME, "capacity")
         capacity.clear()  # Xóa dữ liệu
-
+        time.sleep(3)
+        
         driver.find_element(By.CLASS_NAME, "btn-primary").click()
         time.sleep(3)
 

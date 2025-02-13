@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app_admin',
+    'Mng_of_barnroom_and_hosservice',
 ]
 
 MIDDLEWARE = [

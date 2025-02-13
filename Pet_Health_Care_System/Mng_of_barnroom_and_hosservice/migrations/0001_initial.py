@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
                 ('is_paid', models.BooleanField(default=False)),
                 ('payment_date', models.DateTimeField(blank=True, null=True)),
                 ('notes', models.TextField(blank=True, null=True)),
-                ('admission', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app_admin.admission')),
+                ('admission', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Mng_of_barnroom_and_hosservice.admission')),
             ],
         ),
         migrations.CreateModel(
@@ -74,17 +74,17 @@ class Migration(migrations.Migration):
                 ('breed', models.CharField(max_length=255)),
                 ('gender', models.CharField(choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], max_length=1)),
                 ('birth_day', models.DateField()),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app_admin.owner')),
+                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Mng_of_barnroom_and_hosservice.owner')),
             ],
         ),
         migrations.AddField(
             model_name='admission',
             name='pet',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app_admin.pet'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Mng_of_barnroom_and_hosservice.pet'),
         ),
         migrations.AddField(
             model_name='admission',
             name='room',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='app_admin.room'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Mng_of_barnroom_and_hosservice.room'),
         ),
     ]

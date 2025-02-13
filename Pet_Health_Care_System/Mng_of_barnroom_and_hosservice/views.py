@@ -27,7 +27,7 @@ def app_admin(request):
 def rooms(request):
     #rooms = Room.objects.all()
     rooms = Room.objects.all()
-    template = loader.get_template('app_admin/rooms.html')
+    template = loader.get_template('Mng_of_barnroom_and_hosservice/rooms.html')
     context = {
         'room' : rooms, 
     }
@@ -61,7 +61,7 @@ def room_edit(request, id):
         room.save()
         return redirect("rooms")  # Chuyển hướng về danh sách rooms sau khi chỉnh sửa
 
-    template = loader.get_template("app_admin/room-edit.html")
+    template = loader.get_template("Mng_of_barnroom_and_hosservice/room-edit.html")
     context = {
         "room": room,
     }
@@ -91,7 +91,7 @@ def room_add(request):
 
         return redirect("rooms")  # Chuyển hướng về danh sách phòng sau khi thêm
 
-    return render(request, "app_admin/room-add.html")
+    return render(request, "Mng_of_barnroom_and_hosservice/room-add.html")
 
 
 def room_delete(request, id):
@@ -109,7 +109,7 @@ def room_delete(request, id):
 # Hiển thị danh sách nhập viện
 def admission_list(request):
     admissions = Admission.objects.all()
-    return render(request, "app_admin/admission-list.html", {"admissions": admissions})
+    return render(request, "Mng_of_barnroom_and_hosservice/admission-list.html", {"admissions": admissions})
 
 
 from django.db import models  # Import đúng models.F
@@ -173,7 +173,7 @@ def admission_create(request):
 
     pets = Pet.objects.all()
     rooms = Room.objects.filter(current_occupancy__lt=models.F('capacity'))
-    return render(request, "app_admin/admission-create.html", {"pets": pets, "rooms": rooms})
+    return render(request, "Mng_of_barnroom_and_hosservice/admission-create.html", {"pets": pets, "rooms": rooms})
 
 
 # #Xuất viện và tạo hóa đơn
@@ -212,7 +212,7 @@ def admission_discharge(request, id):
 
 def invoice_detail(request, id):
     invoice = get_object_or_404(Invoice, id=id)
-    return render(request, "app_admin/invoice-detail.html", {"invoice": invoice})
+    return render(request, "Mng_of_barnroom_and_hosservice/invoice-detail.html", {"invoice": invoice})
 
 def invoice_payment(request, id):
     invoice = get_object_or_404(Invoice, id=id)
@@ -222,4 +222,4 @@ def invoice_payment(request, id):
         invoice.save()
         return redirect("admission-list")  # Quay lại danh sách nhập viện
 
-    return render(request, "app_admin/invoice-payment.html", {"invoice": invoice})
+    return render(request, "Mng_of_barnroom_and_hosservice/invoice-payment.html", {"invoice": invoice})

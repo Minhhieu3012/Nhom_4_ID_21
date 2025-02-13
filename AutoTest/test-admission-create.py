@@ -3,13 +3,12 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support import expected_conditions as EC
 import time
 
 class TestAdmissionCreate(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome()  # Khởi tạo trình duyệt Chrome
-        self.driver.get("http://127.0.0.1:8000/admission-create")  # Mở trang nhập viện
+        self.driver = webdriver.Chrome()  
+        self.driver.get("http://127.0.0.1:8000/admission-create") 
         self.driver.maximize_window()
 
 # *** CASE 1: NHẬP VIỆN VỚI DỮ LIỆU HỢP LỆ
@@ -19,24 +18,20 @@ class TestAdmissionCreate(unittest.TestCase):
         # Chờ dropdown pet xuất hiện
         pet = driver.find_element(By.NAME, "pet")
         pet_select = Select(pet)
-        pet_select.select_by_index(1)  # Chọn thú cưng đầu tiên (có thể thay đổi)
+        pet_select.select_by_index(0)
 
         room = driver.find_element (By.NAME, "room")
         room_select = Select(room)
-        room_select.select_by_index(1)  # Chọn phòng đầu tiên (có thể thay đổi)
+        room_select.select_by_index(0)  
 
         admission_date = driver.find_element(By.NAME, "admission_date")
         admission_date.send_keys("12/02/002025:12:00SA")
-
-        discharge_date = driver.find_element(By.NAME, "discharge_date")
-        discharge_date.send_keys("14/02/002025:13:00CH")
         time.sleep(3)
 
         # Nhấp vào Xác nhận
         driver.find_element(By.CLASS_NAME, "btn-primary").click()
         time.sleep(3)
 
-        # Kiểm tra xem có chuyển hướng đến danh sách nhập viện không
         self.assertIn("admission-list", driver.current_url)
         print("Admission Create Test Passed!")
         time.sleep(5)
@@ -47,12 +42,12 @@ class TestAdmissionCreate(unittest.TestCase):
         driver = self.driver
 
         pet = driver.find_element(By.NAME, "pet")
-        pet_select = Select(pet)  # Tạo đối tượng Select
-        pet_select.select_by_index(0)  # Chọn phần tử đầu tiên
+        pet_select = Select(pet)  
+        pet_select.select_by_index(0) 
        
         room = driver.find_element(By.NAME, "room")
-        room_select = Select(room)  # Tạo đối tượng Select
-        room_select.select_by_index(0)  # Chọn phần tử đầu tiên
+        room_select = Select(room) 
+        room_select.select_by_index(0) 
 
         # Nhập ngày nhập viện (hôm nay) và ngày xuất viện (hôm qua)
         admission_date = driver.find_element(By.NAME, "admission_date")
@@ -87,7 +82,8 @@ class TestAdmissionCreate(unittest.TestCase):
 
         driver.find_element(By.CLASS_NAME, "btn-primary").click()
         time.sleep(3)
-        # Kiểm tra lỗi hiển thị
+
+        
         error_message = driver.find_element(By.CLASS_NAME, "alert-danger").text
         self.assertIn("Vui lòng nhập đúng định dạng ngày!", error_message)
         print("✅ Test invalid admission year passed!")
