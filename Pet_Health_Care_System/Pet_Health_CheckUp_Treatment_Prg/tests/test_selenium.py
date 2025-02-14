@@ -9,8 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait, Select
-from selenium.common.exceptions import TimeoutException 
+from selenium.webdriver.support.ui import WebDriverWait
 
 class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(unittest.TestCase):
     def setUp(self):
@@ -28,7 +27,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
         driver.get("http://127.0.0.1:8000/")
         time.sleep(3)
 
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 2").click()
         time.sleep(2)
 
         driver.find_element(By.LINK_TEXT, "THÊM THÚ CƯNG MỚI").click()
@@ -74,7 +73,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
         time.sleep(3)
 
         # Vào trang danh sách thú cưng
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 2").click()
         time.sleep(2)
         
         # Nhấn vào nút ba chấm của dòng cuối cùng để mở dropdown
@@ -115,7 +114,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
         time.sleep(3)
 
         # Vào trang danh sách thú cưng
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 2").click()
         time.sleep(2)
         
         # Nhấn vào nút ba chấm của dòng cuối cùng để mở dropdown
@@ -152,7 +151,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
         driver.get("http://127.0.0.1:8000/") 
         time.sleep(3)
 
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 2").click()
         time.sleep(2)
 
         # Nhấn vào nút ba chấm của dòng cuối cùng để mở dropdown
@@ -235,7 +234,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
         driver.get("http://127.0.0.1:8000/") 
         time.sleep(3)
 
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 2").click()
         time.sleep(2)
 
         # Nhấn vào nút ba chấm của dòng cuối cùng để mở dropdown
@@ -299,7 +298,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
         driver.get("http://127.0.0.1:8000/") 
         time.sleep(3)
 
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 2").click()
         time.sleep(2)
 
         # Nhấn vào nút ba chấm của dòng cuối cùng để mở dropdown
@@ -343,7 +342,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
         time.sleep(3)
 
         # Vào trang danh sách thú cưng
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 2").click()
         time.sleep(2)
 
         # Nhấn vào nút ba chấm của dòng cuối cùng để mở dropdown
@@ -432,7 +431,7 @@ class Function_Pet_MedicalRecord_TreatmentProgress_Medication_Notification_Test(
         time.sleep(3)
 
         # Vào trang danh sách thú cưng
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 2").click()
         time.sleep(2)
 
         # Nhấn vào nút ba chấm của dòng cuối cùng để mở dropdown
