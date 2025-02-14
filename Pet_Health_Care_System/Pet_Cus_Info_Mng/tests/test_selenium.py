@@ -167,7 +167,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         driver.get("http://127.0.0.1:8000/") 
         time.sleep(3)
 
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 1").click()
         time.sleep(2)
 
         driver.find_element(By.LINK_TEXT, "THÊM THÚ CƯNG MỚI").click()
@@ -223,7 +223,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         driver.get("http://127.0.0.1:8000/") 
         time.sleep(3)
 
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 1").click()
         time.sleep(2)
         
 
@@ -273,7 +273,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         driver.get("http://127.0.0.1:8000/") 
         time.sleep(3)
 
-        driver.find_element(By.LINK_TEXT, "THÚ CƯNG").click()
+        driver.find_element(By.LINK_TEXT, "THÚ CƯNG 1").click()
         time.sleep(2)
 
         # Nhấn vào nút ba chấm để mở dropdown
