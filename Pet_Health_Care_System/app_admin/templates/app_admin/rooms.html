@@ -1,0 +1,179 @@
+{% extends "master-page.html" %}
+
+{%block header%}
+    {% include '../includes/header.html' %}
+{%endblock%}
+
+{%block head-menu%}
+    {% include '../includes/head-menu.html' %}
+{% endblock %}
+
+{% block content %}
+{% comment %} <div class="alert alert mt-4">
+    <h1></strong>Lưu Chuồng</strong></h1>
+    <p>Nhằm hỗ trợ chủ nuôi trong việc chăm sóc thú cưng, Bệnh viện thú y PetCare cung cấp gói dịch vụ trông giữ chó mèo cố định hằng tuần, qua đêm, hoặc nửa ngày. Petcare áp dụng quy trình lưu giữ thú cưng khoa học, đảm bảo cho thú cưng nhà bạn sống trong môi trường an toàn và sạch sẽ.</p>
+    <ul>
+        <li>Petcare có một không gian rộng với mục đích phục vụ cho việc lưu giữ chó, mèo. </li>
+        <li>Khu vực lưu trú có sân cỏ, giúp các bạn nhỏ thoải mái vận động mỗi ngày 2 lần, đảm bảo sức khoẻ và ổn định tinh thần cho các bạn nhỏ.</li>
+        <li>Có hệ thống hút mùi công nghiệp, tránh ô nhiễm do chính thú cưng thải ra.</li>
+        <li>Có hệ thống điều hòa nhiệt khi cần thiết vào những ngày nắng nóng theo chế độ yêu cầu.</li>
+        <li>Cung cấp thức ăn Royal Canin cho thú cưng và cả thực phẩm chế biến theo nhu cầu.</li>
+        <li>Có hệ thống camera theo dõi thú cưng giúp các bác sĩ kiểm soát tình hình.</li>
+        <li>Có Bác Sỹ Thú Y kiểm tra sức khoẻ hàng ngày.</li>
+        <li>Giờ nhận và đón thú cưng linh động.</li>
+    </ul>
+    <p><strong>Hãy yên tâm khi đã gửi thú cưng cho chúng tôi, chúng tôi sẽ nâng niu thú cưng của bạn như chúng đang được ở chính nhà mình.</p> </strong>
+</div>
+<div class="card">
+    <h5 class="card-header">Room List</h5>
+    <div class="table-responsive text-nowrap">       
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Room Type</th>
+            <th>Capacity</th>
+            <th>Current Occupancy</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          
+            {% for item in room %}
+                <tr class="table-default">
+                    <td><i class="fab fa-sketch fa-lg text-warning me-3"></i> <strong>{{item.room_type}}</strong></td>
+                    <td>{{item.capacity}}</td> 
+                    <td>{{ item.current_occupancy }}/{{ item.capacity }}</td>
+            
+                    <td><span class="badge bg-label-primary me-1">{{item.status}}</span></td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="room-edit/{{ item.id }}">
+                                    <i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                <a class="dropdown-item" href="room-delete/{{ item.id }}"
+                                    ><i class="bx bx-trash me-1"></i> Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+        <a href="{% url 'room-add' %}" class="btn btn-primary mb-3">
+            <i class="bx bx-plus"></i> ADD ROOM
+        </a> 
+    </div>
+  </div> {% endcomment %}
+
+
+  <div class="row mt-4">
+      <!-- Phần giới thiệu -->
+      <div class="col-md-6">
+          <div class="alert alert shadow-lg p-4 rounded-3">
+              <h1 class="fw-bold text-danger">🏠 Lưu Chuồng</h1>
+              <p class="fs-5">Nhằm hỗ trợ chủ nuôi trong việc chăm sóc thú cưng, Bệnh viện thú y PetCare cung cấp gói dịch vụ trông giữ chó mèo cố định hằng tuần, qua đêm, hoặc nửa ngày.</p>
+              <ul class="fs-5">
+                  <li>🐾 Không gian rộng rãi, thoáng mát.</li>
+                  <li>🌿 Sân cỏ giúp thú cưng vận động 2 lần/ngày.</li>
+                  <li>💨 Hệ thống hút mùi công nghiệp, đảm bảo không gian sạch.</li>
+                  <li>❄️ Điều hòa nhiệt độ khi cần thiết.</li>
+                  <li>🍖 Thức ăn Royal Canin hoặc thực phẩm theo yêu cầu.</li>
+                  <li>📹 Hệ thống camera theo dõi 24/7.</li>
+                  <li>🩺 Bác sĩ thú y kiểm tra sức khỏe hàng ngày.</li>
+                  <li>🕒 Giờ nhận và đón thú cưng linh động.</li>
+              </ul>
+              <p class="fw-bold fs-5 text-primary">❤️ "Chúng tôi sẽ nâng niu thú cưng của bạn như chính gia đình!"</p>
+          </div>
+      </div>
+  
+      <!-- Hình ảnh minh họa -->
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <img src="https://petcare.vn/wp-content/uploads/2016/06/luuchuong.jpg" alt="PetCare" class="img-fluid rounded">
+        </div>
+  </div>
+  
+  <!-- Danh sách Room -->
+  <div class="card mt-4 shadow-lg">
+      <h5 class="card-header bg-primary text-white">📋 Danh Sách Phòng</h5>
+      <div class="table-responsive text-nowrap">       
+        <table class="table table-hover">
+          <thead class="bg-light">
+            <tr>
+              <th>🏠 Loại phòng</th>
+              <th>👥 Sức chứa</th>
+              <th>📌 Số lượng thú cưng trong phòng</th>
+              <th>📊 Trạng thái</th>
+              <th>⚙️ Hành động</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+                {% for item in room %}
+                  <tr class="table-light">
+                    <td>
+                        {% if item.room_type == "Standard" %}
+                            Tiêu chuẩn
+                        {% elif item.room_type == "Luxury" %}
+                            Cao cấp
+                        {% elif item.room_type == "Indoor" %}
+                            Trong nhà
+                        {% elif item.room_type == "Outdoor" %}
+                            Ngoài trời
+                        {% elif item.room_type == "Quarantine" %}
+                            Cách ly
+                        {% elif item.room_type == "Recovery" %}
+                            Hồi phục
+                        {% elif item.room_type == "Training" %}
+                            Huấn luyện
+                        {% elif item.room_type == "Breeding" %}
+                            Nhân giống
+                        {% elif item.room_type == "Large" or item.room_type == "Large Animal" %}
+                            Phòng lớn
+                        {% endif %}
+                    </td>
+                    <td>{{ item.capacity }}</td> 
+                    <td>{{ item.current_occupancy }}/{{ item.capacity }}</td>
+                    <td>
+                        {% if item.current_occupancy == item.capacity %}
+                            <span class="badge bg">❌ Đầy</span>
+                        {% else %}
+                            <span class="badge bg">✅ Có sẵn</span>
+                        {% endif %}
+                    </td>
+                    
+                      <td>
+                          <div class="dropdown">
+                              <button type="button" class="btn btn dropdown-toggle" data-bs-toggle="dropdown">
+                                  :
+                              </button>
+                              <div class="dropdown-menu">
+                                  <a class="dropdown-item text-primary" href="room-edit/{{ item.id }}">
+                                      ✏️ Chỉnh sửa
+                                  </a>
+                                  <a class="dropdown-item text-danger" href="room-delete/{{ item.id }}">
+                                      🗑️ Xóa
+                                  </a>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+                {% endfor %}
+          </tbody>
+        </table>
+      </div>
+  
+      <div class="card-footer text-end">
+          <a href="{% url 'room-add' %}" class="btn btn-success">
+              ➕ Thêm phòng
+          </a> 
+      </div>
+  </div>  
+  {% endblock %}
+
+
+{%block footer%}
+    {% include '../includes/footer.html' %}
+{% endblock %} 

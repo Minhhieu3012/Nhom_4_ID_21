@@ -1,0 +1,69 @@
+{% extends "master-page.html" %}
+
+{%block header%}
+    {% include '../includes/header.html' %}
+{%endblock%}
+
+{%block head-menu%}
+    {% include '../includes/head-menu.html' %}
+{% endblock %} 
+
+{%block content%}
+<div class="container mt-5">
+    <h2 class="text-center">Chỉnh sửa phòng</h2>
+    {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="room_type">Loại phòng</label>
+            <select 
+                class="form-control" 
+                id="room_type" 
+                name="room_type" 
+                required>
+                <option value="Standard" {% if room.room_type == "Standard" %}selected{% endif %}>Tiêu chuẩn</option>
+                <option value="Luxury" {% if room.room_type == "Luxury" %}selected{% endif %}>Cao cấp</option>
+                <option value="Indoor" {% if room.room_type == "Indoor" %}selected{% endif %}>Trong nhà</option>
+                <option value="Outdoor" {% if room.room_type == "Outdoor" %}selected{% endif %}>Ngoài trời</option>
+                <option value="Quarantine" {% if room.room_type == "Quarantine" %}selected{% endif %}>Cách ly</option>
+                <option value="Recovery" {% if room.room_type == "Recovery" %}selected{% endif %}>Hồi phục</option>
+                <option value="Training" {% if room.room_type == "Training" %}selected{% endif %}>Huấn luyện</option>
+                <option value="Breeding" {% if room.room_type == "Breeding" %}selected{% endif %}>Nhân giống</option>
+                <option value="Large" {% if room.room_type == "Large" %}selected{% endif %}>Phòng lớn</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="capacity">Sức chứa</label>
+            <input 
+                type="number" 
+                class="form-control" 
+                id="capacity" 
+                name="capacity" 
+                value="{{ room.capacity }}" 
+                required>
+        </div>
+        <div class="form-group">
+            <label for="status">Trạng thái</label>
+            <select 
+                class="form-control" 
+                id="status" 
+                name="status" 
+                required>
+                <option value="Available" {% if room.status == "Available" %}selected{% endif %}>Có sẵn</option>
+                <option value="Occupied" {% if room.status == "Occupied" %}selected{% endif %}>Đầy</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Lưu</button>
+    </form>
+</div>
+{%endblock%}
+
+{%block footer%}
+    {% include '../includes/footer.html' %}
+{% endblock %} 

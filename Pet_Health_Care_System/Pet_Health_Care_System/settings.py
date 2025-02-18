@@ -83,6 +83,19 @@ WSGI_APPLICATION = 'Pet_Health_Care_System.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "mssql",
+        "NAME": "DjangoDB",
+        "USER": "sa",
+        "PASSWORD": "0907986078Bao.",
+        "HOST": "127.0.0.11",
+        "PORT": "1433",
+        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
+        },
+    },
+}
+
+DATABASES = {
+    "default": {
+        "ENGINE": "mssql",
         "NAME": "Pet_health_care_DB",
         "USER": "sa",
         "PASSWORD": "Hieudeptroai666@",
@@ -92,7 +105,7 @@ DATABASES = {
         },
     },
 }
-#MSS SQL Serverg
+#MSS SQL Server
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -128,14 +141,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 
 # CACHES = {
 #     'default':{

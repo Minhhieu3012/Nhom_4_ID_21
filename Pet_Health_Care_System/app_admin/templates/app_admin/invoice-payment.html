@@ -1,0 +1,62 @@
+{% extends "master-page.html" %}
+
+{%block header%}
+    {% include '../includes/header.html' %}
+{%endblock%}
+
+{%block head-menu%}
+    {% include '../includes/head-menu.html' %}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="card">
+    <h5 class="card-header">Thanh Toán Hóa Đơn</h5>
+    <div class="card-body">
+        <h5 class="card-title">Hóa đơn #{{ invoice.id }}</h5>
+        <p><strong>Thú cưng:</strong> {{ invoice.admission.pet.name }}</p>
+        <p><strong>Phòng:</strong> 
+            {% if invoice.admission.room.room_type == "Standard" %}
+                Tiêu chuẩn
+            {% elif invoice.admission.room.room_type == "Luxury" %}
+                Cao cấp
+            {% elif invoice.admission.room.room_type == "Indoor" %}
+                Trong nhà
+            {% elif invoice.admission.room.room_type == "Outdoor" %}
+                Ngoài trời
+            {% elif invoice.admission.room.room_type == "Quarantine" %}
+                Cách ly
+            {% elif invoice.admission.room.room_type == "Recovery" %}
+                Hồi phục
+            {% elif invoice.admission.room.room_type == "Training" %}
+                Huấn luyện
+            {% elif invoice.admission.room.room_type == "Breeding" %}
+                Nhân giống
+            {% elif invoice.admission.room.room_type == "Large" or invoice.admission.room.room_type == "Large Animal" %}
+                Phòng lớn
+            {% else %}
+                {{ invoice.admission.room.room_type }}  {# Hiển thị nguyên giá trị nếu không khớp #}
+            {% endif %}
+        </p>
+        
+        <p><strong>Ngày nhập viện:</strong> {{ invoice.admission.admission_date }}</p>
+        <p><strong>Ngày xuất viện:</strong> {{ invoice.admission.discharge_date }}</p>
+        <p><strong>Tổng hóa đơn:</strong> ${{ invoice.total_amount }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Xác nhận thanh toán</button>
+        </form>
+
+        <a href="{% url 'invoice-detail' invoice.id %}" class="btn btn-secondary mt-3">Hủy</a>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{%block footer%}
+    {% include '../includes/footer.html' %}
+{% endblock %} 

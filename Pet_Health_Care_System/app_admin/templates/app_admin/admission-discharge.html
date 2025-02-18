@@ -1,0 +1,34 @@
+{% extends "master-page.html" %}
+
+{%block header%}
+    {% include '../includes/header.html' %}
+{%endblock%}
+
+{%block head-menu%}
+    {% include '../includes/head-menu.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h5 class="card-header">Discharge Admission</h5>
+    <div class="card-body">
+        <p><strong>Thú cưng:</strong> {{ admission.pet.name }}</p>
+        <p><strong>Phòng:</strong> {{ admission.room.room_type }}</p>
+        <p><strong>Ngày nhập viện:</strong> {{ admission.admission_date }}</p>
+        <p><strong>Ngày xuất viện:</strong> {{ admission.discharge_date|default:"Not Discharged Yet" }}</p>
+        <p><strong>Chi phí ước tính:</strong> ${{ estimated_cost }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Xác nhận xuất viện</button>
+            <a href="{% url 'admission-list' %}" class="btn btn-secondary">Hủy</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+{%block footer%}
+    {% include '../includes/footer.html' %}
+{% endblock %} 
+
