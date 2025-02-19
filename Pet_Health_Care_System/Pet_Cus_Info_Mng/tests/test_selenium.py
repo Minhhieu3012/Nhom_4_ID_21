@@ -56,7 +56,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
         try:
             customer_list_element = driver.find_element(By.ID, "customer_list")
-            self.assertIn("Garnacho", customer_list_element.text)
+            self.assertIn("Minh Hiếu", customer_list_element.text)
             print("Tên khách hàng đã hiển thị trong danh sách...")
         except:
             print("Không tìm thấy dữ liệu khách hàng vừa tạo...")
@@ -104,7 +104,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
         try:
             customer_list_element = driver.find_element(By.ID, "customer_list")
-            self.assertIn("Garnacho", customer_list_element.text)
+            self.assertIn("Minh Hiếu", customer_list_element.text)
             print("Thông tin khách hàng đã được chỉnh sửa trong danh sách...")
         except:
             print("Không chỉnh sửa được thông tin khách hàng...")
@@ -113,7 +113,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
 
 
-    def test_unit_05_appointment_history_customer(self):
+    def test_unit_03_appointment_history_customer(self):
         print("Bắt đầu test chức năng xem lịch sử đặt hẹn của khách hàng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -161,7 +161,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #----------------------------------------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------------------------------------
 
-    def test_unit_06_add_pet(self):
+    def test_unit_04_add_pet(self):
         print("Bắt đầu test chức năng thú cưng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -217,7 +217,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         time.sleep(5)
 
 
-    def test_unit_07_edit_pet(self):
+    def test_unit_05_edit_pet(self):
         print("Bắt đầu test chức năng chỉnh sửa thú cưng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -267,7 +267,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
 
 
-    def test_unit_08_medical_records_pet(self):
+    def test_unit_06_medical_records_pet(self):
         print("Bắt đầu test chức năng xem hồ sơ khám bệnh của thú cưng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -316,7 +316,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------
 
-    def test_unit_03_add_appointment(self):
+    def test_unit_07_add_appointment(self):
         print("Bắt đầu test chức năng đặt lịch hẹn...")
         driver = self.driver
         wait = WebDriverWait(driver, 10)
@@ -336,11 +336,11 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         select_customer.select_by_visible_text("Minh Hiếu Phan (hieupm9898@ut.edu.vn)")
 
         pet_select_element = wait.until(EC.presence_of_element_located((By.ID, "id_pet")))
-        option = pet_select_element.find_element(By.XPATH, ".//option[normalize-space(text())='PowPow']")
+        option = pet_select_element.find_element(By.XPATH, ".//option[normalize-space(text())='Buddy']")
         # Loại bỏ thuộc tính disabled nếu có bằng JavaScript
         driver.execute_script("arguments[0].removeAttribute('disabled')", option)
         select_pet = Select(pet_select_element)
-        select_pet.select_by_visible_text("PowPow")
+        select_pet.select_by_visible_text("Buddy")
 
         # Thiết lập ngày hẹn bằng JavaScript
         driver.execute_script("document.getElementById('id_date').value = '2025-01-01';")
@@ -369,7 +369,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         time.sleep(4)
 
 
-    def test_unit_04_filter_appointment(self):
+    def test_unit_08_filter_appointment(self):
         print("Bắt đầu test chức năng lọc lịch hẹn...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/")  # URL trang chính
