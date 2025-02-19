@@ -32,9 +32,9 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         time.sleep(2)
 
         # Điền thông tin khách hàng
-        driver.find_element(By.ID, "id_lastName").send_keys("Alexandro")
-        driver.find_element(By.ID, "id_firstName").send_keys("Garnacho")
-        driver.find_element(By.ID, "id_email").send_keys("gnc123@gmail.com")
+        driver.find_element(By.ID, "id_lastName").send_keys("Phan")
+        driver.find_element(By.ID, "id_firstName").send_keys("Minh Hiếu")
+        driver.find_element(By.ID, "id_email").send_keys("hieupm9898@ut.edu.vn")
         driver.find_element(By.ID, "id_age").send_keys("19")
         driver.find_element(By.ID, "id_phoneNumber").send_keys("0327329948")
         driver.find_element(By.ID, "id_address").send_keys("47/24/38 Bùi Đình Túy")
@@ -187,7 +187,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         )
         driver.find_element(By.ID, "id_species").send_keys("Chó")
         driver.find_element(By.ID, "id_healthStatus").send_keys("Sức khỏe tốt")
-        driver.find_element(By.ID, "id_owner").send_keys("Garnacho")
+        driver.find_element(By.ID, "id_owner").send_keys("Minh Hiếu")
         driver.find_element(By.ID, "id_gender").send_keys("Đực")
         time.sleep(2)
 
@@ -333,7 +333,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         # Điền thông tin khách hàng
         customer_input = wait.until(EC.presence_of_element_located((By.ID, "id_customer")))
         select_customer = Select(customer_input)
-        select_customer.select_by_visible_text("Garnacho Alexandro (gnc123@gmail.com)")
+        select_customer.select_by_visible_text("Minh Hiếu Phan (hieupm9898@ut.edu.vn)")
 
         pet_select_element = wait.until(EC.presence_of_element_located((By.ID, "id_pet")))
         option = pet_select_element.find_element(By.XPATH, ".//option[normalize-space(text())='PowPow']")
@@ -361,7 +361,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
         try:
             appointment_list_element = driver.find_element(By.ID, "appointments_list")
-            self.assertIn("Garnacho Alexandro", appointment_list_element.text)
+            self.assertIn("Minh Hiếu Phan", appointment_list_element.text)
             print("Không tìm thấy dữ liệu lịch hẹn vừa tạo...")
         except:
             print("Lịch hẹn đã hiển thị trong danh sách...")
