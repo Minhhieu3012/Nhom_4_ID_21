@@ -113,7 +113,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
 
 
-    def test_unit_03_appointment_history_customer(self):
+    def test_unit_05_appointment_history_customer(self):
         print("Bắt đầu test chức năng xem lịch sử đặt hẹn của khách hàng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -161,7 +161,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #----------------------------------------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------------------------------------
 
-    def test_unit_04_add_pet(self):
+    def test_unit_06_add_pet(self):
         print("Bắt đầu test chức năng thú cưng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -217,7 +217,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         time.sleep(5)
 
 
-    def test_unit_05_edit_pet(self):
+    def test_unit_07_edit_pet(self):
         print("Bắt đầu test chức năng chỉnh sửa thú cưng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -267,7 +267,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 
 
 
-    def test_unit_06_medical_records_customer(self):
+    def test_unit_08_medical_records_pet(self):
         print("Bắt đầu test chức năng xem hồ sơ khám bệnh của thú cưng...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/") 
@@ -316,7 +316,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
 #------------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------
 
-    def test_unit_07_add_appointment(self):
+    def test_unit_03_add_appointment(self):
         print("Bắt đầu test chức năng đặt lịch hẹn...")
         driver = self.driver
         wait = WebDriverWait(driver, 10)
@@ -369,7 +369,7 @@ class Function_Customer_Pet_Appointment_Test(unittest.TestCase):
         time.sleep(4)
 
 
-    def test_unit_08_filter_appointment(self):
+    def test_unit_04_filter_appointment(self):
         print("Bắt đầu test chức năng lọc lịch hẹn...")
         driver = self.driver
         driver.get("http://127.0.0.1:8000/")  # URL trang chính
